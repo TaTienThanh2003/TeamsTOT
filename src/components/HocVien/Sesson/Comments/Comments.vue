@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import CommentItem from './CommentItem.vue';
+
+</script>
+
 <template>
     <div class="tab-pane fade" id="comments">
         <div class="container py-4">
@@ -18,13 +23,7 @@
             </div>
 
             <div id="commentList">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h6 class="fw-bold">Nguyễn Văn A</h6>
-                        <p class="mb-0">Bài học hôm nay rất hay. Cảm ơn trung tâm!</p>
-                        <small class="text-muted">Vừa xong</small>
-                    </div>
-                </div>
+                <CommentItem />
             </div>
         </div>
     </div>

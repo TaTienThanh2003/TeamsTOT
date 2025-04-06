@@ -4,16 +4,15 @@
 <template>
     <div class="tab-pane fade" id="user">
         <div class="card user_cart">
-
             <div class="text-center">
                 <div class="icon-circle">
-                    <i class="fa fa-camera fa-2x" aria-hidden="true"></i> <!-- Icon máy ảnh -->
+                    <i class="fa fa-camera fa-2x" aria-hidden="true"></i>
                 </div>
                 <a href="#" class="d-block mt-2" style="text-decoration: none; color: #007bff;">Upload
                     File</a> <!-- Thẻ a -->
             </div>
             <form>
-                <div class="row mb-4 from-input"> <!-- Thêm khoảng cách giữa hàng -->
+                <div class="row mb-4 from-input">
                     <div class="form-group col-md-6 mb-3">
                         <label for="firstName">First Name</label>
                         <input type="text" class="form-control" id="firstName" placeholder="Enter your first name">

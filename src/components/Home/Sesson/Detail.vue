@@ -21,10 +21,10 @@
                         </p>
                     </div>
 
-                    <!-- Box 2 (để trống theo layout ban đầu) -->
+                    <!-- Box 2 -->
                     <div class="col-6"></div>
 
-                    <!-- Box 3 (để trống theo layout ban đầu) -->
+                    <!-- Box 3 -->
                     <div class="col-6"></div>
 
                     <!-- Box 4 -->

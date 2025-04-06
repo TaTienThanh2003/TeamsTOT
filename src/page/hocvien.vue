@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Header from '@/components/HocVien/Header.vue';
-import Calender from '@/components/HocVien/Sesson/Calender/Calender.vue';
+import Calender from '@/components/HocVien/Sesson/Calender.vue';
 import Comments from '@/components/HocVien/Sesson/Comments/Comments.vue';
-import Gift from '@/components/HocVien/Sesson/Gift/Gift.vue';
+import Gift from '@/components/HocVien/Sesson/Gift.vue';
 import Courses from '@/components/HocVien/Sesson/MyCourses/Courses.vue';
 import Teacher from '@/components/HocVien/Sesson/MyTeacher/Teacher.vue';
 import Notes from '@/components/HocVien/Sesson/Notes/Notes.vue';
@@ -16,8 +16,10 @@ import Sidebar from '@/components/HocVien/Sidebar.vue';
 <template>
     <Header />
     <div class="content row">
-        <Sidebar />
-        <div class="main-content flex-grow-1 col-10 pt-5">
+        <div class="sidebar col-3">
+            <Sidebar />
+        </div>
+        <div class="main-content col-9 pt-5">
             <div class="tab-content px-5">
                 <Overview />
                 <Courses />
