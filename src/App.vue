@@ -1,11 +1,7 @@
-<script setup lang="ts">
-</script>
-
+<!-- App.vue -->
 <template>
-  <header>
-  </header>
-
-  <main>
-  </main>
+  <RouterView />
 </template>
 
+<script setup lang="ts">
+</script>

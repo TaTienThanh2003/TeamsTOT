@@ -2,10 +2,9 @@
 </script>
 
 <template>
-  <header>
-  </header>
+    <header>
+    </header>
 
-  <main>
-  </main>
+    <main>
+    </main>
 </template>
-
