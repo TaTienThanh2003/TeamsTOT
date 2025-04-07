@@ -47,7 +47,7 @@ body {
     width: 220px;
     height: calc(100vh - 65px);
     background: #fff;
-    padding: 0 0.75rem;
+    padding: 0.4rem 0.75rem;
 }
 
 .main-content {
@@ -60,7 +60,7 @@ body {
     background: #f5f6fa;
 }
 .nav-text {
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 
 .stat-card {
@@ -112,6 +112,9 @@ body {
 }
 
 .teacher-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: var(--bg-white);
     border: 1px solid var(--border-color);
     border-radius: 0.625rem;

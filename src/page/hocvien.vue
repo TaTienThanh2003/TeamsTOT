@@ -19,7 +19,7 @@ import Sidebar from '@/components/HocVien/Sidebar.vue';
         <div class="sidebar col-3">
             <Sidebar />
         </div>
-        <div class="main-content col-9 pt-5">
+        <div class="main-content col-9 py-5">
             <div class="tab-content px-5">
                 <Overview />
                 <Courses />

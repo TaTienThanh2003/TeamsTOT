@@ -3,9 +3,9 @@
 
 <template>
     <div class="header d-flex justify-content-between align-items-center">
-        <h2 class="text-primary font-weight-bold">
+        <h1 class="logo text-primary">
             TOT<span class="text-dark">Learn</span>
-        </h2>
+        </h1>
 
         <!-- Menu & Search -->
         <div class="d-flex justify-content-center align-items-center flex-grow-1">
@@ -60,3 +60,8 @@
         </div>
     </div>
 </template>
+<style scoped>
+.logo {
+    font-size: 2.2rem;
+}
+</style>

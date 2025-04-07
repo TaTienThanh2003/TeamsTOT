@@ -46,7 +46,7 @@
                         </select>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary user-button btn-block">LƯU</button>
+                <button class="btn btn-primary user-button btn-block">LƯU</button>
             </form>
         </div>
     </div>

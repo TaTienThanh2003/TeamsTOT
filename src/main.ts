@@ -8,11 +8,13 @@ import '@/assets/css/home.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import '@/assets/js/style.js'
 
+import { ProCalendar } from "@lbgm/pro-calendar-vue";
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
 const app = createApp(App)
 app.use(router)
+app.use(ProCalendar);
 app.mount('#app')
 

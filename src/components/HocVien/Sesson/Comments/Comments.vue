@@ -17,7 +17,7 @@ import CommentItem from './CommentItem.vue';
                             <label for="commentText" class="form-label">Bình luận</label>
                             <textarea class="form-control" id="commentText" rows="3" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Gửi bình luận</button>
+                        <button class="btn btn-primary">Gửi bình luận</button>
                     </form>
                 </div>
             </div>
