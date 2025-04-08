@@ -1,7 +1,3 @@
-<script setup>
-import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
-</script>
-
 <template>
     <section id="page1" class="section-customer back-blue">
         <div class="d-flex flex-column flex-md-row align-items-center justify-content-center text-white">
@@ -17,9 +13,9 @@ import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
                 <p class="fs-5 mt-3">
                     Học cùng chúng tôi để làm chủ tiếng Anh, mở ra cơ hội mới <br />và thay đổi tương lai của bạn!
                 </p>
-                <button class="my-5 btn btn-warning text-dark fw-bold py-3 px-5 rounded-pill fs-5">
+                <router-link class="my-5 btn btn-warning text-dark fw-bold py-3 px-5 rounded-pill fs-5" to="/signin">
                     ĐĂNG KÝ NGAY!
-                </button>
+                </router-link>
             </div>
             <div class="w-100 w-md-50 p-4">
                 <DotLottieVue style="height: 500px; width: 500px" autoplay loop
@@ -28,6 +24,18 @@ import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
         </div>
     </section>
 </template>
+
+<script lang="ts">
+import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
+
+export default {
+    name: 'Intro',
+    components: {
+        DotLottieVue
+    }
+}
+</script>
+
 
 <style scoped>
 #page1 {

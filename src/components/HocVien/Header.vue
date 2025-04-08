@@ -1,4 +1,14 @@
-<script setup lang="ts">
+<script lang="ts">
+
+export default {
+    methods: {
+        changeLanguage(lang: string) {
+            this.$i18n.locale = lang
+        }
+    }
+}
+
+
 </script>
 
 <template>
@@ -37,9 +47,8 @@
                         <span class="language text-muted">Vietnamese</span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                        <li><a class="dropdown-item" href="#" onclick="changeLanguage('English')">English</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="changeLanguage('Vietnamese')">Vietnamese</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="changeLanguage('French')">Français</a></li>
+                        <li><a class="dropdown-item" href="#" @click="changeLanguage('en')">English</a></li>
+                        <li><a class="dropdown-item" href="#" @click="changeLanguage('vi')">Vietnamese</a></li>
                     </ul>
                 </div>
                 <div class="dropdown d-flex align-items-center">

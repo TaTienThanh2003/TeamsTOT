@@ -4,13 +4,13 @@ import About from '@/components/Home/Sesson/About/About.vue';
 import Contact from '@/components/Home/Sesson/Contact.vue';
 import Course from '@/components/Home/Sesson/Courses/Course.vue';
 import Detail from '@/components/Home/Sesson/Detail.vue';
-import Introduce from '@/components/Home/Sesson/Introduce.vue'
 import Teacher from '@/components/Home/Sesson/Teachers/Teacher.vue';
+import Intro from '@/components/Home/Sesson/Intro.vue';
 </script>
 
 <template>
     <Header />
-    <Introduce />
+    <Intro />
     <About />
     <Course />
     <Teacher />

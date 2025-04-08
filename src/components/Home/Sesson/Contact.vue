@@ -34,7 +34,7 @@
                         <input type="text" id="comments"
                             class="form-control border-0 border-bottom border-dark rounded-0 shadow-none" required>
                     </div>
-                    <button type="submit" class="btn btn-primary rounded-pill px-4 py-2">Gửi</button>
+                    <button class="btn btn-primary rounded-pill px-4 py-2">Gửi</button>
                 </form>
             </div>
         </div>

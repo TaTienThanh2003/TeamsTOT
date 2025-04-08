@@ -8,7 +8,7 @@
         </div>
 
         <div class="bg-white rounded shadow p-4 w-100" style="max-width: 400px; z-index: 1;">
-            <h2 class="text-center mb-2">Create an Account</h2>
+            <p class="text-center fs-2 mb-2">Create an Account</p>
             <!-- <p class="text-muted text-center">Create an account to continue</p> -->
 
             <form class="mt-4">
@@ -43,11 +43,11 @@
                     </label>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100 mb-3 disabled">Sign Up</button>
+                <button class="btn btn-primary w-100 mb-3 disabled">Sign Up</button>
 
                 <p class="text-center text-muted">
                     Already have an account?
-                    <router-link to="/login" class="text-decoration-none">Login</router-link>
+                    <router-link to="/login" class="text-primary">Login</router-link>
                 </p>
             </form>
         </div>

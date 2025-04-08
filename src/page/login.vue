@@ -8,7 +8,7 @@
         </div>
 
         <div class="bg-white rounded shadow p-4 w-100" style="max-width: 400px; z-index: 1;">
-            <h2 class="text-center mb-3">Login</h2>
+            <p class="text-center fs-2 mb-3">Login</p>
             <!-- <p class="text-center text-muted mb-4">Enter your email and password</p> -->
 
             <form>
@@ -31,12 +31,12 @@
                     <label for="remember" class="form-check-label">Remember me</label>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100">Sign In</button>
+                <button class="btn btn-primary w-100">Đăng ký</button>
             </form>
 
             <p class="text-center text-muted mt-3">
                 No account?
-                <router-link to="/signin">Sign up</router-link>
+                <router-link to="/signin" class="text-primary">Sign up</router-link>
             </p>
         </div>
     </div>
