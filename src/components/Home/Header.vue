@@ -24,16 +24,16 @@ export default {
             <a class="nav-link text-white" href="#">{{ $t('home.home') }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">Giới thiệu</a>
+            <a class="nav-link text-white" href="#">{{ $t('home.introduce') }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">Khóa học</a>
+            <a class="nav-link text-white" href="#">{{ $t('home.course') }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">Giảng viên</a>
+            <a class="nav-link text-white" href="#">{{ $t('home.lecturer') }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">Liên hệ</a>
+            <a class="nav-link text-white" href="#">{{ $t('home.contact') }}</a>
           </li>
         </ul>
       </div>

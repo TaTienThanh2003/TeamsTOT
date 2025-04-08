@@ -3,16 +3,16 @@
 
 <template>
     <section id="page6" class="section-customer">
-        <h1 class="section-title">LIÊN HỆ &amp; ĐÁNH GIÁ</h1>
+        <h1 class="section-title">{{ $t('home.page6.title') }}</h1>
 
         <div class="row g-4 px-5">
             <div class="col-md-6">
                 <div class="mb-3">
-                    <h5 class="text-primary fw-bold">Địa chỉ</h5>
+                    <h5 class="text-primary fw-bold">{{ $t('home.page6.address') }}</h5>
                     <p>Trường Sư phạm Kỹ Thuật Nam Định</p>
                 </div>
                 <div class="mb-3">
-                    <h5 class="text-primary fw-bold">Số điện thoại</h5>
+                    <h5 class="text-primary fw-bold">{{ $t('home.page6.phone') }}</h5>
                     <p>085 770 3356</p>
                 </div>
                 <div class="mb-3">
@@ -30,7 +30,7 @@
                             class="form-control border-0 border-bottom border-dark rounded-0 shadow-none" required>
                     </div>
                     <div class="mb-3">
-                        <label for="comments" class="form-label">Nhận xét của bạn:</label>
+                        <label for="comments" class="form-label">{{ $t('home.page6.feedback') }}</label>
                         <input type="text" id="comments"
                             class="form-control border-0 border-bottom border-dark rounded-0 shadow-none" required>
                     </div>

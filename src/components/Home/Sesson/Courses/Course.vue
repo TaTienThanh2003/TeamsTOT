@@ -6,7 +6,7 @@ import CourseItem from './CourseItem.vue'
 <template>
     <section id="page3" class="section-customer">
         <h1 class="section-title">
-            KHÓA HỌC
+            {{ $t('home.page3.title') }}
         </h1>
 
         <div class="d-flex flex-wrap justify-content-center gap-3">

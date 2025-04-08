@@ -6,7 +6,7 @@
         <div class="row align-items-center">
             <div class="col-md-6 d-flex align-items-center justify-content-center">
                 <h1 class="display-6 fw-bold text-warning">
-                    CHÚNG TÔI LÀ LỰA CHỌN HÀNG ĐẦU CHO BẠN BỞI
+                    {{ $t('home.page5.title') }}
                 </h1>
             </div>
 
@@ -15,9 +15,9 @@
                     <!-- Box 1 -->
                     <div class="col-6 d-flex flex-column align-items-center text-center">
                         <i class="fas fa-user-graduate fa-3x text-warning mb-3"></i>
-                        <h2 class="h3 fw-semibold mb-3">Chuyên môn cao</h2>
+                        <h2 class="h3 fw-semibold mb-3">{{ $t('home.page5.points[0].title') }}</h2>
                         <p>
-                            Được chứng nhận TESOL, CELTA, IELTS, TOEIC với nhiều năm kinh nghiệm giảng dạy.
+                            {{ $t('home.page5.points[0].description') }}
                         </p>
                     </div>
 
@@ -30,19 +30,18 @@
                     <!-- Box 4 -->
                     <div class="col-6 d-flex flex-column align-items-center text-center">
                         <i class="fas fa-tools fa-3x text-warning mb-3"></i>
-                        <h2 class="h3 fw-semibold mb-3">Thực tế và ứng dụng</h2>
+                        <h2 class="h3 fw-semibold mb-3">{{ $t('home.page5.points[1].title') }}</h2>
                         <p>
-                            Không chỉ dạy lý thuyết, giảng viên còn hướng dẫn học viên cách áp dụng tiếng Anh vào thực
-                            tế cuộc sống và công việc.
+                            {{ $t('home.page5.points[1].description') }}
                         </p>
                     </div>
 
                     <!-- Box 5 -->
                     <div class="col-6 d-flex flex-column align-items-center text-center">
                         <i class="fas fa-user-check fa-3x text-warning mb-3"></i>
-                        <h2 class="h3 fw-semibold mb-3">Lộ trình cá nhân hóa</h2>
+                        <h2 class="h3 fw-semibold mb-3">{{ $t('home.page5.points[2].title') }}</h2>
                         <p>
-                            Định hướng học tập phù hợp với từng học viên, giúp phát huy tối đa khả năng ngôn ngữ.
+                            {{ $t('home.page5.points[2].description') }}
                         </p>
                     </div>
                 </div>

@@ -19,7 +19,7 @@ defineProps<{
       <li v-for="(feature, index) in features" :key="index">{{ feature }}</li>
     </ul>
     <div class="text-center">
-      <a href="#" class="text-warning fw-bold text-decoration-none">Xem thêm &gt;&gt;&gt;</a>
+      <a href="#" class="text-warning fw-bold text-decoration-none">{{ $t('home.page3.button') }}</a>
     </div>
   </div>
 </template>

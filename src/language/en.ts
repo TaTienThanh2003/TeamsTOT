@@ -116,8 +116,8 @@ export default {
         course: "Course",
         lecturer: "Lecturer",
         contact: "Contact",
+        search: "Search",
         page1: {
-            search: "Search",
             title: "Elevate your future with English. Act now!",
             title2: "Learn with us to master English, open up new opportunities, and change your future!",
             register: "REGISTER NOW!",

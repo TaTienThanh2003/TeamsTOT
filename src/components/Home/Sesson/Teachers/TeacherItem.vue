@@ -4,17 +4,18 @@ import { defineProps } from 'vue'
 defineProps<{
     fullname: string
     image: string
-    des: string
 }>()
 </script>
 
 <template>
     <div class="col">
         <div class="text-center">
-            <img :src="image" :alt="fullname" class="rounded-circle mb-3" width="150" height="150" />
+            <div class="d-flex justify-content-center">
+                <img :src="image" :alt="fullname" class="rounded-circle mb-3" width="150" height="150" />
+            </div>
             <h2 class="h5 fw-semibold text-primary">{{ fullname }}</h2>
-            <p class="text-muted mb-1">Giảng viên {{ des }}</p>
-            <p class="text-secondary small">4 năm kinh nghiệm</p>
+            <p class="text-muted mb-1">{{ $t('home.page4.role') }}</p>
+            <p class="text-secondary small">{{ $t('home.page4.years') }}</p>
         </div>
     </div>
 </template>

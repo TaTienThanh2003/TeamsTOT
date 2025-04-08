@@ -4,7 +4,7 @@
 <template>
     <section id="page2" class="section-customer">
         <h1 class="section-title">
-            TẠI SAO NÊN CHỌN TOT?
+            {{ $t('home.page2.title') }}
         </h1>
         <div class="row">
             <div class="col-md-7 d-flex align-items-center">
@@ -15,9 +15,8 @@
                             01
                         </div>
                         <div class="ml-3">
-                            <h2 class="h5 font-weight-bold text-primary mb-2">Chương trình học tiên tiến</h2>
-                            <p>Chúng tôi xây dựng lộ trình học tập phù hợp với từng độ tuổi và mục tiêu học viên, từ cơ
-                                bản đến nâng cao.</p>
+                            <h2 class="h5 font-weight-bold text-primary mb-2">{{ $t('home.page2.reasons[0].title') }}</h2>
+                            <p>{{ $t('home.page2.reasons[0].description') }}</p>
                         </div>
                     </div>
                     <div class="col-md-6 d-flex align-items-start mb-4">
@@ -26,9 +25,8 @@
                             02
                         </div>
                         <div class="ml-3">
-                            <h2 class="h5 font-weight-bold text-primary mb-2">Đội ngũ giảng viên chất lượng</h2>
-                            <p>100% giảng viên tại trung tâm đều có chuyên môn cao, nhiều năm kinh nghiệm và luôn sẵn
-                                sàng hỗ trợ học viên trong quá trình học tập.</p>
+                            <h2 class="h5 font-weight-bold text-primary mb-2">{{ $t('home.page2.reasons[1].title') }}</h2>
+                            <p>{{ $t('home.page2.reasons[1].description') }}</p>
                         </div>
                     </div>
                     <div class="col-md-6 d-flex align-items-start mb-4">
@@ -37,9 +35,8 @@
                             03
                         </div>
                         <div class="ml-3">
-                            <h2 class="h5 font-weight-bold text-primary mb-2">Phương pháp giảng dạy hiện đại</h2>
-                            <p>Áp dụng phương pháp học chủ động, kết hợp công nghệ vào giảng dạy, giúp học viên rèn
-                                luyện cả bốn kỹ năng nghe - nói - đọc - viết một cách tự nhiên và hiệu quả.</p>
+                            <h2 class="h5 font-weight-bold text-primary mb-2">{{ $t('home.page2.reasons[2].title') }}</h2>
+                            <p>{{ $t('home.page2.reasons[2].description') }}</p>
                         </div>
                     </div>
                     <div class="col-md-6 d-flex align-items-start mb-4">
@@ -48,10 +45,8 @@
                             04
                         </div>
                         <div class="ml-3">
-                            <h2 class="h5 font-weight-bold text-primary mb-2">Môi trường học tập thân thiện, tiện nghi
-                            </h2>
-                            <p>Không gian học được thiết kế hiện đại, phòng học được trang bị đầy đủ thiết bị hỗ trợ
-                                giảng dạy, tạo điều kiện học tập tốt nhất cho học viên.</p>
+                            <h2 class="h5 font-weight-bold text-primary mb-2">{{ $t('home.page2.reasons[3].title') }}</h2>
+                            <p>{{ $t('home.page2.reasons[3].description') }}</p>
                         </div>
                     </div>
                 </div>

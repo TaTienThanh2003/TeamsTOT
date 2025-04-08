@@ -117,8 +117,8 @@ export default {
         course: "Khóa học",
         lecturer: "Giảng viên",
         contact: "Liên hệ",
+        search: "Tìm kiếm",
         page1: {
-            search: "Tìm kiếm",
             title: "Nâng tầm tương lai với tiếng Anh. Hành động ngay hôm nay!",
             title2: "Học cùng chúng tôi để làm chủ tiếng Anh, mở ra cơ hội mới và thay đổi tương lai của bạn!",
             register: "ĐĂNG KÝ NGAY!"

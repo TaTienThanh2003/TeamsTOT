@@ -3,18 +3,19 @@
         <div class="d-flex flex-column flex-md-row align-items-center justify-content-center text-white">
             <div class="w-100 w-md-50 p-4 text-center">
                 <div class="position-relative">
-                    <input class="form-control form-control-lg p-3 rounded-pill" placeholder="Tìm kiếm" type="text" />
-                    <i
-                        class="fas fa-search position-absolute top-50 end-0 translate-middle-y text-primary fs-4 pe-3"></i>
+                    <input class="form-control form-control-lg p-3 pe-5 rounded-pill" :placeholder="$t('home.search')"
+                        type="text" />
+                    <i class="fas fa-search position-absolute top-50 end-0 translate-middle-y text-primary fs-4 pe-3"
+                        style="pointer-events: none;"></i>
                 </div>
                 <h1 class="fs-2 fw-bold mt-5">
-                    Nâng tầm tương lai với tiếng Anh <br />Hành động ngay hôm nay!
+                    {{ $t('home.page1.title') }}
                 </h1>
                 <p class="fs-5 mt-3">
-                    Học cùng chúng tôi để làm chủ tiếng Anh, mở ra cơ hội mới <br />và thay đổi tương lai của bạn!
+                    {{ $t('home.page1.title2') }}
                 </p>
                 <router-link class="my-5 btn btn-warning text-dark fw-bold py-3 px-5 rounded-pill fs-5" to="/signin">
-                    ĐĂNG KÝ NGAY!
+                    {{ $t('home.page1.register') }}
                 </router-link>
             </div>
             <div class="w-100 w-md-50 p-4">
