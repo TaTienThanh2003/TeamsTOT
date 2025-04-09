@@ -11,11 +11,36 @@ namespace backTOT.Data
 
         }
         public DbSet<Users> Users { get; set; }
+        public DbSet<Courses> Courses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Users>().HasKey(u => u.Id);
-            modelBuilder.Entity<Users>().Property(u => u.Role).HasConversion(new EnumToStringConverter<Role>());
+            // User
+            modelBuilder.Entity<Users>(entity =>
+            {
+                entity.HasKey(u => u.Id);
+                entity.Property(u => u.Role)
+                      .HasConversion(new EnumToStringConverter<Role>())
+                      .HasDefaultValue(Role.USER);
+            });
+            // Courses
+            modelBuilder.Entity<Courses>()
+                .HasKey(c => c.Id);
+            
+            modelBuilder.Entity<Enrollments>()
+                .HasKey(e => e.Id);
+            // Quan hệ users - enrollments
+            modelBuilder.Entity<Enrollments>()
+                .HasOne(e => e.user)
+                .WithMany(u => u.Enrollments)
+                .HasForeignKey(e => e.User_id)
+                .OnDelete(DeleteBehavior.Cascade);
+            // Quan hệ courses - enrollments
+            modelBuilder.Entity<Enrollments>()
+                .HasOne(e => e.courses)
+                .WithMany(c => c.Enrollments)
+                .HasForeignKey(e => e.Courses_id)
+                .OnDelete(DeleteBehavior.Cascade);
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace backTOT.Entitys
@@ -12,13 +13,25 @@ namespace backTOT.Entitys
     public class Users
     {
         public int Id { get; set; }
-        public String FullName  { get; set; }
-        public String Rmail { get; set; }
-        public String Password { get; set; }
-        public String Phone { get; set; }
-        [Column(TypeName = "nvarchar(20)")]
-        public Role Role { get; set; }
 
-        public DateTime created_ad { get; set; } = DateTime.Now;
+        [MaxLength(50)]
+        public String FullName  { get; set; }
+        [MaxLength(50)]
+        public String Email { get; set; }
+        [MaxLength(50)]
+        public String Password { get; set; }
+        [MaxLength(12)]
+        public String Phone { get; set; }
+        public string Image { get; set; } = "img/face.jpg";
+        public String? Des { get; set; }
+        
+
+        [MaxLength(50)]
+        public Role Role { get; set; } = Role.USER;
+
+        public DateOnly created_ad { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+
+        // quan hệ 
+        public ICollection<Enrollments> Enrollments { get; set; } = new List<Enrollments>();
     }
 }

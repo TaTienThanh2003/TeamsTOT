@@ -1,3 +1,4 @@
+using backTOT;
 using backTOT.Data;
 using backTOT.Interface;
 using backTOT.Services;
@@ -18,6 +19,12 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 });
+// Thêm converter cho DateOnly
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+    });
 
 var app = builder.Build();
 
