@@ -1,14 +1,22 @@
 <script lang="ts">
 
 export default {
+    data() {
+        return {
+            currentLanguage: "Vietnamese", // Ngôn ngữ mặc định
+        };
+    },
     methods: {
         changeLanguage(lang: string) {
-            this.$i18n.locale = lang
-        }
-    }
-}
-
-
+            this.$i18n.locale = lang;
+            if (lang === "en") {
+                this.currentLanguage = "English";
+            } else if (lang === "vi") {
+                this.currentLanguage = "Vietnamese";
+            }
+        },
+    },
+};
 </script>
 
 <template>
@@ -44,7 +52,7 @@ export default {
                 <div class="dropdown">
                     <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
                         id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="language text-muted">Vietnamese</span>
+                        <span class="language text-muted">{{ currentLanguage }}</span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="languageDropdown">
                         <li><a class="dropdown-item" href="#" @click="changeLanguage('en')">English</a></li>

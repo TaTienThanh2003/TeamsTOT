@@ -10,10 +10,10 @@
                     <div class="d-flex justify-content-between align-items-center mb-5">
                         <div>
                             <p class="stat-title text-muted mb-1">
-                                Cấp độ
+                                {{ $t('hv.page1.level') }}
                             </p>
                             <p class="stat-value h5 mb-0 font-weight-bold">
-                                Level 1
+                                {{ $t('hv.page1.level') }} 1
                             </p>
                         </div>
                         <i class="fas fa-medal fa-2x text-purple"></i>
@@ -30,7 +30,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-5">
                         <div>
                             <p class="stat-title text-muted mb-1">
-                                Điểm kinh nghiệm
+                                {{ $t('hv.page1.experience') }}
                             </p>
                             <p class="stat-value h5 mb-0 font-weight-bold">
                                 10293
@@ -52,7 +52,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-5">
                         <div>
                             <p class="stat-title text-muted mb-1">
-                                Tổng thời gian đã học
+                                {{ $t('hv.page1.time') }}
                             </p>
                             <p class="stat-value h5 mb-0 font-weight-bold">
                                 $89,000
@@ -73,7 +73,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-5">
                         <div>
                             <p class="stat-title text-muted mb-1">
-                                Thời gian học hôm nay
+                                {{ $t('hv.page1.timetoday') }}
                             </p>
                             <p class="stat-value h5 mb-0 font-weight-bold">
                                 2040
@@ -94,7 +94,7 @@
         <div class="chart bg-white rounded shadow-sm p-4 mt-5">
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="chart-title h6 font-weight-bold">
-                    Nhật ký thời gian học tập
+                    {{ $t('hv.page1.diary') }}
                 </h2>
                 <div class="form-group mb-0">
                     <select class="form-control bg-light border-0">

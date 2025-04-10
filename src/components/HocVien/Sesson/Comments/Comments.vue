@@ -10,14 +10,14 @@ import CommentItem from './CommentItem.vue';
                 <div class="card-body">
                     <form id="commentForm">
                         <div class="mb-3">
-                            <label for="commentName" class="form-label">Tên của bạn</label>
+                            <label for="commentName" class="form-label">{{ $t('hv.page8.name') }}</label>
                             <input type="text" class="form-control" id="commentName" required />
                         </div>
                         <div class="mb-3">
-                            <label for="commentText" class="form-label">Bình luận</label>
+                            <label for="commentText" class="form-label">{{ $t('hv.page8.comment') }}</label>
                             <textarea class="form-control" id="commentText" rows="3" required></textarea>
                         </div>
-                        <button class="btn btn-primary">Gửi bình luận</button>
+                        <button class="btn btn-primary">{{ $t('hv.page8.sentcomment') }}</button>
                     </form>
                 </div>
             </div>

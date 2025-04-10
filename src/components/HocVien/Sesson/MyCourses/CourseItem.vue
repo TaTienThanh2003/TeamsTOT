@@ -11,7 +11,7 @@
                 <span class="text-muted ms-2">(131)</span>
                 <i class="far fa-heart ms-auto"></i>
             </div>
-            <a href="#" class="btn btn-light border mt-3">Bắt đầu</a>
+            <a href="#" class="btn btn-light border mt-3">{{ $t('hv.page2.start') }}</a>
         </div>
     </div>
 </template>

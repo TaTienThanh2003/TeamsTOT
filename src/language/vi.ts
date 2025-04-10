@@ -87,6 +87,9 @@ export default {
             position: "Vị trí",
             gender: "Giới tính",
             save: "Lưu",
+            male: "Nam",
+            female:"Nữ",
+            other: "Khác",
         },
     },
 
@@ -183,5 +186,11 @@ export default {
             phone: "Số điện thoại",
             feedback: "Nhận xét của bạn",
         },
+    },
+    calender: {
+        day: 'Ngày',
+        week: 'Tuần',
+        month: 'Tháng',
+        close: 'Đóng',
     },
 }

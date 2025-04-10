@@ -6,55 +6,55 @@
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="pricing-card">
-                    <h3>Basic</h3>
-                    <p>Phí hàng tháng</p>
+                    <h3>{{ $t('hv.page7.plan.basic') }}</h3>
+                    <p>{{ $t('hv.page7.fee') }}</p>
                     <p class="price">1.500.000đ</p>
                     <div class="divider"></div>
                     <ul class="list-unstyled">
-                        <li>Truy cập 1 khóa học cơ bản</li>
-                        <li>Tài liệu học tập miễn phí</li>
-                        <li>Hỗ trợ giáo viên qua email</li>
-                        <li>Kiểm tra đánh giá mỗi tháng</li>
+                        <li>{{ $t('hv.page7.features.basic[0]') }}</li>
+                        <li>{{ $t('hv.page7.features.basic[1]') }}</li>
+                        <li>{{ $t('hv.page7.features.basic[2]') }}</li>
+                        <li>{{ $t('hv.page7.features.basic[3]') }}</li>
                     </ul>
                     <div class="divider"></div>
-                    <button class="btn btn-custom">Get Started</button>
-                    <p class="mt-2 text-muted">Bắt đầu dùng thử 30 ngày</p>
+                    <button class="btn btn-custom">{{ $t('hv.page7.start') }}</button>
+                    <p class="mt-2 text-muted">{{ $t('hv.page7.getStarted') }}</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="pricing-card">
-                    <h3>Standard</h3>
-                    <p>Phí hàng tháng</p>
+                    <h3>{{ $t('hv.page7.plan.standard') }}</h3>
+                    <p>{{ $t('hv.page7.fee') }}</p>
                     <p class="price">3.000.000đ</p>
                     <div class="divider"></div>
                     <ul class="list-unstyled">
-                        <li>Truy cập 3 khóa học bất kỳ</li>
-                        <li>Tài liệu & bài giảng video đầy đủ</li>
-                        <li>Hỗ trợ giáo viên qua email & nhóm chat</li>
-                        <li>Kiểm tra đánh giá hàng tuần</li>
-                        <li>Chứng chỉ hoàn thành khóa học</li>
+                        <li>{{ $t('hv.page7.features.standard[0]') }}</li>
+                        <li>{{ $t('hv.page7.features.standard[1]') }}</li>
+                        <li>{{ $t('hv.page7.features.standard[2]') }}t</li>
+                        <li>{{ $t('hv.page7.features.standard[3]') }}</li>
+                        <li>{{ $t('hv.page7.features.standard[4]') }}</li>
                     </ul>
                     <div class="divider"></div>
-                    <button class="btn btn-custom">Get Started</button>
-                    <p class="mt-2 text-muted">Bắt đầu dùng thử 30 ngày</p>
+                    <button class="btn btn-custom">{{ $t('hv.page7.start') }}</button>
+                    <p class="mt-2 text-muted">{{ $t('hv.page7.getStarted') }}</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="pricing-card">
-                    <h3>Premium</h3>
-                    <p>Phí hàng tháng</p>
+                    <h3>{{ $t('hv.page7.plan.premium') }}</h3>
+                    <p>{{ $t('hv.page7.fee') }}</p>
                     <p class="price">5.000.000đ</p>
                     <div class="divider"></div>
                     <ul class="list-unstyled">
-                        <li>Truy cập không giới hạn tất cả khóa học</li>
-                        <li>Tài liệu, bài giảng, bài tập thực hành chuyên sâu</li>
-                        <li>Hỗ trợ 1-1 với giáo viên qua video call</li>
-                        <li>Kiểm tra đánh giá hàng tuần & tư vấn cá nhân</li>
-                        <li>Chứng chỉ cao cấp & ưu đãi khi đăng ký khóa tiếp theo</li>
+                        <li>{{ $t('hv.page7.features.premium[0]') }}</li>
+                        <li>{{ $t('hv.page7.features.premium[1]') }}</li>
+                        <li>{{ $t('hv.page7.features.premium[2]') }}</li>
+                        <li>{{ $t('hv.page7.features.premium[3]') }}</li>
+                        <li>{{ $t('hv.page7.features.premium[4]') }}</li>
                     </ul>
                     <div class="divider"></div>
-                    <button class="btn btn-primary">Get Started</button>
-                    <p class="mt-2 text-muted">Bắt đầu dùng thử 30 ngày</p>
+                    <button class="btn btn-primary">{{ $t('hv.page7.start') }}</button>
+                    <p class="mt-2 text-muted">{{ $t('hv.page7.getStarted') }}</p>
                 </div>
             </div>
         </div>

@@ -70,7 +70,7 @@ export default {
                 ]
             },
             fee: "Monthly Fee",
-            start: "Start",
+            start: "Get Started",
             getStarted: "Start 30-day free trial",
         },
         page8: {
@@ -87,6 +87,9 @@ export default {
             position: "Position",
             gender: "Gender",
             save: "Save",
+            male: "Male",
+            female: "Female",
+            other: "Other",
         },
     },
     login: {
