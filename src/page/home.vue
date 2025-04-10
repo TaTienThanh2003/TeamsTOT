@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Header from '@/components/Home/Header.vue';
+import Footer from '@/components/Home/Footer.vue';
 import About from '@/components/Home/Sesson/About/About.vue';
 import Contact from '@/components/Home/Sesson/Contact.vue';
 import Course from '@/components/Home/Sesson/Courses/Course.vue';
@@ -9,11 +10,12 @@ import Intro from '@/components/Home/Sesson/Intro.vue';
 </script>
 
 <template>
-    <Header />
+    <Header :isShow="true" />
     <Intro />
     <About />
     <Course />
     <Teacher />
     <Detail />
     <Contact />
+    <Footer />
 </template>

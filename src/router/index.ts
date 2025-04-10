@@ -1,3 +1,4 @@
+import DetailCourse from '@/page/DetailCourse.vue'
 import Hocvien from '@/page/hocvien.vue'
 import Home from '@/page/home.vue'
 import Login from '@/page/login.vue'
@@ -14,6 +15,11 @@ const routes = [
         path: '/hocvien',
         name: 'HocVien',
         component: Hocvien
+    },
+    {
+        path: '/detail-course',
+        name: 'DetailCourse',
+        component: DetailCourse
     },
     {
         path: '/login',

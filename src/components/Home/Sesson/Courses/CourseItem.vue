@@ -10,7 +10,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="bg-primary text-white rounded p-3" style="width: 20rem;">
+  <div class="bg-primary text-white rounded p-3" style="width: 20rem; min-height: 24rem;">
     <div class="d-flex justify-content-center mb-3">
       <img :src="image" alt="Course Image" class="rounded border border-white" width="150" height="150" />
     </div>
@@ -19,7 +19,9 @@ defineProps<{
       <li v-for="(feature, index) in features" :key="index">{{ feature }}</li>
     </ul>
     <div class="text-center">
-      <a href="#" class="text-warning fw-bold text-decoration-none">{{ $t('home.page3.button') }}</a>
+      <router-link class="text-warning fw-bold text-decoration-none" to="/detail-course">
+        {{ $t('home.page3.button') }}
+      </router-link>
     </div>
   </div>
 </template>

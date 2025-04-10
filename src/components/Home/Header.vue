@@ -1,6 +1,12 @@
 <script lang="ts">
 
 export default {
+  props: {
+    isShow: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     changeLanguage(lang: string) {
       this.$i18n.locale = lang
@@ -10,15 +16,15 @@ export default {
 
 </script>
 <template>
-  <header class="navbar navbar-expand-lg fixed-top" style="background-color: #6C63FF;">
+  <header class="navbar navbar-expand-lg fixed-top px-5" style="background-color: #6C63FF;">
     <div class="container-fluid">
-      <a class="navbar-brand ms-5" href="#">
+      <router-link to="/" class="navbar-brand">
         <img src="@/assets/images/logo.png" alt="Logo" class="d-inline-block align-text-top me-2" />
         <span class="font-weight-bold text-white" style="font-size: 1.25rem;">TRUNG TÂM TOT</span>
-      </a>
+      </router-link>
 
       <!-- Menu điều hướng -->
-      <div class="d-flex ms-auto">
+      <div class="d-flex ms-auto text-uppercase" v-if="isShow">
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link text-white" href="#">{{ $t('home.home') }}</a>
@@ -37,7 +43,7 @@ export default {
           </li>
         </ul>
       </div>
-      <div class="lang-switch">
+      <div class="lang-switch ms-auto">
         <input type="radio" id="lang-vi" name="lang" value="vi" checked @change="changeLanguage('vi')" />
         <label for="lang-vi">VN</label>
 
@@ -59,6 +65,16 @@ export default {
   display: flex;
   align-items: center;
 }
+
+.nav-item {
+  margin-right: 1rem;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  color: #ffee00 !important;
+}
+
 
 .lang-switch {
   display: inline-flex;
