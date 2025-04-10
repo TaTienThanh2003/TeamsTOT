@@ -5,15 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
-    public class CoursesControllers
-    {
         [Route("api/courses")]
         [ApiController]
-        public class UserControlles : Controller
+        public class CoursesControllers : Controller
         {
             private ICoursesService _coursesService;
             private IMapper _mapper;
-            public UserControlles(ICoursesService coursesService, IMapper mapper)
+            public CoursesControllers(ICoursesService coursesService, IMapper mapper)
             {
                 _coursesService = coursesService;
                 _mapper = mapper;
@@ -22,7 +20,7 @@ namespace backTOT.Controllers
             [HttpGet]
             [ProducesResponseType(200, Type = typeof(IEnumerable<Courses>))]
             [ProducesResponseType(404)]
-            public IActionResult GetAllUsers()
+            public IActionResult GetAllCourses()
             {
                 var courses = _coursesService.GetCourses();
                 if (courses == null)
@@ -32,5 +30,4 @@ namespace backTOT.Controllers
                 return Ok(courses);
             }
         }
-    }
 }

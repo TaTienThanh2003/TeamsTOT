@@ -31,7 +31,9 @@ namespace backTOT.Entitys
 
         public DateOnly created_ad { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
-        // quan hệ 
+        // relation
         public ICollection<Enrollments> Enrollments { get; set; } = new List<Enrollments>();
+        public ICollection<Courses> Courses { get; set; } = new List<Courses>();
+        public ICollection<Scores> Scores { get; set; } = new List<Scores>();
     }
 }

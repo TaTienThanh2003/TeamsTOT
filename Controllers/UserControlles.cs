@@ -44,7 +44,7 @@ namespace backTOT.Controllers
             }
             return Ok(user);
         }
-        [HttpPost("signin")]
+        [HttpPost("signup")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Users>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -65,7 +65,7 @@ namespace backTOT.Controllers
                 }
                 return Created("",new {status = 201, message = "Add Successfully",user});
         }
-        [HttpPost("login")]
+        [HttpPost("signin")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Users>))]
         [ProducesResponseType(400)]
         public IActionResult GetUserLogin(String email,String password)
@@ -74,7 +74,7 @@ namespace backTOT.Controllers
             {
                 return BadRequest("Email not found");
             }
-            if (_userServices.isCheckEmail(email) && _userServices.isCheckPassword(password))
+            if (!_userServices.isCheckEmail(email) && _userServices.isCheckPassword(password))
             {
                 return BadRequest("Invalid password");
             }

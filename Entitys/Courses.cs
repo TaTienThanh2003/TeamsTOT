@@ -25,9 +25,11 @@ namespace backTOT.Entitys
 
         public Mode Mode { get; set; }
 
-        // quan hệ 
+        // relation
         public ICollection<Enrollments> Enrollments { get; set; } = new List<Enrollments>();
-
-
+        public ICollection<Lessons> Lessons { get; set; } = new List<Lessons>();
+        public ICollection<Schedules> Schedules { get; set; } = new List<Schedules>();
+        public ICollection<Scores> Scores { get; set; } = new List<Scores>();
+        public Users user { get; set; }
     }
 }
