@@ -1,7 +1,10 @@
+import Cart from '@/page/Cart.vue'
 import DetailCourse from '@/page/DetailCourse.vue'
+import History from '@/page/history.vue'
 import Hocvien from '@/page/hocvien.vue'
 import Home from '@/page/home.vue'
 import Login from '@/page/login.vue'
+import Search from '@/page/Search.vue'
 import Signin from '@/page/signin.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -20,6 +23,21 @@ const routes = [
         path: '/detail-course',
         name: 'DetailCourse',
         component: DetailCourse
+    },
+    {
+        path: '/cart',
+        name: 'Cart',
+        component: Cart
+    },
+    {
+        path: '/history',
+        name: 'History',
+        component: History
+    },
+    {
+        path: '/search',
+        name: 'Search',
+        component: Search
     },
     {
         path: '/login',

@@ -12,7 +12,7 @@ const handleLogin = async () => {
     try {
         const res = await axios.post(`https://localhost:7041/api/users/login?email=${email.value}&password=${password.value}`)
         alert('Đăng nhập thành công')
-        router.push('/') // chuyển hướng nếu cần
+        router.push('/')
     } catch (err: any) {
         errorMsg.value = err.response?.data || 'Đăng nhập thất bại'
     }
@@ -31,14 +31,14 @@ const handleLogin = async () => {
             <form @submit.prevent="handleLogin">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input v-model="email" type="email" id="email" class="form-control w-full" placeholder="you@example.com"
-                        required />
+                    <input v-model="email" type="email" id="email" class="form-control w-full"
+                        placeholder="you@example.com" required />
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input v-model="password" type="password" id="password" class="form-control w-full" placeholder="••••••••"
-                        required />
+                    <input v-model="password" type="password" id="password" class="form-control w-full"
+                        placeholder="••••••••" required />
                 </div>
 
                 <p class="text-danger text-center" v-if="errorMsg">{{ errorMsg }}</p>

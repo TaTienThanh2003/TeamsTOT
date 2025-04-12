@@ -10,7 +10,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="bg-primary text-white rounded p-3" style="width: 20rem; min-height: 24rem;">
+  <div class="back-blue text-white p-3 hover-lift">
     <div class="d-flex justify-content-center mb-3">
       <img :src="image" alt="Course Image" class="rounded border border-white" width="150" height="150" />
     </div>
@@ -25,3 +25,18 @@ defineProps<{
     </div>
   </div>
 </template>
+
+<style scoped>
+.hover-lift {
+  min-height: 24rem;
+  width: 20rem;
+  border-radius: 10px;
+  margin-top: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+</style>

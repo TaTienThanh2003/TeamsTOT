@@ -129,19 +129,19 @@ export default {
             title: "WHY CHOOSE TOT?",
             reasons: [
                 {
-                    title: "01. Advanced Curriculum",
+                    title: "Advanced Curriculum",
                     description: "We build a learning path suitable for different ages and goals, from basic to advanced."
                 },
                 {
-                    title: "02. Quality Teaching Staff",
+                    title: "Quality Teaching Staff",
                     description: "100% of our teachers are highly qualified, with many years of experience, always ready to support students during their studies."
                 },
                 {
-                    title: "03. Modern Teaching Methods",
+                    title: "Modern Teaching Methods",
                     description: "We apply active learning methods, integrating technology into teaching, helping students develop all four skills: listening, speaking, reading, and writing naturally and effectively."
                 },
                 {
-                    title: "04. Friendly and Comfortable Learning Environment",
+                    title: "Friendly and Comfortable Learning Environment",
                     description: "The learning space is designed modernly, with classrooms fully equipped with teaching support tools, providing the best learning conditions for students."
                 }
             ]

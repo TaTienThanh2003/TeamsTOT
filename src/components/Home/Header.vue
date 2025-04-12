@@ -5,6 +5,10 @@ export default {
     isShow: {
       type: Boolean,
       default: false
+    },
+    hasRegistered: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
@@ -27,34 +31,68 @@ export default {
       <div class="d-flex ms-auto text-uppercase" v-if="isShow">
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">{{ $t('home.home') }}</a>
+            <a class="nav-link text-white" href="#page1">{{ $t('home.home') }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">{{ $t('home.introduce') }}</a>
+            <a class="nav-link text-white" href="#page2">{{ $t('home.introduce') }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">{{ $t('home.course') }}</a>
+            <a class="nav-link text-white" href="#page3">{{ $t('home.course') }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">{{ $t('home.lecturer') }}</a>
+            <a class="nav-link text-white" href="#page4">{{ $t('home.lecturer') }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">{{ $t('home.contact') }}</a>
+            <a class="nav-link text-white" href="#page5">{{ $t('home.contact') }}</a>
           </li>
         </ul>
       </div>
-      <div class="lang-switch ms-auto">
-        <input type="radio" id="lang-vi" name="lang" value="vi" checked @change="changeLanguage('vi')" />
-        <label for="lang-vi">VN</label>
+      <div class="ms-auto  d-flex align-items-center gap-3">
+        <div class="lang-switch">
+          <input type="radio" id="lang-vi" name="lang" value="vi" checked @change="changeLanguage('vi')" />
+          <label for="lang-vi">VN</label>
 
-        <input type="radio" id="lang-en" name="lang" value="en" @change="changeLanguage('en')" />
-        <label for="lang-en">EN</label>
-      </div>
+          <input type="radio" id="lang-en" name="lang" value="en" @change="changeLanguage('en')" />
+          <label for="lang-en">EN</label>
+        </div>
 
-      <!-- Nút đăng nhập -->
-      <router-link to="/login" class="text-white" title="Đăng nhập">
+        <!-- Nút đăng nhập -->
+        <!-- <router-link to="/login" class="text-white" title="Đăng nhập">
         <i class="fas fa-sign-in-alt fa-lg"></i>
-      </router-link>
+      </router-link> -->
+        <router-link to="/cart" class="icon-circles">
+          <i class="fas fa-shopping-cart text-white fs-5"></i>
+        </router-link>
+        <div class="dropdown">
+          <button class="btn icon-circles dropdown-toggle" type="button" id="dropdownUser" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i class="fa-solid fa-user text-white fs-5"></i>
+          </button>
+
+          <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="dropdownUser">
+            <li v-if="hasRegistered">
+              <router-link class="dropdown-item" to="/hocvien">
+                Tài khoản học viên
+              </router-link>
+              <router-link class="dropdown-item" to="/history">
+                Lịch sử thanh toán
+              </router-link>
+              <router-link class="dropdown-item" to="/hocvien">
+                Hồ sơ của tôi
+              </router-link>
+              <hr class="dropdown-divider" />
+
+              <a class="dropdown-item text-danger" href="/logout">
+                <i class="fa-solid fa-right-from-bracket me-2"></i> Đăng xuất
+              </a>
+            </li>
+            <li v-else>
+              <span class="dropdown-item text-muted">Chưa đăng ký khóa học</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
 
     </div>
   </header>
@@ -83,7 +121,6 @@ export default {
   overflow: hidden;
   font-weight: 500;
   font-size: 0.9rem;
-  margin: 0 1rem;
 }
 
 .lang-switch input[type="radio"] {
@@ -100,5 +137,21 @@ export default {
 
 .lang-switch input[type="radio"]:checked+label {
   background-color: #ffee00;
+}
+
+.btn-check:checked+.btn,
+.btn.active,
+.btn.show,
+.btn:first-child:active,
+:not(.btn-check)+.btn:active {
+  border: none !important;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.icon-circles i:hover {
+  color: #ffee00 !important;
 }
 </style>

@@ -88,7 +88,7 @@ export default {
             gender: "Giới tính",
             save: "Lưu",
             male: "Nam",
-            female:"Nữ",
+            female: "Nữ",
             other: "Khác",
         },
     },
@@ -130,19 +130,19 @@ export default {
             title: "TẠI SAO NÊN CHỌN TOT?",
             reasons: [
                 {
-                    title: "01. Chương trình học tiên tiến",
+                    title: "Chương trình học tiên tiến",
                     description: "Chúng tôi xây dựng lộ trình học tập phù hợp với từng độ tuổi và mục tiêu học viên, từ cơ bản đến nâng cao."
                 },
                 {
-                    title: "02. Đội ngũ giảng viên chất lượng",
+                    title: "Đội ngũ giảng viên chất lượng",
                     description: "100% giảng viên tại trung tâm đều có chuyên môn cao, nhiều năm kinh nghiệm và luôn sẵn sàng hỗ trợ học viên trong quá trình học tập."
                 },
                 {
-                    title: "03. Phương pháp giảng dạy hiện đại",
+                    title: "Phương pháp giảng dạy hiện đại",
                     description: "Áp dụng phương pháp học chủ động, kết hợp công nghệ vào giảng dạy, giúp học viên rèn luyện cả bốn kỹ năng nghe - nói - đọc - viết một cách tự nhiên và hiệu quả."
                 },
                 {
-                    title: "04. Môi trường học tập thân thiện, tiện nghi",
+                    title: "Môi trường học tập thân thiện, tiện nghi",
                     description: "Không gian học được thiết kế hiện đại, phòng học được trang bị đầy đủ thiết bị hỗ trợ giảng dạy, tạo điều kiện học tập tốt nhất cho học viên."
                 }
             ]

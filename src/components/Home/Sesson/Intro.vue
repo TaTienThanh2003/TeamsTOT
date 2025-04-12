@@ -2,12 +2,7 @@
     <section id="page1" class="section-customer back-blue">
         <div class="d-flex flex-column flex-md-row align-items-center justify-content-center text-white">
             <div class="w-100 w-md-50 p-4 text-center">
-                <div class="position-relative">
-                    <input class="form-control form-control-lg p-3 pe-5 rounded-pill" :placeholder="$t('home.search')"
-                        type="text" />
-                    <i class="fas fa-search position-absolute top-50 end-0 translate-middle-y text-primary fs-4 pe-3"
-                        style="pointer-events: none;"></i>
-                </div>
+                <Search />
                 <h1 class="fs-2 fw-bold mt-5">
                     {{ $t('home.page1.title') }}
                 </h1>
@@ -26,15 +21,9 @@
     </section>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
-
-export default {
-    name: 'Intro',
-    components: {
-        DotLottieVue
-    }
-}
+import Search from './Search.vue';
 </script>
 
 

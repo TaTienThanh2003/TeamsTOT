@@ -66,6 +66,7 @@ const courses = [
 <style scoped>
 .swiper-custmer {
     padding: 0 5rem;
+    margin-top: -1rem;
 }
 
 .swiper {

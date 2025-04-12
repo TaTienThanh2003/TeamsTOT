@@ -8,15 +8,15 @@
         <div class="row g-4 px-5">
             <div class="col-md-6">
                 <div class="mb-3">
-                    <h5 class="text-primary fw-bold">{{ $t('home.page6.address') }}</h5>
+                    <h5 class="font-blue fw-bold">{{ $t('home.page6.address') }}</h5>
                     <p>Trường Sư phạm Kỹ Thuật Nam Định</p>
                 </div>
                 <div class="mb-3">
-                    <h5 class="text-primary fw-bold">{{ $t('home.page6.phone') }}</h5>
+                    <h5 class="font-blue fw-bold">{{ $t('home.page6.phone') }}</h5>
                     <p>085 770 3356</p>
                 </div>
                 <div class="mb-3">
-                    <h5 class="text-primary fw-bold">Email</h5>
+                    <h5 class="font-blue fw-bold">Email</h5>
                     <p>oanhta20032003@gmail.com</p>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                         <input type="text" id="comments"
                             class="form-control border-0 border-bottom border-dark rounded-0 shadow-none" required>
                     </div>
-                    <button class="btn btn-primary rounded-pill px-4 py-2">Gửi</button>
+                    <button class="btn back-blue text-white rounded-pill px-4 py-2">Gửi</button>
                 </form>
             </div>
         </div>
