@@ -21,8 +21,8 @@ namespace backTOT.Entitys
         [MaxLength(50)]
         public String Password { get; set; }
         [MaxLength(12)]
-        public String Phone { get; set; }
-        public string Image { get; set; } = "img/face.jpg";
+        public String? Phone { get; set; }
+        public string? Image { get; set; } = "img/face.jpg";
         public String? Des { get; set; }
         
 

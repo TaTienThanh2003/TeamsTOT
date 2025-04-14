@@ -104,7 +104,7 @@
   {
     "ContainingType": "backTOT.Controllers.UserControlles",
     "Method": "GetUserLogin",
-    "RelativePath": "api/users/login",
+    "RelativePath": "api/users/signin",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -122,7 +122,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[backTOT.Entitys.Users, backTOT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "backTOT.Entitys.Users",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -138,32 +138,6 @@
           "text/json"
         ],
         "StatusCode": 400
-      }
-    ]
-  },
-  {
-    "ContainingType": "backTOT.Controllers.UserControlles",
-    "Method": "GetUserSignIn",
-    "RelativePath": "api/users/signin",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "user",
-        "Type": "backTOT.Entitys.Users",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[backTOT.Entitys.Users, backTOT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
       },
       {
         "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
@@ -173,6 +147,28 @@
           "text/json"
         ],
         "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "backTOT.Controllers.UserControlles",
+    "Method": "GetUserSignUp",
+    "RelativePath": "api/users/signup",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userDto",
+        "Type": "backTOT.Dto.UserDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
       },
       {
         "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
@@ -182,6 +178,15 @@
           "text/json"
         ],
         "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 409
       }
     ]
   }

@@ -23,8 +23,8 @@ namespace backTOT.Entitys
         [Column(TypeName = "decimal(10,2)")]
         public decimal price { get; set; }
 
-        public Mode Mode { get; set; }
-
+        public Mode? Mode { get; set; }
+        public string Img { get; set; }
         // relation
         public ICollection<Enrollments> Enrollments { get; set; } = new List<Enrollments>();
         public ICollection<Lessons> Lessons { get; set; } = new List<Lessons>();

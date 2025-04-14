@@ -25,9 +25,9 @@ namespace backTOT.Controllers
                 var courses = _coursesService.GetCourses();
                 if (courses == null)
                 {
-                    return BadRequest("No courses found");
-                }
-                return Ok(courses);
-            }
+                return NotFound(new { status = 404, message = "No courses found" });
+                 }
+                return Ok(new { status = 200, message = "Success", data = courses });
+             }
         }
 }

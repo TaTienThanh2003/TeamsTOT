@@ -26,9 +26,9 @@ namespace backTOT.Controllers
             var user = _userServices.GetUsers();
             if (user == null)
             {
-                return BadRequest("No users found");
+                return NotFound(new { status = 404, message = "No users found" });
             }
-            return Ok(user);
+            return Ok(new { status = 200, message = "Success", data = user });
         }
         // getId
         [HttpGet("{userId}")]
@@ -40,43 +40,47 @@ namespace backTOT.Controllers
             var  user = _userServices.GetUsersId(userId);
             if (user == null)
             {
-                return BadRequest("No users found");
+                return NotFound(new { status = 404, message = "User not found" });
             }
-            return Ok(user);
+            return Ok(new { status = 200, message = "Success", data = user });
         }
         [HttpPost("signup")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Users>))]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult GetUserSignIn([FromBody] Users user) 
+        [ProducesResponseType(409)]
+        public IActionResult GetUserSignUp([FromBody] UserDto userDto) 
         {
-                if(user == null)
+                if(userDto == null)
                 {
-                return BadRequest("Invalid user data");
+                    return BadRequest(new { status = 400, message = "Invalid user data" });
                 }
-                if (_userServices.isCheckEmail(user.Email))
+                if (!_userServices.isCheckEmail(userDto.Email))
                 {
-                    return BadRequest("Email already exists");
+                 return Conflict(new { status = 409, message = "Email already exists" });
                 }
-                var userAdd = _userServices.UsersSignIn(user);
-                if (userAdd == null)
+                var userAdd = _mapper.Map<Users>(userDto);
+                userAdd.Role = Role.USER;
+                var result = _userServices.UsersSignIn(userAdd);
+                if (result == null)
                 {
-                    return NotFound("User could not be created");
+                    return StatusCode(500, new { status = 500, message = "An error occurred while creating user" });
                 }
-                return Created("",new {status = 201, message = "Add Successfully",user});
+                return Created("",new {status = 201, message = "Add Successfully",userAdd = result});
         }
         [HttpPost("signin")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Users>))]
+        [ProducesResponseType(200, Type = typeof(Users))]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult GetUserLogin(String email,String password)
         {
+
             if (!_userServices.isCheckEmail(email))
             {
-                return BadRequest("Email not found");
+                return BadRequest( new {status = 404, message = "Email not found" });
             }
-            if (!_userServices.isCheckEmail(email) && _userServices.isCheckPassword(password))
+            if (!_userServices.isCheckPassword(password))
             {
-                return BadRequest("Invalid password");
+                return BadRequest(new { status = 404, message = "Password not found" });
             }
              _userServices.UsersLogin(email, password);
             return Created("", new { status = 200, message = "Login successful" });
