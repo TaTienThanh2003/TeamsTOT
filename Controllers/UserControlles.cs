@@ -54,7 +54,7 @@ namespace backTOT.Controllers
                 {
                     return BadRequest(new { status = 400, message = "Invalid user data" });
                 }
-                if (!_userServices.isCheckEmail(userDto.Email))
+                if (_userServices.isCheckEmail(userDto.Email))
                 {
                  return Conflict(new { status = 409, message = "Email already exists" });
                 }
@@ -71,19 +71,19 @@ namespace backTOT.Controllers
         [ProducesResponseType(200, Type = typeof(Users))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult GetUserLogin(String email,String password)
+        public IActionResult GetUserLogin([FromBody] LoginRequest request)
         {
+            if (!_userServices.isCheckEmail(request.Email))
+            {
+                return NotFound(new { status = 404, message = "Email not found" });
+            }
 
-            if (!_userServices.isCheckEmail(email))
+            if (!_userServices.isCheckPassword(request.Password))
             {
-                return BadRequest( new {status = 404, message = "Email not found" });
+                return BadRequest(new { status = 400, message = "Invalid password" });
             }
-            if (!_userServices.isCheckPassword(password))
-            {
-                return BadRequest(new { status = 404, message = "Password not found" });
-            }
-             _userServices.UsersLogin(email, password);
-            return Created("", new { status = 200, message = "Login successful" });
+             _userServices.UsersLogin(request.Email, request.Password);
+            return Ok(new { status = 200, message = "Login successful" });
         }
     }
 }

@@ -12,8 +12,8 @@ using backTOT.Data;
 namespace backTOT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250410015653_UpdateRelationships")]
-    partial class UpdateRelationships
+    [Migration("20250414095342_update")]
+    partial class update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,8 +39,11 @@ namespace backTOT.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Mode")
+                    b.Property<string>("Img")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mode")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -72,7 +75,7 @@ namespace backTOT.Migrations
                     b.Property<int>("Courses_id")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("End_date")
+                    b.Property<DateOnly?>("End_date")
                         .HasColumnType("date");
 
                     b.Property<DateOnly>("Start_date")
@@ -102,19 +105,16 @@ namespace backTOT.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Courses_id")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Video_url")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -164,14 +164,13 @@ namespace backTOT.Migrations
                     b.Property<DateOnly>("Date_taken")
                         .HasColumnType("date");
 
-                    b.Property<decimal>("Score")
+                    b.Property<decimal?>("Score")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("Student_id")
                         .HasColumnType("int");
 
                     b.Property<string>("Test_name")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -201,12 +200,10 @@ namespace backTOT.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
@@ -215,15 +212,13 @@ namespace backTOT.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasMaxLength(12)
                         .HasColumnType("nvarchar(12)");
 
                     b.Property<string>("Role")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("USER");
 
                     b.Property<DateOnly>("created_ad")

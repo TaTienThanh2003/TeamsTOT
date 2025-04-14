@@ -15,7 +15,7 @@ namespace backTOT.Entitys
         public int Id { get; set; }
 
         [MaxLength(50)]
-        public String FullName  { get; set; }
+        public String? FullName  { get; set; }
         [MaxLength(50)]
         public String Email { get; set; }
         [MaxLength(50)]
@@ -25,10 +25,8 @@ namespace backTOT.Entitys
         public string? Image { get; set; } = "img/face.jpg";
         public String? Des { get; set; }
         
-
-        [MaxLength(50)]
         public Role Role { get; set; } = Role.USER;
-
+        
         public DateOnly created_ad { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
         // relation

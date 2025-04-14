@@ -12,6 +12,7 @@ namespace backTOT.Data
         }
         public DbSet<Users> Users { get; set; }
         public DbSet<Courses> Courses { get; set; }
+        public DbSet<Lessons> Lessons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
