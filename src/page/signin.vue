@@ -1,4 +1,12 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
+const [name, email, password, confirmpass] = [ref(''), ref(''), ref(''), ref('')];
+const checkterm = ref(false);
+
+const handleSignin = () => {
+
+}
 </script>
 
 <template>
@@ -11,33 +19,37 @@
             <p class="text-center fs-2 mb-2">Create an Account</p>
             <!-- <p class="text-muted text-center">Create an account to continue</p> -->
 
-            <form class="mt-4">
+            <form @submit.prevent="handleSignin" class="mt-4">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control w-full" id="username" placeholder="Username" required/>
+                    <input v-model="name" type="text" class="form-control w-full" id="username" placeholder="Username"
+                        required />
                 </div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control w-full" id="email" placeholder="nguyen_dang@gmail.com" required/>
+                    <input v-model="email" type="email" class="form-control w-full" id="email"
+                        placeholder="nguyen_dang@gmail.com" required />
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label d-flex justify-content-between">
                         <span>Password</span>
                     </label>
-                    <input type="password" class="form-control w-full" id="password" placeholder="********" required/>
+                    <input v-model="password" type="password" class="form-control w-full" id="password"
+                        placeholder="********" required />
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label d-flex justify-content-between">
                         <span>Confirm Password</span>
                     </label>
-                    <input type="password" class="form-control w-full" id="password" placeholder="********" required/>
+                    <input v-model="confirmpass" type="password" class="form-control w-full" id="password"
+                        placeholder="********" required />
                 </div>
 
                 <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="terms" required/>
+                    <input v-model="checkterm" class="form-check-input" type="checkbox" id="terms" required />
                     <label class="form-check-label" for="terms">
                         I accept terms and conditions
                     </label>

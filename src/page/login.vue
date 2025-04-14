@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { UserLogin } from '@/services'
 
 const email = ref('')
 const password = ref('')
@@ -10,8 +10,7 @@ const errorMsg = ref('')
 
 const handleLogin = async () => {
     try {
-        const res = await axios.post(`https://localhost:7041/api/users/login?email=${email.value}&password=${password.value}`)
-        alert('Đăng nhập thành công')
+        UserLogin(email.value, password.value);
         router.push('/')
     } catch (err: any) {
         errorMsg.value = err.response?.data || 'Đăng nhập thất bại'

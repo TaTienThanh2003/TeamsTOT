@@ -3,48 +3,30 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/swiper-bundle.css';
 import { Navigation } from 'swiper/modules';
 import CourseItem from './CourseItem.vue';
+import { getCourses } from '@/services';
+import { onMounted, ref } from 'vue';
 
 const modules = [Navigation];
-// Danh sách khóa học
-const courses = [
-    {
-        title: 'Khóa học Giao tiếp thực tế',
-        image: 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
-        features: [
-            'Dành cho người mất gốc hoặc muốn cải thiện phản xạ nói.',
-            'Phương pháp phản xạ tự nhiên, thực hành ngay tại lớp.',
-            'Tự tin giao tiếp trong công việc và cuộc sống.'
-        ]
-    },
-    {
-        title: 'Khóa học Giao tiếp thực tế',
-        image: 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
-        features: [
-            'Dành cho người mất gốc hoặc muốn cải thiện phản xạ nói.',
-            'Phương pháp phản xạ tự nhiên, thực hành ngay tại lớp.',
-            'Tự tin giao tiếp trong công việc và cuộc sống.'
-        ]
-    },
-    {
-        title: 'Khóa học Giao tiếp nâng cao',
-        image: 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
-        features: [
-            'Nâng cao phản xạ và kỹ năng thuyết trình.',
-            'Tình huống mô phỏng thực tế.',
-            'Phù hợp với người đã có nền tảng cơ bản.'
-        ]
-    },
-    {
-        title: 'Khóa học Phát âm chuẩn',
-        image: 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
-        features: [
-            'Chỉnh sửa phát âm từng âm cơ bản.',
-            'Ứng dụng IPA để luyện phát âm.',
-            'Giảng viên chỉnh sửa trực tiếp từng học viên.'
-        ]
+const courses = ref<any>([]);
+
+const showCourse = async () => {
+    try {
+        const res = await getCourses();
+        courses.value = res.map((course: any) => ({
+            title: course.name,
+            image: course.image || 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
+            features: course.description.split('\n')
+        }));
+    } catch (err: any) {
+        console.log("Lỗi api khoa học" + err)
     }
-];
+};
+
+onMounted(() => {
+    showCourse();
+});
 </script>
+
 
 <template>
     <section id="page3" class="section-customer">

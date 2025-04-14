@@ -9,8 +9,11 @@
                 <p class="fs-5 mt-3">
                     {{ $t('home.page1.title2') }}
                 </p>
-                <router-link class="my-5 btn btn-warning text-dark fw-bold py-3 px-5 rounded-pill fs-5" to="/signin">
+                <!-- <router-link class="my-5 btn btn-warning text-dark fw-bold py-3 px-5 rounded-pill fs-5" to="/signin">
                     {{ $t('home.page1.register') }}
+                </router-link> -->
+                <router-link class="my-5 btn btn-warning text-dark fw-bold py-3 px-5 rounded-pill fs-5" to="/hocvien">
+                    Bắt đầu ngay!
                 </router-link>
             </div>
             <div class="w-100 w-md-50 p-4">

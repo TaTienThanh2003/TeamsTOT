@@ -11,7 +11,7 @@ defineProps<{
     <div class="col">
         <div class="text-center">
             <div class="d-flex justify-content-center">
-                <img :src="image" :alt="fullname" class="rounded-circle mb-3" width="150" height="150" />
+                <img :src="image" :alt="fullname" class="img-teacher rounded-circle mb-3" width="150" height="150" />
             </div>
             <h2 class="h5 fw-semibold font-blue">{{ fullname }}</h2>
             <p class="text-muted mb-1">{{ $t('home.page4.role') }}</p>
@@ -19,3 +19,13 @@ defineProps<{
         </div>
     </div>
 </template>
+
+<style scoped>
+.img-teacher {
+    transition: transform 0.3s ease;
+}
+
+.img-teacher:hover {
+    transform: scale(1.05);
+}
+</style>
