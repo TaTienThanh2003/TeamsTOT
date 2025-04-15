@@ -1,6 +1,7 @@
 ﻿using backTOT.Data;
 using backTOT.Entitys;
 using backTOT.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace backTOT.Services
 {
@@ -30,13 +31,16 @@ namespace backTOT.Services
             }
             return Save();
         }
-
-        public ICollection<Carts> GetCartByUser(int userId)
+        public ICollection<Courses> GetCartByUser(int userId)
         {
-            return _context.Carts.OrderBy(c => c.Users_id == userId).ToList();
+            var result = (from cart in _context.Carts
+                          join course in _context.Courses
+                              on cart.Course_id equals course.Id
+                          where cart.Users_id == userId
+                          select course).ToList();
+
+            return result; ;
         }
-
-
         public bool Save()
         {
             var saved = _context.SaveChanges();

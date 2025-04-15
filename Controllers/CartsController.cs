@@ -20,7 +20,7 @@ namespace backTOT.Controllers
         }
         // getCartByUser
         [HttpGet("{userId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Carts>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Courses>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         public IActionResult GetCartByUser(int userId)

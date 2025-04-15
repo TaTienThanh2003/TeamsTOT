@@ -29,7 +29,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Carts"
+                    "$ref": "#/components/schemas/Courses"
                   }
                 }
               },
@@ -37,7 +37,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Carts"
+                    "$ref": "#/components/schemas/Courses"
                   }
                 }
               },
@@ -45,7 +45,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Carts"
+                    "$ref": "#/components/schemas/Courses"
                   }
                 }
               }
