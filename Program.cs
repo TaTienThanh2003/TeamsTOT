@@ -12,6 +12,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<ICoursesService, CoursesService>();
 builder.Services.AddScoped<ILessonsService, LessonsService>();
+builder.Services.AddScoped<ICartsService, CartsService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

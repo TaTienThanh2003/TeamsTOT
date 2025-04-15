@@ -9,6 +9,10 @@ namespace backTOT.Halper
         public MappingProFiles() {
             CreateMap<Users, UserDto>();
             CreateMap<UserDto, Users>();
+            CreateMap<CartsDto, Carts>();
+            CreateMap<Carts, CartsDto>();
+            CreateMap<Courses, CoursesDto>();
+            CreateMap<CoursesDto, Courses>();
         }
     }
 }

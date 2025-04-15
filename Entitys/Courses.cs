@@ -16,7 +16,6 @@ namespace backTOT.Entitys
         public string Name { get; set; }
 
         public string? Description { get; set; }
-
         public int Teacher_id { get; set; }
         public int CountDay { get; set; }
 

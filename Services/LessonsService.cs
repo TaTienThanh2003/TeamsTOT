@@ -13,9 +13,9 @@ namespace backTOT.Services
             _context = context;
         }
 
-        public Lessons getLessonByCourses(int courseId)
+        public ICollection<Lessons> getLessonByCourses(int courseId)
         {
-            return _context.Lessons.FirstOrDefault(l => l.Courses_id == courseId);
+            return _context.Lessons.OrderBy(l => l.Courses_id == courseId).ToList();
         }
 
         public ICollection<Lessons> GetLessons()

@@ -6,7 +6,7 @@ namespace backTOT.Dto
     public class UserDto
     {
         [MaxLength(50)]
-        public string FullName { get; set; }
+        public string UserName { get; set; }
         [MaxLength(50)]
         public string Email { get; set; }
         [MaxLength(50)]

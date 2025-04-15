@@ -13,6 +13,7 @@ namespace backTOT.Controllers
     {
         private ILessonsService _lessonsServices;
         private IMapper _mapper;
+
         public LessonsController(ILessonsService lessonsServices, IMapper mapper)
         {
             _lessonsServices = lessonsServices;

@@ -12,7 +12,11 @@ namespace backTOT.Data
         }
         public DbSet<Users> Users { get; set; }
         public DbSet<Courses> Courses { get; set; }
+        public DbSet<Scores> Scores { get; set; }
+        public DbSet<Enrollments> Enrollments { get; set; }
+        public DbSet<Schedules> Schedules { get; set; }
         public DbSet<Lessons> Lessons { get; set; }
+        public DbSet<Carts> Carts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +39,8 @@ namespace backTOT.Data
             modelBuilder.Entity<Lessons>().HasKey(l => l.Id);
             modelBuilder.Entity<Scores>().HasKey(s => s.Id);
             modelBuilder.Entity<Schedules>().HasKey(sche => sche.Id);
+            modelBuilder.Entity<Carts>().HasKey(c => c.Id);
+
             // Quan hệ enrollments - users  
             modelBuilder.Entity<Enrollments>()
                 .HasOne(e => e.user)

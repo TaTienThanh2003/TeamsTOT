@@ -5,6 +5,6 @@ namespace backTOT.Interface
     public interface ILessonsService
     {
         ICollection<Lessons> GetLessons();
-        Lessons getLessonByCourses(int courseId);
+        ICollection<Lessons> getLessonByCourses(int courseId);
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backTOT.Data;
 
@@ -11,9 +12,11 @@ using backTOT.Data;
 namespace backTOT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250414112609_relationCart-User")]
+    partial class relationCartUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,10 +36,16 @@ namespace backTOT.Migrations
                     b.Property<int>("Course_id")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(10,2)");
+
                     b.Property<int>("Users_id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Users_id")
+                        .IsUnique();
 
                     b.ToTable("Carts");
                 });
@@ -245,6 +254,17 @@ namespace backTOT.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("backTOT.Entitys.Carts", b =>
+                {
+                    b.HasOne("backTOT.Entitys.Users", "user")
+                        .WithOne("cart")
+                        .HasForeignKey("backTOT.Entitys.Carts", "Users_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
             modelBuilder.Entity("backTOT.Entitys.Courses", b =>
                 {
                     b.HasOne("backTOT.Entitys.Users", "user")
@@ -347,6 +367,9 @@ namespace backTOT.Migrations
                     b.Navigation("Enrollments");
 
                     b.Navigation("Scores");
+
+                    b.Navigation("cart")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

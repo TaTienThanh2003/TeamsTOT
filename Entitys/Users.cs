@@ -28,7 +28,6 @@ namespace backTOT.Entitys
         public Role Role { get; set; } = Role.USER;
         
         public DateOnly created_ad { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-
         // relation
         public ICollection<Enrollments> Enrollments { get; set; } = new List<Enrollments>();
         public ICollection<Courses> Courses { get; set; } = new List<Courses>();
