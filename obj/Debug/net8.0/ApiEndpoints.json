@@ -133,13 +133,48 @@
     ]
   },
   {
-    "ContainingType": "backTOT.Controllers.CoursesControllers",
+    "ContainingType": "backTOT.Controllers.CoursesController",
     "Method": "GetAllCourses",
     "RelativePath": "api/courses",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[backTOT.Entitys.Courses, backTOT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "backTOT.Controllers.CoursesController",
+    "Method": "GetAllCoursesByName",
+    "RelativePath": "api/courses/name",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[backTOT.Entitys.Courses, backTOT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -177,7 +212,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[backTOT.Entitys.Users, backTOT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[backTOT.Entitys.Lessons, backTOT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -206,7 +241,7 @@
     ]
   },
   {
-    "ContainingType": "backTOT.Controllers.UserControlles",
+    "ContainingType": "backTOT.Controllers.UsersController",
     "Method": "GetAllUsers",
     "RelativePath": "api/users",
     "HttpMethod": "GET",
@@ -235,7 +270,7 @@
     ]
   },
   {
-    "ContainingType": "backTOT.Controllers.UserControlles",
+    "ContainingType": "backTOT.Controllers.UsersController",
     "Method": "GetUserById",
     "RelativePath": "api/users/{userId}",
     "HttpMethod": "GET",
@@ -279,7 +314,7 @@
     ]
   },
   {
-    "ContainingType": "backTOT.Controllers.UserControlles",
+    "ContainingType": "backTOT.Controllers.UsersController",
     "Method": "GetUserLogin",
     "RelativePath": "api/users/signin",
     "HttpMethod": "POST",
@@ -323,7 +358,7 @@
     ]
   },
   {
-    "ContainingType": "backTOT.Controllers.UserControlles",
+    "ContainingType": "backTOT.Controllers.UsersController",
     "Method": "GetUserSignUp",
     "RelativePath": "api/users/signup",
     "HttpMethod": "POST",

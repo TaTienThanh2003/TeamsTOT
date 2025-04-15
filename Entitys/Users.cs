@@ -32,5 +32,6 @@ namespace backTOT.Entitys
         public ICollection<Enrollments> Enrollments { get; set; } = new List<Enrollments>();
         public ICollection<Courses> Courses { get; set; } = new List<Courses>();
         public ICollection<Scores> Scores { get; set; } = new List<Scores>();
+        public ICollection<Carts> Carts { get; set; } = new List<Carts>();
     }
 }

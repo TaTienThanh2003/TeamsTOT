@@ -21,17 +21,17 @@ namespace backTOT.Controllers
         }
         // getLessonsByCourseID
         [HttpGet("{courseId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Users>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Lessons>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         public IActionResult getLessonByCourses(int courseId)
         {
-            var course = _lessonsServices.getLessonByCourses(courseId);
-            if (course == null)
+            var lessons = _lessonsServices.getLessonByCourses(courseId);
+            if (lessons == null)
             {
                 return NotFound(new { status = 404, message = "lessons not found" });
             }
-            return Ok(new { status = 200, message = "Success", data = course });
+            return Ok(new { status = 200, message = "Success", data = lessons });
         }
     }
 }

@@ -29,6 +29,7 @@ namespace backTOT.Entitys
         public ICollection<Lessons> Lessons { get; set; } = new List<Lessons>();
         public ICollection<Schedules> Schedules { get; set; } = new List<Schedules>();
         public ICollection<Scores> Scores { get; set; } = new List<Scores>();
+        public ICollection<Carts> Carts { get; set; } = new List<Carts>();
         public Users user { get; set; }
     }
 }

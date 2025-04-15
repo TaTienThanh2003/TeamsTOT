@@ -266,7 +266,74 @@
     "/api/courses": {
       "get": {
         "tags": [
-          "CoursesControllers"
+          "Courses"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Courses"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Courses"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Courses"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/courses/name": {
+      "get": {
+        "tags": [
+          "Courses"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -345,7 +412,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Users"
+                    "$ref": "#/components/schemas/Lessons"
                   }
                 }
               },
@@ -353,7 +420,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Users"
+                    "$ref": "#/components/schemas/Lessons"
                   }
                 }
               },
@@ -361,7 +428,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Users"
+                    "$ref": "#/components/schemas/Lessons"
                   }
                 }
               }
@@ -413,7 +480,7 @@
     "/api/users": {
       "get": {
         "tags": [
-          "UserControlles"
+          "Users"
         ],
         "responses": {
           "200": {
@@ -471,7 +538,7 @@
     "/api/users/{userId}": {
       "get": {
         "tags": [
-          "UserControlles"
+          "Users"
         ],
         "parameters": [
           {
@@ -560,7 +627,7 @@
     "/api/users/signup": {
       "post": {
         "tags": [
-          "UserControlles"
+          "Users"
         ],
         "requestBody": {
           "content": {
@@ -631,7 +698,7 @@
     "/api/users/signin": {
       "post": {
         "tags": [
-          "UserControlles"
+          "Users"
         ],
         "requestBody": {
           "content": {
@@ -733,6 +800,12 @@
           "course_id": {
             "type": "integer",
             "format": "int32"
+          },
+          "users": {
+            "$ref": "#/components/schemas/Users"
+          },
+          "course": {
+            "$ref": "#/components/schemas/Courses"
           }
         },
         "additionalProperties": false
@@ -811,6 +884,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Scores"
+            },
+            "nullable": true
+          },
+          "carts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Carts"
             },
             "nullable": true
           },
@@ -1097,6 +1177,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Scores"
+            },
+            "nullable": true
+          },
+          "carts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Carts"
             },
             "nullable": true
           }

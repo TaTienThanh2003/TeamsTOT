@@ -12,8 +12,8 @@ using backTOT.Data;
 namespace backTOT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250414095342_update")]
-    partial class update
+    [Migration("20250415073557_TenMigration")]
+    partial class TenMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,29 @@ namespace backTOT.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("backTOT.Entitys.Carts", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Course_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Users_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Course_id");
+
+                    b.HasIndex("Users_id");
+
+                    b.ToTable("Carts");
+                });
 
             modelBuilder.Entity("backTOT.Entitys.Courses", b =>
                 {
@@ -229,6 +252,25 @@ namespace backTOT.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("backTOT.Entitys.Carts", b =>
+                {
+                    b.HasOne("backTOT.Entitys.Courses", "course")
+                        .WithMany("Carts")
+                        .HasForeignKey("Course_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backTOT.Entitys.Users", "users")
+                        .WithMany("Carts")
+                        .HasForeignKey("Users_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("course");
+
+                    b.Navigation("users");
+                });
+
             modelBuilder.Entity("backTOT.Entitys.Courses", b =>
                 {
                     b.HasOne("backTOT.Entitys.Users", "user")
@@ -310,6 +352,8 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Courses", b =>
                 {
+                    b.Navigation("Carts");
+
                     b.Navigation("Enrollments");
 
                     b.Navigation("Lessons");
@@ -326,6 +370,8 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Users", b =>
                 {
+                    b.Navigation("Carts");
+
                     b.Navigation("Courses");
 
                     b.Navigation("Enrollments");

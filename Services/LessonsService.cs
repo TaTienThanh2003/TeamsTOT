@@ -15,7 +15,9 @@ namespace backTOT.Services
 
         public ICollection<Lessons> getLessonByCourses(int courseId)
         {
-            return _context.Lessons.OrderBy(l => l.Courses_id == courseId).ToList();
+                        return _context.Lessons
+                           .Where(l => l.Courses_id == courseId) 
+                           .ToList(); 
         }
 
         public ICollection<Lessons> GetLessons()

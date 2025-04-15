@@ -59,10 +59,6 @@ namespace backTOT.Controllers
             {
                 return BadRequest(new { status = 400, message = "Invalid cart data" });
             }
-            if (_cartsService.isCheckCoursesCart(cartDto.Course_id))
-            {
-                return Conflict(new { status = 409, message = "Course already exists" });
-            }
             var cartAdd = _mapper.Map<Carts>(cartDto);
             var result = _cartsService.AddCourseOnCart(cartAdd);
             if (result == null)

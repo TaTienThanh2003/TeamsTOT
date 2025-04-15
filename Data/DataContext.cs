@@ -33,14 +33,25 @@ namespace backTOT.Data
             {
                 entity.HasKey(c => c.Id);
                 entity.Property(c => c.Mode)
-                      .HasConversion(new EnumToStringConverter<Mode>());
+             .HasConversion(new EnumToStringConverter<Mode>()); 
             });
             modelBuilder.Entity<Enrollments>().HasKey(e => e.Id);
             modelBuilder.Entity<Lessons>().HasKey(l => l.Id);
             modelBuilder.Entity<Scores>().HasKey(s => s.Id);
             modelBuilder.Entity<Schedules>().HasKey(sche => sche.Id);
             modelBuilder.Entity<Carts>().HasKey(c => c.Id);
-
+            // Quan hệ Carts - course  
+            modelBuilder.Entity<Carts>()
+               .HasOne(ca => ca.course)  
+               .WithMany(c => c.Carts)  
+               .HasForeignKey(c => c.Course_id)  
+               .OnDelete(DeleteBehavior.Cascade);  
+            // Quan hệ Carts - user  
+            modelBuilder.Entity<Carts>()
+               .HasOne(ca => ca.users) 
+               .WithMany(u => u.Carts)  
+               .HasForeignKey(c => c.Users_id)  
+               .OnDelete(DeleteBehavior.Cascade); 
             // Quan hệ enrollments - users  
             modelBuilder.Entity<Enrollments>()
                 .HasOne(e => e.user)

@@ -39,17 +39,14 @@ namespace backTOT.Services
                           where cart.Users_id == userId
                           select course).ToList();
 
-            return result; ;
+            return result;
         }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
 
-        public decimal TinhTongTienCart(int cartId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

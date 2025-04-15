@@ -15,5 +15,15 @@ namespace backTOT.Services
         {
             return _context.Courses.OrderBy(c => c.Id).ToList();
         }
+
+        public ICollection<Courses> GetCoursesByName(string name)
+        {
+            string keyword = TextUtils.RemoveDiacritics(name).ToLower();
+
+            return _context.Courses
+                .AsEnumerable() 
+                .Where(c => TextUtils.RemoveDiacritics(c.Name).ToLower().Contains(keyword))
+                .ToList();
+        }
     }
 }

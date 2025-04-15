@@ -30,9 +30,6 @@ namespace backTOT.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Course_id")
                         .HasColumnType("int");
 
@@ -41,7 +38,9 @@ namespace backTOT.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId");
+                    b.HasIndex("Course_id");
+
+                    b.HasIndex("Users_id");
 
                     b.ToTable("Carts");
                 });
@@ -252,13 +251,21 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Carts", b =>
                 {
-                    b.HasOne("backTOT.Entitys.Courses", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
+                    b.HasOne("backTOT.Entitys.Courses", "course")
+                        .WithMany("Carts")
+                        .HasForeignKey("Course_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Course");
+                    b.HasOne("backTOT.Entitys.Users", "users")
+                        .WithMany("Carts")
+                        .HasForeignKey("Users_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("course");
+
+                    b.Navigation("users");
                 });
 
             modelBuilder.Entity("backTOT.Entitys.Courses", b =>
@@ -342,6 +349,8 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Courses", b =>
                 {
+                    b.Navigation("Carts");
+
                     b.Navigation("Enrollments");
 
                     b.Navigation("Lessons");
@@ -358,6 +367,8 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Users", b =>
                 {
+                    b.Navigation("Carts");
+
                     b.Navigation("Courses");
 
                     b.Navigation("Enrollments");
