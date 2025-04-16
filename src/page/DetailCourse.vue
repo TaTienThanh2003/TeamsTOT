@@ -1,10 +1,43 @@
 <script setup lang="ts">
 import Header from '@/components/Home/Header.vue';
 import PayModel from '@/components/Model/payModel.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { getCourses, getLessons, addCarts} from '@/services';
+import DetailItem from '@/components/Home/Detail-Course/DetailItem.vue';
+import Courses from '@/components/HocVien/Sesson/MyCourses/Courses.vue';
 
+const router = useRoute();
 const showModal = ref(false);
 const isLogin = ref(false);
+const lessons = ref<any>([]);
+const id = parseInt(router.params.id as string) ;
+
+const showLessons = async () => {
+    try {
+        const res = await getLessons(id);
+        const resdata = res.data;   
+        console.log(resdata);
+        lessons.value = resdata.slice(0, 2).map((lesson: any) => ({
+            title: lesson.title,
+        }));
+    } catch (err: any) {
+        console.log("Lỗi api khóa học" + err)
+    }
+};
+
+const addtoCarts = async () => {
+    try {
+        const res = await addCarts(1, id);
+        console.log(res);
+    } catch (err: any) {
+        console.log("Lỗi thêm vào giỏ hàng" + err)
+    }
+}
+onMounted(() => {
+    showLessons();
+});
+
 </script>
 
 <template>
@@ -30,29 +63,11 @@ const isLogin = ref(false);
             <li>Luyện tập với đề thi thật và phân tích đáp án</li>
             <li>Cải thiện điểm TOEIC lên 150–300 điểm</li>
         </ul>
-        <button v-if="!isLogin" class="btn btn-cart mt-3">
+        <button v-if="!isLogin" class="btn btn-cart mt-3" @click="addtoCarts">
             <i class="fa-solid fa-cart-plus me-2"></i>Thêm vào giỏ hàng
         </button>
         <h4 class="mt-5 mb-4 fs-4"> Nội dung khóa học (Xem trước)</h4>
-        <div class="card mb-3 p-3">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <p>Bài 1: TOEIC là gì? Tổng quan đề thi</p>
-                    <small>🎥 Video - 6:00</small>
-                </div>
-                <a href="#" class="btn btn-outline-warning align-self-center">Xem miễn phí</a>
-            </div>
-        </div>
-        <div class="card mb-3 p-3">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <p>Bài 2: Chiến lược làm Part 1 - Hình ảnh</p>
-                    <small>🎥 Video - 8:20</small>
-                </div>
-                <a href="#" class="btn btn-outline-warning align-self-center">Xem miễn phí</a>
-            </div>
-        </div>
-
+        <DetailItem v-for="lesson in lessons" :key="id" :title="lesson.title" />
         <div class="card mb-3 p-3 blurred-card">
             <p>Bài 3: Kỹ thuật nghe Part 2 - Hỏi đáp ngắn</p>
         </div>

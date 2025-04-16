@@ -12,13 +12,15 @@ const courses = ref<any>([]);
 const showCourse = async () => {
     try {
         const res = await getCourses();
-        courses.value = res.map((course: any) => ({
+        const resdata = res.data;   
+        courses.value = resdata.map((course: any) => ({
+            id: course.id,
             title: course.name,
             image: course.image || 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
             features: course.description.split('\n')
         }));
     } catch (err: any) {
-        console.log("Lỗi api khoa học" + err)
+        console.log("Lỗi api khóa học" + err)
     }
 };
 
@@ -37,7 +39,7 @@ onMounted(() => {
         <div class="relative swiper-custmer">
             <Swiper :slides-per-view="3" :modules="modules" navigation class="!pb-8">
                 <SwiperSlide v-for="(course, index) in courses" :key="index">
-                    <CourseItem :title="course.title" :image="course.image" :features="course.features" />
+                    <CourseItem :id="course.id" :title="course.title" :image="course.image" :features="course.features" />
                 </SwiperSlide>
             </Swiper>
         </div>

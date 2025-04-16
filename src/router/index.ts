@@ -20,7 +20,7 @@ const routes = [
         component: Hocvien
     },
     {
-        path: '/detail-course',
+        path: '/detail-course/:id',
         name: 'DetailCourse',
         component: DetailCourse
     },
@@ -37,6 +37,11 @@ const routes = [
     {
         path: '/search',
         name: 'Search',
+        component: Search
+    },
+    {
+        path: '/search/:courseName',
+        name: 'SearchCourse',
         component: Search
     },
     {

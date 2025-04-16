@@ -17,15 +17,18 @@ const query = ref('')
 const router = useRouter()
 
 
-const goToCourse = (id: string | number) => {
-  router.push(`/course/${id}`)
-}
+// const goToCourse = (id: string | number) => {
+//   router.push(`/course/${id}`)
+// }
 
 const goToSearchPage = () => {
-  router.push({ path: '/search', query: { q: query.value } })
+  const courseName = query.value.trim()
+  if (courseName) {
+    router.push(`/search/${courseName}`)
+  } else {
+    router.push('/search')
+  }
 }
-
-
 </script>
 
 <style scoped>

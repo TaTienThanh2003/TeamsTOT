@@ -2,6 +2,7 @@
 import { defineProps } from 'vue'
 
 defineProps<{
+  id: number
   title: string
   image: string
   features: string[]
@@ -19,7 +20,7 @@ defineProps<{
       <li v-for="(feature, index) in features" :key="index">{{ feature }}</li>
     </ul>
     <div class="text-center">
-      <router-link class="text-warning fw-bold text-decoration-none" to="/detail-course">
+      <router-link class="text-warning fw-bold text-decoration-none" :to="`/detail-course/${id}`">
         {{ $t('home.page3.button') }}
       </router-link>
     </div>

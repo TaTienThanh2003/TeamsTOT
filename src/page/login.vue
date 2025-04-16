@@ -1,21 +1,38 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { UserLogin } from '@/services'
+import { login } from "@/services/index";
+import { useRouter } from 'vue-router';
+import { onMounted } from 'vue';
 
-const email = ref('')
-const password = ref('')
-const router = useRouter()
-const errorMsg = ref('')
+const email = ref("");
+const password = ref("");
+const errorMsg = ref("");
+const router = useRouter();
 
+onMounted(() => {
+  const toggleIcon = document.getElementById("togglepasslogin");
+  const passwordInput = document.getElementById("passwordlogin") as HTMLInputElement | null;
+
+  if (toggleIcon && passwordInput) {
+    toggleIcon.addEventListener("click", () => {
+      const isPassword = passwordInput.type === "password";
+      passwordInput.type = isPassword ? "text" : "password";
+
+      toggleIcon.classList.toggle("fa-eye-slash");
+      toggleIcon.classList.toggle("fa-eye");
+    });
+  }
+});
 const handleLogin = async () => {
-    try {
-        UserLogin(email.value, password.value);
-        router.push('/')
-    } catch (err: any) {
-        errorMsg.value = err.response?.data || 'Đăng nhập thất bại'
+    const response = await login(email.value, password.value);
+    if (response.success) {
+        localStorage.setItem("userId", response.id);
+        alert("Đăng nhập thành công");
+        router.push("/");
+    } else {    
+        errorMsg.value = response.error;
     }
-}
+};
 </script>
 
 <template>
@@ -28,6 +45,7 @@ const handleLogin = async () => {
             <p class="text-center fs-2 mb-3">Login</p>
 
             <form @submit.prevent="handleLogin">
+                <p class="text-danger text-center" v-if="errorMsg">{{ errorMsg }}</p>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input v-model="email" type="email" id="email" class="form-control w-full"
@@ -36,15 +54,16 @@ const handleLogin = async () => {
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input v-model="password" type="password" id="password" class="form-control w-full"
-                        placeholder="••••••••" required />
+                    <div class="input-group">
+                        <input v-model="password" type="password" id="passwordlogin" class="form-control"
+                            placeholder="••••••••" required />
+                        <span class="input-group-text">
+                            <i class="fa-solid fa-eye" id="togglepasslogin" style="cursor: pointer;"></i>
+                        </span>
+                    </div>
                 </div>
-
-                <p class="text-danger text-center" v-if="errorMsg">{{ errorMsg }}</p>
-
                 <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
             </form>
-
             <p class="text-center text-muted mt-3">
                 No account?
                 <router-link to="/signin" class="text-primary">Sign up</router-link>

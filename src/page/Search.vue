@@ -1,36 +1,54 @@
 <script setup lang="ts">
 import Header from '@/components/Home/Header.vue';
 import CourseItem from '@/components/Home/Sesson/Courses/CourseItem.vue';
+import { getCourses, getCourseByName } from '@/services';
+import { onMounted, ref } from 'vue';
 
-const courses = [
-    {
-        title: 'Khóa học Giao tiếp thực tế',
-        image: 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
-        features: [
-            'Dành cho người mất gốc hoặc muốn cải thiện phản xạ nói.',
-            'Phương pháp phản xạ tự nhiên, thực hành ngay tại lớp.',
-            'Tự tin giao tiếp trong công việc và cuộc sống.'
-        ]
-    },
-    {
-        title: 'Khóa học Giao tiếp thực tế',
-        image: 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
-        features: [
-            'Dành cho người mất gốc hoặc muốn cải thiện phản xạ nói.',
-            'Phương pháp phản xạ tự nhiên, thực hành ngay tại lớp.',
-            'Tự tin giao tiếp trong công việc và cuộc sống.'
-        ]
-    },
-    {
-        title: 'Khóa học Giao tiếp nâng cao',
-        image: 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
-        features: [
-            'Nâng cao phản xạ và kỹ năng thuyết trình.',
-            'Tình huống mô phỏng thực tế.',
-            'Phù hợp với người đã có nền tảng cơ bản.'
-        ]
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const courses = ref<any>([]);
+const courseName = ref(route.params.courseName || '');
+const showCourse = async () => {
+    try {
+        const res = await getCourses();
+        const resdata = res.data;
+        courses.value = resdata.map((course: any) => ({
+            id: course.id,
+            title: course.name,
+            image: course.image || 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
+            features: course.description.split('\n')
+        }));
+    } catch (err: any) {
+        console.log("Lỗi api khóa học" + err)
     }
-];
+};
+const showCourseByName = async (name: string) => {
+    try {
+        const res = await getCourseByName(name);
+        const resdata = res.data;
+        courses.value = resdata.map((course: any) => ({
+            id: course.id,
+            title: course.name,
+            image: course.image || 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
+            features: course.description.split('\n')
+        }));
+    } catch (err: any) {
+        console.log("Lỗi api khóa học" + err)
+    }
+};
+const handleEnter = () => {
+    const name = typeof courseName.value === 'string' ? courseName.value.trim() : '';
+    console.log(name);
+    if (name) {
+        showCourseByName(name);
+    } else {
+        showCourse();
+    }
+};
+onMounted(() => {
+    handleEnter();
+});
 </script>
 
 <template>
@@ -38,7 +56,8 @@ const courses = [
     <div class="back-blue search-font">
         <h1 class="mt-5 fs-2 text-white text-center">HÃY LỰA CHỌN CHÚNG TÔI</h1>
         <div class="position-relative my-4">
-            <input class="form-control form-control-lg p-3 pe-5 rounded-pill" :placeholder="$t('home.search')"
+            <input v-model="courseName" @keydown.enter="handleEnter"
+                class="form-control form-control-lg p-3 pe-5 rounded-pill" :placeholder="$t('home.search')"
                 type="text" />
             <i class="fas fa-search search-icon"></i>
         </div>
@@ -46,13 +65,13 @@ const courses = [
     <h1 class="fs-3 text-title">Danh sách khóa học</h1>
     <div class="courses-list">
         <div class="course-item-wrapper" v-for="(course, index) in courses" :key="index">
-            <CourseItem :title="course.title" :image="course.image" :features="course.features" />
+            <CourseItem :id="course.id" :title="course.title" :image="course.image" :features="course.features" />
         </div>
     </div>
     <h1 class="fs-3 text-title">Danh sách giảng vien</h1>
     <div class="courses-list">
         <div class="course-item-wrapper" v-for="(course, index) in courses" :key="index">
-            <CourseItem :title="course.title" :image="course.image" :features="course.features" />
+            <CourseItem :id="course.id" :title="course.title" :image="course.image" :features="course.features" />
         </div>
     </div>
 </template>

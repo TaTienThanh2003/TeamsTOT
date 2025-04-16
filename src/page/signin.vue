@@ -1,12 +1,46 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
+import { register } from "@/services/index";
+import { useRouter } from 'vue-router';
 
-const [name, email, password, confirmpass] = [ref(''), ref(''), ref(''), ref('')];
-const checkterm = ref(false);
+const username = ref("");
+const email = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+const errorMsg = ref("");
+const router = useRouter();
 
-const handleSignin = () => {
+import { onMounted } from "vue";
 
-}
+onMounted(() => {
+  const toggleIcons = document.querySelectorAll<HTMLElement>(".togglePassword");
+
+  toggleIcons.forEach((icon) => {
+    const targetId = icon.getAttribute("data-target");
+    const input = document.getElementById(targetId!) as HTMLInputElement | null;
+
+    if (icon && input) {
+      icon.addEventListener("click", () => {
+        input.type = input.type === "password" ? "text" : "password";
+        icon.classList.toggle("fa-eye");
+        icon.classList.toggle("fa-eye-slash");
+      });
+    }
+  });
+});
+const handleRegister = async () => {
+    if (password.value !== confirmPassword.value) {
+        errorMsg.value = "Mật khẩu không khớp";
+        return;
+    }
+    const response = await register(username.value,email.value, password.value);
+    if (response.success) {
+        alert("Đăng ký thành công");
+        router.push("/login");
+    } else {
+        errorMsg.value = response.error;
+    }
+};
 </script>
 
 <template>
@@ -19,11 +53,12 @@ const handleSignin = () => {
             <p class="text-center fs-2 mb-2">Create an Account</p>
             <!-- <p class="text-muted text-center">Create an account to continue</p> -->
 
-            <form @submit.prevent="handleSignin" class="mt-4">
+            <form class="mt-4" @submit.prevent="handleRegister">
+                <p class="text-danger text-center" v-if="errorMsg">{{ errorMsg }}</p>
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input v-model="name" type="text" class="form-control w-full" id="username" placeholder="Username"
-                        required />
+                    <input v-model="username" type="text" class="form-control w-full" id="username"
+                        placeholder="Username" required />
                 </div>
 
                 <div class="mb-3">
@@ -36,20 +71,30 @@ const handleSignin = () => {
                     <label for="password" class="form-label d-flex justify-content-between">
                         <span>Password</span>
                     </label>
-                    <input v-model="password" type="password" class="form-control w-full" id="password"
-                        placeholder="********" required />
+                    <div class="input-group">
+                        <input v-model="password" type="password" id="password" class="form-control password-input"
+                            placeholder="••••••••" required />
+                        <span class="input-group-text">
+                            <i class="fa-solid fa-eye togglePassword" data-target="password" style="cursor: pointer;"></i>
+                        </span>
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label d-flex justify-content-between">
                         <span>Confirm Password</span>
                     </label>
-                    <input v-model="confirmpass" type="password" class="form-control w-full" id="password"
-                        placeholder="********" required />
+                    <div class="input-group">
+                        <input v-model="confirmPassword" type="password" id="confirmpassword" class="form-control password-input"
+                            placeholder="••••••••" required />
+                        <span class="input-group-text">
+                            <i class="fa-solid fa-eye togglePassword" data-target="confirmpassword" style="cursor: pointer;"></i>
+                        </span>
+                    </div>
                 </div>
 
                 <div class="form-check mb-3">
-                    <input v-model="checkterm" class="form-check-input" type="checkbox" id="terms" required />
+                    <input class="form-check-input" type="checkbox" id="terms" required />
                     <label class="form-check-label" for="terms">
                         I accept terms and conditions
                     </label>

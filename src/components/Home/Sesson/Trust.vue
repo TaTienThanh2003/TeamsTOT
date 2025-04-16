@@ -1,63 +1,58 @@
+<script setup lang="ts"></script>
+
 <template>
-    <div class="trust-customer">
+    <div class="trust-customer mb-5">
         <div class="title back-blue">
-            <div class="title-text">Lịch sử phát triển của chúng tôi</div>
+            <div class="title-text">{{$t('home.page7.title')}}</div>
         </div>
         <div class="container">
             <div class="row justify-content-between text-center">
                 <!-- 2015 -->
                 <div class="col-12 col-md-2 position-relative timeline-block top">
                     <div class="content">
-                        <h6 class="fs-5 fw-bold">Thành lập</h6>
-                        <p class=" text-muted">Trung tâm chính thức thành lập, bắt đầu hành trình đào tạo Anh ngữ
-                            chất
-                            lượng.</p>
-                        <div class="year bg-success text-white">2015</div>
+                        <h6 class="fs-5 fw-bold">{{$t('home.page7.milestones[0].title')}}</h6>
+                        <p class=" text-muted">{{$t('home.page7.milestones[0].description')}}</p>
+                        <div class="year bg-success text-white">2019</div>
                         <div class="icon text-success mt-2"><i class="fas fa-rocket fa-2x"></i></div>
                     </div>
                 </div>
 
                 <!-- 2016 -->
                 <div class="col-12 col-md-2 position-relative timeline-block bottom">
-                    <div class="year bg-warning text-dark">2016</div>
+                    <div class="year bg-warning text-dark">2020</div>
                     <div class="content">
                         <div class="icon text-warning"><i class="fas fa-certificate fa-2x"></i></div>
-                        <h6 class="fs-5 fw-bold mt-2">Được cấp phép</h6>
-                        <p class=" text-muted">Nhận giấy phép hoạt động từ Sở GD&ĐT, triển khai chương trình đầu
-                            tiên.
-                        </p>
+                        <h6 class="fs-5 fw-bold mt-2">{{$t('home.page7.milestones[1].title')}}</h6>
+                        <p class=" text-muted">{{$t('home.page7.milestones[1].description')}}</p>
                     </div>
                 </div>
 
                 <!-- 2017 -->
                 <div class="col-12 col-md-2 position-relative timeline-block top">
-                    <div class="year bg-danger text-white">2017</div>
+                    <div class="year bg-danger text-white">2021</div>
                     <div class="content">
-                        <h6 class="fs-5 fw-bold">Đối tác IIG</h6>
-                        <p class=" text-muted">Hợp tác cùng IIG Việt Nam, trở thành đơn vị giảng dạy TOEIC uy tín.
-                        </p>
+                        <h6 class="fs-5 fw-bold">{{$t('home.page7.milestones[2].title')}}</h6>
+                        <p class=" text-muted">{{$t('home.page7.milestones[2].description')}}</p>
                         <div class="icon text-danger mt-2"><i class="fas fa-handshake fa-2x"></i></div>
                     </div>
                 </div>
 
                 <!-- 2018 -->
                 <div class="col-12 col-md-2 position-relative timeline-block bottom">
-                    <div class="year bg-primary text-white">2018</div>
+                    <div class="year bg-primary text-white">2024</div>
                     <div class="content">
                         <div class="icon text-primary"><i class="fas fa-users fa-2x"></i></div>
-                        <h6 class="fs-5 fw-bold mt-2">5000+ học viên</h6>
-                        <p class=" text-muted">Hơn 5000 học viên tốt nghiệp, 96% đạt kết quả mong muốn trong 3
-                            tháng.
-                        </p>
+                        <h6 class="fs-5 fw-bold mt-2">{{$t('home.page7.milestones[3].title')}}</h6>
+                        <p class=" text-muted">{{$t('home.page7.milestones[3].description')}}</p>
                     </div>
                 </div>
 
                 <!-- 2019 -->
                 <div class="col-12 col-md-2 position-relative timeline-block top">
-                    <div class="year bg-dark text-white">2019</div>
+                    <div class="year bg-dark text-white">2025</div>
                     <div class="content">
-                        <h6 class="fs-5 fw-bold">Chứng nhận Cambridge</h6>
-                        <p class=" text-muted">Được Cambridge English chứng nhận là đối tác đạt chuẩn quốc tế.</p>
+                        <h6 class="fs-5 fw-bold">{{$t('home.page7.milestones[4].title')}}</h6>
+                        <p class=" text-muted">{{$t('home.page7.milestones[4].description')}}</p>
                         <div class="icon text-dark mt-2"><i class="fas fa-award fa-2x"></i></div>
                     </div>
                 </div>
@@ -77,53 +72,50 @@
     border-radius: 12px;
     position: relative;
 }
-
 .title {
     position: absolute;
     bottom: -4%;
-    left: 45%;
-    width: 12%;
-    height: 24%;
-    padding: 1rem 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 160px;
+    padding: 1rem;
     border-radius: 50%;
-    font-size: 1.2rem;
-    color: #fff;
-    font-weight: 450;
-    margin-top: 4rem;
+box-shadow: 0 0 20px rgba(123, 97, 255, 0.4);
+border: 3px solid #fff;
+    background: linear-gradient(135deg, #7B61FF, #6246EA);
+    font-size: 1.1rem;
+    color: #ffffff;
+    font-weight: 600;
     z-index: 6;
 
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    animation: rotate 5s linear infinite;
+    
+
+    transition: transform 0.3s ease;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.title:hover {
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 0 12px 24px rgba(98, 70, 234, 0.4);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.05);
+    }
 }
 
 .title-text {
     font-weight: bold;
     padding: 10px;
-    transform: rotate(-360deg);
-    animation: counter-rotate 5s linear infinite;
-}
-
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes counter-rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(-360deg);
-    }
 }
 
 .container {
@@ -148,16 +140,12 @@
 }
 
 @keyframes expandAndShrink {
-    0% {
+    0%, 100% {
         padding-right: 2rem;
     }
 
     50% {
         padding-right: 8rem;
-    }
-
-    100% {
-        padding-right: 2rem;
     }
 }
 

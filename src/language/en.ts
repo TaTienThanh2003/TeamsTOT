@@ -185,5 +185,30 @@ export default {
             email: "Email",
             feedback: "Your Feedback",
         },
+        page7: {
+            title: "Our Development History",
+            milestones: [
+                {
+                    title: "Establishment",
+                    description: "The center was officially established, starting the journey of quality English training.",
+                },
+                {
+                    title: "Licensed",
+                    description: "Received operation license from Department of Education, launched first program.",
+                },
+                {
+                    title: "IIG Partner",
+                    description: "Cooperated with IIG Vietnam, became a prestigious TOEIC training provider.",
+                },
+                {
+                    title: "5000+ students",
+                    description: "Over 5000 students graduated, 96% achieved desired results within 3 months.",
+                },
+                {
+                    title: "Cambridge Certified",
+                    description: "Certified by Cambridge English as an internationally qualified partner.",
+                },
+            ]
+        }
     },
 }

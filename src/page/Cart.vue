@@ -1,33 +1,51 @@
 <script setup lang="ts">
 import Header from '@/components/Home/Header.vue';
-import { ref, computed } from 'vue';
+import { getCourseById, deletecarts, getCourserbyUserId } from '@/services';
+import { ref, computed, onMounted } from 'vue';
 
 const selectedTab = ref('card');
 const showModal = ref(false);
-
+const Carts = ref<any>([]);
 // Dữ liệu khóa học không có số lượng
-const cartItems = ref([
-    {
-        name: 'Khóa học TOEIC Cơ bản',
-        price: 990000,
-        image: 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
-        description: 'Dành cho người mới bắt đầu làm quen với TOEIC'
-    },
-    {
-        name: 'Khóa học TOEIC Nâng cao',
-        price: 1290000,
-        image: 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
-        description: 'Tập trung luyện đề và chiến lược làm bài'
+const showCarts = async () => {
+    try {
+        const res = await getCourserbyUserId(1);
+        const resdata = res.data;
+        console.log(resdata);
+
+        Carts.value = resdata.map((Cart: any) => ({
+            id: Cart.id,
+            name: Cart.name,
+            description: Cart.description,
+            image: Cart.image || 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
+            price: Cart.price,
+        }));
+    } catch (err: any) {
+        console.log("Lỗi api khóa học" + err)
     }
-]);
+}
+let count = computed(() => {
+    return Carts.value.length;
+});
+const remove = async (CourseId: number) => {
+    try {
+        const res = await deletecarts(CourseId, 1);
+        console.log(res);
+        showCarts()
+    } catch (err: any) {
+        console.log("Lỗi xóa khóa học" + err)
+    }
+}
+const subtotal = computed(() => {
+    return Carts.value.reduce((sum: number, item: any) => {
+        const numberPrice = Number(item.price.toString().replace(/[^\d]/g, ''));
+        return sum + numberPrice;
+    }, 0);
+});
 
-const subtotal = computed(() =>
-    cartItems.value.reduce((sum, item) => sum + item.price, 0)
-);
-
-const remove = (index: number) => {
-    cartItems.value.splice(index, 1);
-};
+onMounted(() => {
+    showCarts();
+});
 </script>
 
 <template>
@@ -37,7 +55,7 @@ const remove = (index: number) => {
 
         <div class="row mt-4">
             <div class="col-md-8">
-                <div v-for="(item, index) in cartItems" :key="index"
+                <div v-for="(item, index) in Carts" :key="index"
                     class="d-flex align-items-center mb-4 border-bottom pb-3">
                     <img :src="item.image" class="me-4"
                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;" />
@@ -46,19 +64,19 @@ const remove = (index: number) => {
                         <small class="text-muted">{{ item.description }}</small>
                     </div>
                     <div class="me-3 fw-bold">{{ item.price.toLocaleString('vi-VN') }}đ</div>
-                    <button class="btn btn-outline-danger btn-sm" @click="remove(index)">×</button>
+                    <button class="btn btn-outline-danger btn-sm" @click="remove(item.id)">×</button>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="payment p-4 rounded shadow-sm">
                     <h5 class="mb-3 fw-semibold fs-5">Tóm tắt đơn hàng</h5>
                     <p class="d-flex justify-content-between mb-2">
-                        <span>Tạm tính</span>
-                        <span>{{ subtotal.toLocaleString('vi-VN') }}đ</span>
+                        <span>Số khóa học</span>
+                        <span>{{ count }}</span>
                     </p>
                     <p class="d-flex justify-content-between mb-2">
-                        <span>Mã ưu đãi</span>
-                        <span>10%</span>
+                        <span>Tạm tính</span>
+                        <span>{{ subtotal.toLocaleString('vi-VN') }}đ</span>
                     </p>
                     <p class="d-flex justify-content-between fw-bold border-top pt-2">
                         <span>Tổng cộng</span>

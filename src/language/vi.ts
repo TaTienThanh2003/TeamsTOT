@@ -186,11 +186,30 @@ export default {
             phone: "Số điện thoại",
             feedback: "Nhận xét của bạn",
         },
-    },
-    calender: {
-        day: 'Ngày',
-        week: 'Tuần',
-        month: 'Tháng',
-        close: 'Đóng',
+        page7: {
+            title: "Lịch sử phát triển của chúng tôi",
+            milestones: [
+                {
+                    title: "Thành lập",
+                    description: "Trung tâm chính thức thành lập, bắt đầu hành trình đào tạo Anh ngữ chất lượng.",
+                },
+                {
+                    title: "Được cấp phép",
+                    description: "Nhận giấy phép hoạt động từ Sở GD&ĐT, triển khai chương trình đầu tiên.",
+                },
+                {
+                    title: "Đối tác IIG",
+                    description: "Hợp tác cùng IIG Việt Nam, trở thành đơn vị giảng dạy TOEIC uy tín.",
+                },
+                {
+                    title: "5000+ học viên",
+                    description: "Hơn 5000 học viên tốt nghiệp, 96% đạt kết quả mong muốn trong 3 tháng.",
+                },
+                {
+                    title: "Chứng nhận Cambridge",
+                    description: "Được Cambridge English chứng nhận là đối tác đạt chuẩn quốc tế.",
+                },
+            ]
+        }
     },
 }

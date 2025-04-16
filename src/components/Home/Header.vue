@@ -1,24 +1,34 @@
 <script lang="ts">
-
 export default {
   props: {
     isShow: {
       type: Boolean,
-      default: false
+      default: false,
     },
     hasRegistered: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
+  },
+  data() {
+    return {
+      userId: Number(localStorage.getItem('userId')) || null,
+    };
   },
   methods: {
     changeLanguage(lang: string) {
-      this.$i18n.locale = lang
-    }
-  }
-}
-
+      this.$i18n.locale = lang;
+    },
+    logout() {
+      // Xóa userId trong localStorage khi đăng xuất
+      localStorage.removeItem('userId');
+      this.userId = null; // Cập nhật lại userId sau khi logout
+      this.$router.push('/login'); // Điều hướng về trang đăng nhập
+    },
+  },
+};
 </script>
+
 <template>
   <header class="navbar navbar-expand-lg fixed-top px-5" style="background-color: #6C63FF;">
     <div class="container-fluid">
@@ -47,6 +57,7 @@ export default {
           </li>
         </ul>
       </div>
+      
       <div class="ms-auto  d-flex align-items-center gap-3">
         <div class="lang-switch">
           <input type="radio" id="lang-vi" name="lang" value="vi" checked @change="changeLanguage('vi')" />
@@ -56,47 +67,49 @@ export default {
           <label for="lang-en">EN</label>
         </div>
 
-        <!-- Nút đăng nhập -->
-        <!-- <router-link to="/login" class="text-white" title="Đăng nhập">
-        <i class="fas fa-sign-in-alt fa-lg"></i>
-      </router-link> -->
-        <router-link to="/cart" class="icon-circles">
-          <i class="fas fa-shopping-cart text-white fs-5"></i>
-        </router-link>
-        <div class="dropdown">
-          <button class="btn icon-circles dropdown-toggle" type="button" id="dropdownUser" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <i class="fa-solid fa-user text-white fs-5"></i>
-          </button>
+        <!-- Kiểm tra userId để hiển thị icon giỏ hàng và dropdown thông tin người dùng -->
+        <template v-if="userId">
+          <router-link to="/cart" class="icon-circles">
+            <i class="fas fa-shopping-cart text-white fs-5"></i>
+          </router-link>
+          <div class="dropdown">
+            <button class="btn icon-circles dropdown-toggle" type="button" id="dropdownUser" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="fa-solid fa-user text-white fs-5"></i>
+            </button>
 
-          <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="dropdownUser">
-            <li v-if="hasRegistered">
-              <router-link class="dropdown-item" to="/hocvien">
-                Tài khoản học viên
-              </router-link>
-              <router-link class="dropdown-item" to="/history">
-                Lịch sử thanh toán
-              </router-link>
-              <router-link class="dropdown-item" to="/hocvien">
-                Hồ sơ của tôi
-              </router-link>
-              <hr class="dropdown-divider" />
+            <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="dropdownUser">
+              <li v-if="hasRegistered">
+                <router-link class="dropdown-item" to="/hocvien">
+                  Tài khoản học viên
+                </router-link>
+                <router-link class="dropdown-item" to="/history">
+                  Lịch sử thanh toán
+                </router-link>
+                <router-link class="dropdown-item" to="/hocvien">
+                  Hồ sơ của tôi
+                </router-link>
+                <hr class="dropdown-divider" />
 
-              <a class="dropdown-item text-danger" href="/logout">
-                <i class="fa-solid fa-right-from-bracket me-2"></i> Đăng xuất
-              </a>
-            </li>
-            <li v-else>
-              <span class="dropdown-item text-muted">Chưa đăng ký khóa học</span>
-            </li>
-          </ul>
-        </div>
+                <a class="dropdown-item text-danger" href="#" @click.prevent="logout">
+                  <i class="fa-solid fa-right-from-bracket me-2"></i> Đăng xuất
+                </a>
+              </li>
+            </ul>
+          </div>
+        </template>
 
+        <!-- Nếu không có userId, hiển thị icon đăng nhập -->
+        <template v-else>
+          <router-link to="/login" class="text-white" title="Đăng nhập">
+            <i class="fas fa-sign-in-alt fa-lg"></i>
+          </router-link>
+        </template>
       </div>
-
     </div>
   </header>
 </template>
+
 <style scoped>
 .navbar-brand,
 .container-fluid {
@@ -112,7 +125,6 @@ export default {
 .nav-link:hover {
   color: #ffee00 !important;
 }
-
 
 .lang-switch {
   display: inline-flex;
