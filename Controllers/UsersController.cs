@@ -30,6 +30,19 @@ namespace backTOT.Controllers
             }
             return Ok(new { status = 200, message = "Success", data = user });
         }
+        // getAllTeacher
+        [HttpGet("getTeacher")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Users>))]
+        [ProducesResponseType(404)]
+        public IActionResult GetAllTeacher()
+        {
+            var teacher = _userServices.GetTeacher();
+            if (teacher == null)
+            {
+                return NotFound(new { status = 404, message = "No teacher found" });
+            }
+            return Ok(new { status = 200, message = "Success", data = teacher });
+        }
         // getId
         [HttpGet("{userId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Users>))]
@@ -59,7 +72,6 @@ namespace backTOT.Controllers
                 return Conflict(new { status = 409, message = "Email already exists" });
             }
             var userAdd = _mapper.Map<Users>(userDto);
-            userAdd.Role = Role.USER;
             var result = _userServices.UsersSignIn(userAdd);
             if (result == null)
             {
@@ -77,13 +89,18 @@ namespace backTOT.Controllers
             {
                 return NotFound(new { status = 404, message = "Email not found" });
             }
-
             if (!_userServices.isCheckPassword(request.Password))
             {
                 return BadRequest(new { status = 400, message = "Invalid password" });
             }
-            _userServices.UsersLogin(request.Email, request.Password);
-            return Ok(new { status = 200, message = "Login successful" });
+            var ischeck = _userServices.UsersLogin(request.Email, request.Password);
+            if (ischeck)
+            {
+                 var user =  _userServices.findUserByEmail(request.Email);
+                var userConvert = _mapper.Map<UserLoginDto>(user);
+                return Ok(new { status = 200, message = "Login successful", data = userConvert });
+            }
+            return BadRequest("login false");
         }
     }
 }

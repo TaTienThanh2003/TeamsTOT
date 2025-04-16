@@ -39,14 +39,24 @@ namespace backTOT.Services
 
         public bool UsersLogin(string email, string password)
         {
-             _context.Users.FirstOrDefault(p => p.Email == email && p.Password == password);
-            return Save();
+            var user =  _context.Users.FirstOrDefault(p => p.Email == email && p.Password == password);
+            return user!=null;
         }
 
         public bool UsersSignIn(Users users)
         {
              _context.Users.Add(users);
             return Save();
+        }
+
+        public ICollection<Users> GetTeacher()
+        {
+            return _context.Users.Where(t => t.Role == Role.TEACHER).ToList();
+        }
+
+        public Users findUserByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(p => p.Email == email);
         }
     }
 }
