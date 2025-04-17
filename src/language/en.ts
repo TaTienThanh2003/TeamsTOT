@@ -119,6 +119,7 @@ export default {
         course: "Course",
         lecturer: "Lecturer",
         contact: "Contact",
+        entersearch: "Enter teacher name or course name",
         search: "Search",
         page1: {
             title: "Elevate your future with English. Act now!",

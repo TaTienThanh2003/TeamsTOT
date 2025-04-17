@@ -57,7 +57,7 @@ onMounted(() => {
         <h1 class="mt-5 fs-2 text-white text-center">HÃY LỰA CHỌN CHÚNG TÔI</h1>
         <div class="position-relative my-4">
             <input v-model="courseName" @keydown.enter="handleEnter"
-                class="form-control form-control-lg p-3 pe-5 rounded-pill" :placeholder="$t('home.search')"
+                class="form-control form-control-lg p-3 pe-5 rounded-pill" :placeholder="$t('home.entersearch')"
                 type="text" />
             <i class="fas fa-search search-icon"></i>
         </div>

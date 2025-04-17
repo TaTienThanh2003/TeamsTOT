@@ -31,7 +31,10 @@ export const getCourses = async () => {
     const res = await axios.get(`${api}/courses`)
     return res.data
 };
-
+export const getTeacher = async() => {
+    const res = await axios.get(`${api}/users/getTeacher`)
+    return res.data
+}
 export const getCourseById = async (id: number) => {
     const res = await axios.get(`${api}/courses/${id}`)
     return res.data

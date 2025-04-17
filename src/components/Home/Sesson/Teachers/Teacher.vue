@@ -1,6 +1,29 @@
 <script setup lang="ts">
 import TeacherItem from './TeacherItem.vue';
+import { getTeacher } from '@/services';
+import { onMounted, ref } from 'vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation } from 'swiper/modules';
+import 'swiper/swiper-bundle.css';
 
+const modules = [Navigation];
+const teachers = ref<any>([]);
+const showteacher = async () => {
+    try {
+        const res = await getTeacher();
+        const resdata = res.data;
+        teachers.value = resdata.map((teacher: any) => ({
+            id: teacher.id,
+            FullName: teacher.fullName,
+            image: 'https://storage.googleapis.com/a1aa/image/XWUbD4i3i_HDN4wMpfHgSlwoIuEVkAzNeH0nXuJ9mXM.jpg',
+        }));
+    } catch (error) {
+        console.log("Lỗi api giáo viên" + error)
+    }
+}
+onMounted(() => {
+    showteacher();
+});
 </script>
 
 <template>
@@ -12,17 +35,12 @@ import TeacherItem from './TeacherItem.vue';
             {{ $t('home.page4.description') }}
         </h4>
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-5 g-4">
-            <TeacherItem fullname="VÕ HOÀNG YẾN"
-                image="https://storage.googleapis.com/a1aa/image/XWUbD4i3i_HDN4wMpfHgSlwoIuEVkAzNeH0nXuJ9mXM.jpg"/>
-            <TeacherItem fullname="VÕ HOÀNG YẾN"
-                image="https://storage.googleapis.com/a1aa/image/XWUbD4i3i_HDN4wMpfHgSlwoIuEVkAzNeH0nXuJ9mXM.jpg"/>
-            <TeacherItem fullname="VÕ HOÀNG YẾN"
-                image="https://storage.googleapis.com/a1aa/image/XWUbD4i3i_HDN4wMpfHgSlwoIuEVkAzNeH0nXuJ9mXM.jpg"/>
-            <TeacherItem fullname="VÕ HOÀNG YẾN"
-                image="https://storage.googleapis.com/a1aa/image/XWUbD4i3i_HDN4wMpfHgSlwoIuEVkAzNeH0nXuJ9mXM.jpg"/>
-            <TeacherItem fullname="VÕ HOÀNG YẾN"
-                image="https://storage.googleapis.com/a1aa/image/XWUbD4i3i_HDN4wMpfHgSlwoIuEVkAzNeH0nXuJ9mXM.jpg"/>
+        <div class="relative swiper-custmer">
+            <Swiper :slides-per-view="4" :modules="modules" navigation class="!pb-8">
+                <SwiperSlide v-for="(teacher, index) in teachers" :key="index">
+                    <TeacherItem :fullname="teacher.FullName" :image="teacher.image" />
+                </SwiperSlide>
+            </Swiper>
         </div>
     </section>
 </template>

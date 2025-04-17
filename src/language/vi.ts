@@ -121,6 +121,7 @@ export default {
         lecturer: "Giảng viên",
         contact: "Liên hệ",
         search: "Tìm kiếm",
+        entersearch : "Nhập tên giảng viên hoặc tên khóa học",
         page1: {
             title: "Nâng tầm tương lai với tiếng Anh. Hành động ngay hôm nay!",
             title2: "Học cùng chúng tôi để làm chủ tiếng Anh, mở ra cơ hội mới và thay đổi tương lai của bạn!",
