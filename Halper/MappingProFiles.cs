@@ -13,8 +13,8 @@ namespace backTOT.Halper
             CreateMap<UserLoginDto, Users>();
             CreateMap<CartsDto, Carts>();
             CreateMap<Carts, CartsDto>();
-            CreateMap<Courses, CoursesDto>();
-            CreateMap<CoursesDto, Courses>();
+            CreateMap<Enrollments, EnrollmentDto>();
+            CreateMap<EnrollmentDto, Enrollments>();
         }
     }
 }

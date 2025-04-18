@@ -12,5 +12,15 @@
         // relation
         public Users user { get; set; }
         public Courses courses { get; set; }
+        // Method to calculate End_date based on Courses CountDay
+        public void CalculateEndDate()
+        {
+            // Ensure we have the courses data loaded
+            if (courses != null)
+            {
+                // Add CountDay to Start_date to calculate End_date
+                End_date = Start_date.AddDays(courses.CountDay);
+            }
+        }
     }
 }
