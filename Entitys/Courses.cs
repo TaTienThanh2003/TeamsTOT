@@ -16,7 +16,6 @@ namespace backTOT.Entitys
         public string Name { get; set; }
 
         public string? Description { get; set; }
-        public int Teacher_id { get; set; }
         public int CountDay { get; set; }
 
         [Column(TypeName = "decimal(10,2)")]
@@ -30,6 +29,7 @@ namespace backTOT.Entitys
         public ICollection<Schedules> Schedules { get; set; } = new List<Schedules>();
         public ICollection<Scores> Scores { get; set; } = new List<Scores>();
         public ICollection<Carts> Carts { get; set; } = new List<Carts>();
-        public Users user { get; set; }
+        public ICollection<CourseTeachers> CourseTeachers { get; set; } = new List<CourseTeachers>();
+        public ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
     }
 }

@@ -17,7 +17,8 @@ namespace backTOT.Data
         public DbSet<Schedules> Schedules { get; set; }
         public DbSet<Lessons> Lessons { get; set; }
         public DbSet<Carts> Carts { get; set; }
-
+        public DbSet<CourseTeachers> CourseTeachers { get; set; }
+        public DbSet<Reviews> Reviews { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // primary and convert
@@ -40,6 +41,8 @@ namespace backTOT.Data
             modelBuilder.Entity<Scores>().HasKey(s => s.Id);
             modelBuilder.Entity<Schedules>().HasKey(sche => sche.Id);
             modelBuilder.Entity<Carts>().HasKey(c => c.Id);
+            modelBuilder.Entity<CourseTeachers>().HasKey(ct => ct.Id);
+            modelBuilder.Entity<Reviews>().HasKey(r => r.Id);
             // Quan hệ Carts - course  
             modelBuilder.Entity<Carts>()
                .HasOne(ca => ca.course)  
@@ -64,12 +67,16 @@ namespace backTOT.Data
                 .WithMany(c => c.Enrollments)
                 .HasForeignKey(e => e.Courses_id)
                  .OnDelete(DeleteBehavior.Cascade);
-            // Quan hệ courses - user
-            modelBuilder.Entity<Courses>()
-                .HasOne(c => c.user)
-                .WithMany(u => u.Courses)
-                .HasForeignKey(c => c.Teacher_id)
-               .OnDelete(DeleteBehavior.Restrict);
+            // Quan hệ coursesteachers - course
+            modelBuilder.Entity<CourseTeachers>()
+            .HasOne(ct => ct.Course)
+            .WithMany(c => c.CourseTeachers)
+            .HasForeignKey(ct => ct.CourseId);
+            // Quan hệ coursesteachers - teacher
+            modelBuilder.Entity<CourseTeachers>()
+                .HasOne(ct => ct.Teacher)
+                .WithMany(u => u.CourseTeachers)
+                .HasForeignKey(ct => ct.TeacherId);
             // Quan hệ courses - scores
             modelBuilder.Entity<Scores>()
                 .HasOne(s => s.courses)
@@ -101,6 +108,18 @@ namespace backTOT.Data
               .HasForeignKey(sch => sch.Lessons_id)
                .OnDelete(DeleteBehavior.Restrict);
             base.OnModelCreating(modelBuilder);
+            // Quan hệ review - users
+            modelBuilder.Entity<Reviews>()
+            .HasOne(r => r.users)
+            .WithMany(u => u.Reviews)
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+            // Quan hệ review - course
+            modelBuilder.Entity<Reviews>()
+                .HasOne(r => r.courses)
+                .WithMany(c => c.Reviews)
+                .HasForeignKey(r => r.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

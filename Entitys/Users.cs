@@ -30,8 +30,11 @@ namespace backTOT.Entitys
         public DateOnly created_ad { get; set; } = DateOnly.FromDateTime(DateTime.Now);
         // relation
         public ICollection<Enrollments> Enrollments { get; set; } = new List<Enrollments>();
-        public ICollection<Courses> Courses { get; set; } = new List<Courses>();
+        [JsonIgnore]
+        public ICollection<CourseTeachers> CourseTeachers { get; set; } = new List<CourseTeachers>();
         public ICollection<Scores> Scores { get; set; } = new List<Scores>();
         public ICollection<Carts> Carts { get; set; } = new List<Carts>();
+        [JsonIgnore]
+        public ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
     }
 }

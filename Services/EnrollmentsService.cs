@@ -1,6 +1,7 @@
 ﻿using backTOT.Data;
 using backTOT.Entitys;
 using backTOT.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace backTOT.Services
 {
@@ -22,14 +23,19 @@ namespace backTOT.Services
             return Save();
         }
 
-        public ICollection<Enrollments> GetEnrollmentsByStudentId(int student_id)
-        {
-            return _context.Enrollments.OrderBy(c => c.Student_id == student_id).ToList();
-        }
-
         public bool Save()
         {
             return _context.SaveChanges() > 0;
+        }
+
+        public ICollection<Courses> GetCoursesByUserId(int userId)
+        {
+            return _context.Enrollments
+                .AsNoTracking()
+               .Include(e => e.courses)
+               .Where(e => e.Student_id == userId)
+               .Select(e => e.courses)
+               .ToList();
         }
     }
 }

@@ -198,55 +198,6 @@
   },
   {
     "ContainingType": "backTOT.Controllers.EnrollmentsController",
-    "Method": "GetUserById",
-    "RelativePath": "api/enrollments/{studentId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "student_id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "studentId",
-        "Type": "",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[backTOT.Entitys.Enrollments, backTOT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      }
-    ]
-  },
-  {
-    "ContainingType": "backTOT.Controllers.EnrollmentsController",
     "Method": "addEntrollment",
     "RelativePath": "api/enrollments/addEnrollment",
     "HttpMethod": "POST",
@@ -284,6 +235,38 @@
         "StatusCode": 409
       }
     ]
+  },
+  {
+    "ContainingType": "backTOT.Controllers.EnrollmentsController",
+    "Method": "GetCoursesByUserId",
+    "RelativePath": "api/enrollments/getCoursesByUserId/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backTOT.Controllers.CourseTeachersController",
+    "Method": "GetTeacherByCourseId",
+    "RelativePath": "api/GetTeacherByCourseId/{courseId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "backTOT.Controllers.LessonsController",
@@ -328,6 +311,66 @@
         "StatusCode": 400
       }
     ]
+  },
+  {
+    "ContainingType": "backTOT.Controllers.ReviewsController",
+    "Method": "GetReviewsByCourse",
+    "RelativePath": "api/reviews/{courseId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[backTOT.Entitys.Reviews, backTOT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "backTOT.Controllers.ReviewsController",
+    "Method": "CreateReview",
+    "RelativePath": "api/reviews/addReview",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reviewsDto",
+        "Type": "backTOT.Dto.ReviewsDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "backTOT.Controllers.UsersController",

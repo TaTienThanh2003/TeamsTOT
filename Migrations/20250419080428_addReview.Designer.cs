@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backTOT.Data;
 
@@ -11,9 +12,11 @@ using backTOT.Data;
 namespace backTOT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250419080428_addReview")]
+    partial class addReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,36 +163,6 @@ namespace backTOT.Migrations
                     b.HasIndex("Courses_id");
 
                     b.ToTable("Lessons");
-                });
-
-            modelBuilder.Entity("backTOT.Entitys.Reviews", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Star")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("backTOT.Entitys.Schedules", b =>
@@ -365,25 +338,6 @@ namespace backTOT.Migrations
                     b.Navigation("courses");
                 });
 
-            modelBuilder.Entity("backTOT.Entitys.Reviews", b =>
-                {
-                    b.HasOne("backTOT.Entitys.Courses", "courses")
-                        .WithMany("Reviews")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("backTOT.Entitys.Users", "users")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("courses");
-
-                    b.Navigation("users");
-                });
-
             modelBuilder.Entity("backTOT.Entitys.Schedules", b =>
                 {
                     b.HasOne("backTOT.Entitys.Courses", "courses")
@@ -432,8 +386,6 @@ namespace backTOT.Migrations
 
                     b.Navigation("Lessons");
 
-                    b.Navigation("Reviews");
-
                     b.Navigation("Schedules");
 
                     b.Navigation("Scores");
@@ -451,8 +403,6 @@ namespace backTOT.Migrations
                     b.Navigation("CourseTeachers");
 
                     b.Navigation("Enrollments");
-
-                    b.Navigation("Reviews");
 
                     b.Navigation("Scores");
                 });

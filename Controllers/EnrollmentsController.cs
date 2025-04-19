@@ -18,19 +18,24 @@ namespace backTOT.Controllers
             _iEnrollmentService = iEnrollmentService;
             _mapper = mapper;
         }
-        // getId
-        [HttpGet("{studentId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Enrollments>))]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(400)]
-        public IActionResult GetUserById(int studentId)
+        // getCoursesByUserId
+        [HttpGet("getCoursesByUserId/{userId}")]
+        public IActionResult GetCoursesByUserId(int userId)
         {
-            var enrollment = _iEnrollmentService.GetEnrollmentsByStudentId(studentId);
-            if (enrollment == null)
+            var courses = _iEnrollmentService.GetCoursesByUserId(userId);
+            // Kiểm tra nếu không có khóa học cho user
+            if (courses == null )
             {
-                return NotFound(new { status = 404, message = "Enrollment not found" });
+                return NotFound(new
+                { status = 404,message = "Không tìm thấy khóa học cho người dùng này"});
             }
-            return Ok(new { status = 200, message = "Success", data = enrollment });
+            var courseDtos = _mapper.Map<List<CoursesDto>>(courses);
+            return Ok(new
+            {
+                status = 200,
+                message = "Lấy danh sách khóa học thành công",
+                data = courseDtos
+            });
         }
         [HttpPost("addEnrollment")]
         [ProducesResponseType(201)]
@@ -49,6 +54,5 @@ namespace backTOT.Controllers
 
             return Ok("Enrollment added successfully");
         }
-
     }
 }
