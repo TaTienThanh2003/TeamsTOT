@@ -25,9 +25,7 @@ onMounted(() => {
 });
 const handleLogin = async () => {
     const response = await login(email.value, password.value);
-    if (response.success) {
-        localStorage.setItem("userId", response.id);
-        alert("Đăng nhập thành công");
+    if (response.data != null) {
         router.push("/");
     } else {    
         errorMsg.value = response.error;

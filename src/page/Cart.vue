@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import Header from '@/components/Home/Header.vue';
-import { getCourseById, deletecarts, getCourserbyUserId } from '@/services';
+import PayModel from '@/components/Model/payModel.vue';
+import { getCourseById, deletecarts, getCourserbyUserId, checkPaid } from '@/services';
 import { ref, computed, onMounted } from 'vue';
 
 const selectedTab = ref('card');
 const showModal = ref(false);
 const Carts = ref<any>([]);
+const user = JSON.parse(localStorage.getItem("user") || "{}");
+const userId = user.id;
 // Dữ liệu khóa học không có số lượng
 const showCarts = async () => {
     try {
-        const res = await getCourserbyUserId(1);
+        const res = await getCourserbyUserId(userId);
         const resdata = res.data;
         console.log(resdata);
 
@@ -24,12 +27,24 @@ const showCarts = async () => {
         console.log("Lỗi api khóa học" + err)
     }
 }
+
+// const addtoEnrollments = async () =>{
+//     try {
+//         const course_id = Carts.value.map(Cart => Cart.id)
+//         const res = await addtoEnrollments(userId, course_id);
+//         console.log(res);
+//         showCarts()
+//     } catch (err: any) {
+//         console.log("Lỗi thêm enrollments" + err)
+//     }
+// }
+
 let count = computed(() => {
     return Carts.value.length;
 });
 const remove = async (CourseId: number) => {
     try {
-        const res = await deletecarts(CourseId, 1);
+        const res = await deletecarts(CourseId, userId);
         console.log(res);
         showCarts()
     } catch (err: any) {
@@ -42,9 +57,13 @@ const subtotal = computed(() => {
         return sum + numberPrice;
     }, 0);
 });
-
+const showbank = async () => {
+    const res = await checkPaid();
+    console.log(res)
+}
 onMounted(() => {
     showCarts();
+    showbank();
 });
 </script>
 
@@ -82,10 +101,11 @@ onMounted(() => {
                         <span>Tổng cộng</span>
                         <span>{{ subtotal.toLocaleString('vi-VN') }}đ</span>
                     </p>
-                    <button class="btn btn-warning w-100 mt-3">THANH TOÁN</button>
+                    <button class="btn btn-warning w-100 mt-3" @click="showModal = true">THANH TOÁN</button>
                 </div>
             </div>
         </div>
+        <PayModel v-if="showModal" :show="showModal" :amount="subtotal" @close="showModal = false" />
     </div>
 </template>
 

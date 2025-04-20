@@ -12,7 +12,7 @@ export default {
   },
   data() {
     return {
-      userId: Number(localStorage.getItem('userId')) || null,
+      user: localStorage.getItem("user"),
     };
   },
   methods: {
@@ -21,8 +21,8 @@ export default {
     },
     logout() {
       // Xóa userId trong localStorage khi đăng xuất
-      localStorage.removeItem('userId');
-      this.userId = null; // Cập nhật lại userId sau khi logout
+      localStorage.removeItem('user');
+      this.user = null; // Cập nhật lại userId sau khi logout
       this.$router.push('/login'); // Điều hướng về trang đăng nhập
     },
   },
@@ -68,7 +68,7 @@ export default {
         </div>
 
         <!-- Kiểm tra userId để hiển thị icon giỏ hàng và dropdown thông tin người dùng -->
-        <template v-if="userId">
+        <template v-if="user">
           <router-link to="/cart" class="icon-circles">
             <i class="fas fa-shopping-cart text-white fs-5"></i>
           </router-link>

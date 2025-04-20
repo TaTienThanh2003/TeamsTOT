@@ -1,18 +1,37 @@
 <script setup lang="ts">
 import Header from '@/components/Home/Header.vue';
 import PayModel from '@/components/Model/payModel.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { getCourses, getLessons, addCarts } from '@/services';
+import { getLessons, addCarts, getTeacher, getReview } from '@/services';
 import DetailItem from '@/components/Home/Detail/DetailItem.vue';
-import Courses from '@/components/HocVien/Sesson/MyCourses/Courses.vue';
+import TeacherItem from '@/components/Home/Sesson/Teachers/TeacherItem.vue';
+import ReviewItem from '@/components/Home/Detail/ReviewItem.vue';
 
 const router = useRoute();
 const showModal = ref(false);
 const selectedOption = ref('');
 const isLogin = ref(false);
 const lessons = ref<any>([]);
+const teachers = ref<any>([]);
+const reviews = ref<any>([]);
 const id = parseInt(router.params.id as string);
+const user = JSON.parse(localStorage.getItem("user") || "{}");
+const userId = user.id;
+
+const showteacher = async () => {
+    try {
+        const res = await getTeacher();
+        const resdata = res.data;
+        teachers.value = resdata.map((teacher: any) => ({
+            id: teacher.id,
+            FullName: teacher.fullName,
+            image: 'https://storage.googleapis.com/a1aa/image/XWUbD4i3i_HDN4wMpfHgSlwoIuEVkAzNeH0nXuJ9mXM.jpg',
+        }));
+    } catch (error) {
+        console.log("Lỗi api giáo viên" + error)
+    }
+}
 
 const showLessons = async () => {
     try {
@@ -26,17 +45,39 @@ const showLessons = async () => {
         console.log("Lỗi api khóa học" + err)
     }
 };
+const showreview = async () => {
+    try {
+        const res = await getReview(id);
+        const resdata = res.data;
+        reviews.value = resdata.map((review: any) => ({
+            name: 'A',
+            content: review.content,
+            star: review.star
+        }));
+    } catch (error) {
 
+    }
+}
 const addtoCarts = async () => {
     try {
-        const res = await addCarts(1, id);
+        const res = await addCarts(userId, id);
         console.log(res);
+        alert('Thêm thành công vào giỏ hàng')
     } catch (err: any) {
         console.log("Lỗi thêm vào giỏ hàng" + err)
     }
 }
+
+// 💰 Tính số tiền dựa vào lựa chọn
+const computedAmount = computed(() => {
+  if (selectedOption.value === 'video') return 499000;
+  if (selectedOption.value === 'class') return 1200000;
+  return 0;
+});
 onMounted(() => {
     showLessons();
+    showteacher();
+    showreview();
 });
 </script>
 
@@ -92,16 +133,40 @@ onMounted(() => {
                 <div class="card mb-3 p-3 blurred-card">
                     <p>Bài 4: Ngữ pháp trọng điểm trong TOEIC</p>
                 </div>
-                <div class="card p-3">
-                    <h6 class="mb-2">❓ Cần hỗ trợ?</h6>
-                    <p class="mb-1">📞 0901.123.987</p>
-                    <p class="mb-0">📧 support@toeic.vn</p>
+                <div class="container my-5">
+                    <!-- Giáo viên -->
+                    <h4 class="mt-4 fs-3 font-blue">Giáo viên</h4>
+                    <div class="d-flex mt-4 gap-5">
+                        <div v-for="(teacher, index) in teachers" :key="index">
+                            <TeacherItem :fullname="teacher.FullName" :image="teacher.image" />
+                        </div>
+                    </div>
+
+                    <div class="mt-5 row">
+                        <div class="col-md-4">
+                            <h4 class="mb-4 fs-3 font-blue">Đánh giá của học viên</h4>
+                            <div class="d-flex align-items-center mb-2">
+                                <h3 class="me-2 mb-0">4.7</h3>
+                                <div class="text-warning me-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="bi bi-star-half"></i>
+                                </div>
+                                <span class="text-muted">50 đánh giá</span>
+                            </div>
+                            <button class="btn btn-secondary btn-sm">Viết đánh giá</button>
+                        </div>
+                        <div v-for="(review, index) in reviews" :key="index">
+                            <ReviewItem :name="review.name" :content="review.content" :star="review.star" />
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Cột phải: Thông tin & Thanh toán -->
             <div class="col-md-4">
-                <div class="card p-4 shadow-sm mb-4">
+                <div class="card p-4 sticky-top shadow-sm mb-4" style="top: 4rem;">
                     <div class="mb-3">
                         <iframe class="w-100 rounded" style="aspect-ratio: 16/9"
                             src="https://www.youtube.com/embed/md3HfH0SWOI?si=Jz-ce3qM3NhZXoc7"
@@ -160,7 +225,7 @@ onMounted(() => {
             </div>
         </div>
         <!-- Modal thanh toán -->
-        <PayModel v-if="showModal" :show="showModal" @close="showModal = false" />
+        <PayModel v-if="showModal" :show="showModal" :amount="computedAmount" @close="showModal = false" />
     </div>
 </template>
 
@@ -176,6 +241,7 @@ onMounted(() => {
     border-radius: 16px;
     margin-bottom: 30px;
 }
+
 .btn-cart {
     border: 1px solid #6C63FF;
     color: #6C63FF;
@@ -212,6 +278,25 @@ onMounted(() => {
 
 i {
     width: 1.25rem;
+}
+
+.teacher-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.rating i {
+    color: #fbc02d;
+}
+
+.card-review {
+    border-radius: 10px;
+}
+
+.carousel-indicators [data-bs-target] {
+    background-color: #000;
 }
 
 .blurred-card::after {

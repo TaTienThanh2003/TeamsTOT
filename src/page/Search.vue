@@ -1,13 +1,14 @@
 <script setup lang="ts">
+import TeacherItem from '@/components/Home/Sesson/Teachers/TeacherItem.vue';
 import Header from '@/components/Home/Header.vue';
 import CourseItem from '@/components/Home/Sesson/Courses/CourseItem.vue';
 import { getCourses, getCourseByName } from '@/services';
 import { onMounted, ref } from 'vue';
-
 import { useRoute } from 'vue-router';
-
+import { getTeacher } from '@/services';
 const route = useRoute();
 const courses = ref<any>([]);
+const teachers = ref<any>([]);
 const courseName = ref(route.params.courseName || '');
 const showCourse = async () => {
     try {
@@ -37,6 +38,19 @@ const showCourseByName = async (name: string) => {
         console.log("Lỗi api khóa học" + err)
     }
 };
+const showteacher = async () => {
+    try {
+        const res = await getTeacher();
+        const resdata = res.data;
+        teachers.value = resdata.map((teacher: any) => ({
+            id: teacher.id,
+            FullName: teacher.fullName,
+            image: 'https://storage.googleapis.com/a1aa/image/XWUbD4i3i_HDN4wMpfHgSlwoIuEVkAzNeH0nXuJ9mXM.jpg',
+        }));
+    } catch (error) {
+        console.log("Lỗi api giáo viên" + error)
+    }
+}
 const handleEnter = () => {
     const name = typeof courseName.value === 'string' ? courseName.value.trim() : '';
     console.log(name);
@@ -44,6 +58,7 @@ const handleEnter = () => {
         showCourseByName(name);
     } else {
         showCourse();
+        showteacher();
     }
 };
 onMounted(() => {
@@ -68,10 +83,10 @@ onMounted(() => {
             <CourseItem :id="course.id" :title="course.title" :image="course.image" :features="course.features" />
         </div>
     </div>
-    <h1 class="fs-3 text-title">Danh sách giảng vien</h1>
+    <h1 class="fs-3 text-title">Danh sách giảng viên</h1>
     <div class="courses-list">
-        <div class="course-item-wrapper" v-for="(course, index) in courses" :key="index">
-            <CourseItem :id="course.id" :title="course.title" :image="course.image" :features="course.features" />
+        <div class="course-item-wrapper" v-for="(teacher, index) in teachers" :key="index">
+            <TeacherItem :fullname="teacher.FullName" :image="teacher.image"/>
         </div>
     </div>
 </template>

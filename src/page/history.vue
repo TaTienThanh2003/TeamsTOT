@@ -13,17 +13,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(course, index) in registeredCourses" :key="index">
-                    <td>{{ course.name }}</td>
-                    <td>{{ course.registeredDate }}</td>
+                <tr v-for="(enrollment, index) in enrollments" :key="index">
+                    <td>{{ enrollment.name }}</td>
+                    <td>10/04/2025</td>
                     <td>
-                        <span class="badge" :class="{
+                        <span class="badge bg-success">Đã đăng ký</span>
+                        <!-- <span class="badge" :class="{
                             'bg-success': course.status === 'Đã đăng ký',
                             'bg-warning text-dark': course.status === 'Đang xử lý',
                             'bg-danger': course.status === 'Từ chối'
                         }">
                             {{ course.status }}
-                        </span>
+                        </span> -->
                     </td>
                     <td>
                         <button class="btn btn-outline-primary btn-sm">Xem chi tiết</button>
@@ -37,21 +38,38 @@
 
 <script setup lang="ts">
 import Header from '@/components/Home/Header.vue';
-import { ref } from 'vue';
+import { getCourseById, getEnrollments } from '@/services';
+import { onMounted, ref } from 'vue';
 
-const registeredCourses = ref([
-    {
-        name: 'TOEIC Cơ bản',
-        registeredDate: '10/04/2025',
-        status: 'Đã đăng ký'
-    },
-    {
-        name: 'TOEIC Nâng cao',
-        registeredDate: '09/04/2025',
-        status: 'Đang xử lý'
+const user = JSON.parse(localStorage.getItem("user") || "{}");
+const userId = user.id;
+// const registeredCourses = ref([
+//     {
+//         name: 'TOEIC Cơ bản',
+//         registeredDate: '10/04/2025',
+//         status: 'Đã đăng ký'
+//     },
+//     {
+//         name: 'TOEIC Nâng cao',
+//         registeredDate: '09/04/2025',
+//         status: 'Đang xử lý'
+//     }
+// ]);
+const enrollments = ref<any>([]);
+const showEnrollments = async () => {
+    try {
+        const res = await getEnrollments(userId);
+        const resdata = res.data;
+        enrollments.value = resdata.map((enrollment : any) => ({
+            name: enrollment.name
+        }))
+    } catch (error) {
+        
     }
-]);
-
+}
+onMounted(() => {
+    showEnrollments();
+});
 </script>
 
 <style scoped>
