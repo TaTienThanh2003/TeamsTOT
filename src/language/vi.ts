@@ -1,4 +1,18 @@
 export default {
+    calendar: {
+        close: "Đóng",
+        day: "Ngày",
+        week: "Tuần",
+        month: "Tháng",
+        today: "Hôm nay",
+        tomorrow: "Ngày mai",
+        view: "Xem",
+        report: "Báo cáo",
+        next_day: "Ngày tiếp theo",
+        previous_day: "Ngày trước",
+        search_tip: "Tìm kiếm ngày/tháng...",
+        close_calendar: "Đóng lịch"
+    }, 
     hv: {
         overview: 'Tổng quan',
         mycourse: 'Khóa học của tôi',

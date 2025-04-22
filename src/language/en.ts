@@ -1,4 +1,17 @@
 export default {
+    calendar: {
+        close: "Close",
+        day: "Day",
+        week: "Week",
+        month: "Month",
+        tomorrow: "Tomorrow",
+        view: "View",
+        report: "Report",
+        next_day: "Next Day",
+        previous_day: "Previous Day",
+        search_tip:"Search for a day or month...",
+        close_calendar: "Close Calendar"
+    },     
     hv: {
         overview: 'Overview',
         mycourse: 'My course',
@@ -24,7 +37,6 @@ export default {
         page3: {
         },
         page4: {
-            close: "Close",
             today: "Today",
             day: "Day",
             week: "Week",

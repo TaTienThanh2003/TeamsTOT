@@ -4,6 +4,8 @@ export default {
     data() {
         return {
             currentLanguage: "Vietnamese", // Ngôn ngữ mặc định
+            user: localStorage.getItem("user"),
+            name: user.fullName,
         };
     },
     methods: {
@@ -15,8 +17,17 @@ export default {
                 this.currentLanguage = "Vietnamese";
             }
         },
+        logout() {
+            // Xóa userId trong localStorage khi đăng xuất
+            localStorage.removeItem('user');
+            this.user = null; // Cập nhật lại userId sau khi logout
+            this.$router.push('/'); // Điều hướng về trang chủ
+        },
     },
 };
+
+const user = JSON.parse(localStorage.getItem("user") || "{}");
+const userid = user.id;
 </script>
 
 <template>
@@ -65,12 +76,11 @@ export default {
                         <img alt="User avatar" class="avatar rounded-circle me-2" src="https://placehold.co/40x40"
                             style="width: 40px; height: 40px;" />
                         <div class="user-details text-muted">
-                            <p class="user-name mb-0 font-weight-bold">Moni Roy</p>
+                            <p class="user-name mb-0 font-weight-bold">{{ name }}</p>
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-
-                        <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
+                        <li><button class="dropdown-item" @click.prevent="logout">Đăng xuất</button></li>
                     </ul>
                 </div>
             </div>

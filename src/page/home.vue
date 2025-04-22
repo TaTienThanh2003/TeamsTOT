@@ -8,6 +8,7 @@ import Detail from '@/components/Home/Sesson/Detail.vue';
 import Teacher from '@/components/Home/Sesson/Teachers/Teacher.vue';
 import Intro from '@/components/Home/Sesson/Intro.vue';
 import Trust from '@/components/Home/Sesson/Trust.vue';
+import Gift from '@/components/Home/Sesson/Gift.vue';
 </script>
 
 <template>
@@ -16,6 +17,7 @@ import Trust from '@/components/Home/Sesson/Trust.vue';
     <Trust />
     <About />
     <Course />
+    <Gift />
     <Teacher />
     <Detail />
     <Contact />

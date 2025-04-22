@@ -1,11 +1,15 @@
 <script setup lang="ts">
-</script>
+import { defineProps } from 'vue'
 
+defineProps<{
+    name: string,
+}>()
+</script>
 <template>
     <div class="card shadow-sm rounded mx-3" style="width: 18rem;">
         <img src="@/assets/images/nangtho.jpg" class="img-courses" alt="Khóa học tiếng Anh online">
         <div class="card-body">
-            <h5 class="card-title">Khóa học Giao tiếp thực tế</h5>
+            <h5 class="card-title">{{ name }}</h5>
             <div class="d-flex align-items-center">
                 <span class="text-warning">★ ★ ★ ★ ☆</span>
                 <span class="text-muted ms-2">(131)</span>
