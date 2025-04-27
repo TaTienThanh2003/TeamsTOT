@@ -6,7 +6,6 @@ import '@/assets/css/home.css'
 
 // JS
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import '@/assets/js/style.js'
 
 import { ProCalendar } from "@lbgm/pro-calendar-vue";
 import { createApp } from 'vue'

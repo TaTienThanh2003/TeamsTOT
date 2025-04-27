@@ -1,42 +1,36 @@
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
-export default {
-    data() {
-        return {
-            currentLanguage: "Vietnamese", // Ngôn ngữ mặc định
-            user: localStorage.getItem("user"),
-            name: user.fullName,
-        };
-    },
-    methods: {
-        changeLanguage(lang: string) {
-            this.$i18n.locale = lang;
-            if (lang === "en") {
-                this.currentLanguage = "English";
-            } else if (lang === "vi") {
-                this.currentLanguage = "Vietnamese";
-            }
-        },
-        logout() {
-            // Xóa userId trong localStorage khi đăng xuất
-            localStorage.removeItem('user');
-            this.user = null; // Cập nhật lại userId sau khi logout
-            this.$router.push('/'); // Điều hướng về trang chủ
-        },
-    },
-};
+defineProps<{ showDetail: boolean }>()
 
-const user = JSON.parse(localStorage.getItem("user") || "{}");
-const userid = user.id;
+const router = useRouter()
+const { locale } = useI18n()
+
+const user = ref(JSON.parse(localStorage.getItem("user") || "{}"))
+const name = ref(user.value?.fullName || "")
+const currentLanguage = ref("Vietnamese")
+
+function changeLanguage(lang: string) {
+    locale.value = lang
+    currentLanguage.value = lang === "en" ? "English" : "Vietnamese"
+}
+
+function logout() {
+    localStorage.removeItem('user')
+    user.value = null
+    router.push('/')
+}
 </script>
+
 
 <template>
     <div class="header d-flex justify-content-between align-items-center">
-        <h1 class="logo text-primary">
+        <h1 :class="['logo text-primary', showDetail ? 'expanded' : 'collapsed']">
             TOT<span class="text-dark">Learn</span>
         </h1>
 
-        <!-- Menu & Search -->
         <div class="d-flex justify-content-center align-items-center flex-grow-1">
             <div class="search-bar input-group" style="max-width: 400px; flex-grow: 1;">
                 <input class="form-control bg-light border-0 pl-4" placeholder="Search" type="text" />
@@ -90,5 +84,13 @@ const userid = user.id;
 <style scoped>
 .logo {
     font-size: 2.2rem;
+}
+
+.logo.expanded {
+    margin-left: 0;
+}
+
+.logo.collapsed {
+    margin-left: 36px;
 }
 </style>

@@ -68,11 +68,10 @@ const addtoCarts = async () => {
     }
 }
 
-// 💰 Tính số tiền dựa vào lựa chọn
 const computedAmount = computed(() => {
-  if (selectedOption.value === 'video') return 499000;
-  if (selectedOption.value === 'class') return 1200000;
-  return 0;
+    if (selectedOption.value === 'video') return 499000;
+    if (selectedOption.value === 'class') return 1200000;
+    return 0;
 });
 onMounted(() => {
     showLessons();
@@ -93,9 +92,9 @@ onMounted(() => {
         </div>
 
         <div class="row">
-            <!-- Cột trái: Nội dung khóa học -->
+
             <div class="col-md-8">
-                <!-- ✅ Sau khóa học bạn sẽ -->
+
                 <h4 class="mb-4 fs-3 font-blue">Bạn sẽ học được gì?</h4>
 
                 <ul class="benefits">

@@ -39,26 +39,6 @@ body {
     padding: 2rem 1.5rem;
 }
 
-.sidebar {
-    position: fixed;
-    top: 65px;
-    left: 0;
-    z-index: 1000;
-    width: 220px;
-    height: calc(100vh - 65px);
-    background: #fff;
-    padding: 0.4rem 0.75rem;
-}
-
-.main-content {
-    margin-left: 220px;
-    margin-top: 65px;
-    padding: 20px;
-    width: calc(100% - 220px);
-    height: calc(100vh - 65px);
-    overflow-y: auto;
-    background: #f5f6fa;
-}
 .nav-text {
     font-size: 1.1rem;
 }

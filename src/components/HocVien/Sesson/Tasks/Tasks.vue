@@ -6,13 +6,24 @@ import ShowTask from './ShowTask.vue';
 const showDetail = ref(false);
 const selectedTaskId = ref<number | null>(null);//chọn task theo courseId để lesson lấy dc hiển thị
 
+const emit = defineEmits(['setTrue', 'setFalse'])
+
+const onShowDetail = () => {
+    emit('setTrue', true)
+}
+
+const onHiddenDetail: () => void = () => {
+    emit('setFalse', false)
+}
+
 const openTaskDetail = (id: number) => {
+    onHiddenDetail();
     selectedTaskId.value = id;
     showDetail.value = true;
 };
 
-// Quay lại danh sách
 const backToList = () => {
+    onShowDetail();
     showDetail.value = false;
     selectedTaskId.value = null;
 };
