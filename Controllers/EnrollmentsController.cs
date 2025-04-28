@@ -18,23 +18,24 @@ namespace backTOT.Controllers
             _iEnrollmentService = iEnrollmentService;
             _mapper = mapper;
         }
-        // getCoursesByUserId
-        [HttpGet("getCoursesByUserId/{userId}")]
-        public IActionResult GetCoursesByUserId(int userId)
+        // getEnrollmentByUserId
+        [HttpGet("getEnrollmentByUserId/{studentId}")]
+        public IActionResult getEnrollmentByUserId(int studentId)
         {
-            var courses = _iEnrollmentService.GetCoursesByUserId(userId);
+            var enrollment = _iEnrollmentService.GetEnrollmentByUserId(studentId);
             // Kiểm tra nếu không có khóa học cho user
-            if (courses == null )
+            if (enrollment == null )
             {
                 return NotFound(new
                 { status = 404,message = "Không tìm thấy khóa học cho người dùng này"});
             }
-            var courseDtos = _mapper.Map<List<CoursesDto>>(courses);
+
+            var enrollmentDto = _mapper.Map<List<EnrollmentDtoResponse>>(enrollment);
             return Ok(new
             {
                 status = 200,
                 message = "Lấy danh sách khóa học thành công",
-                data = courseDtos
+                data = enrollmentDto
             });
         }
         [HttpPost("addEnrollment")]

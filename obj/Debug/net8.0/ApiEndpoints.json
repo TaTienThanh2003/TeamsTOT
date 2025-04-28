@@ -238,14 +238,14 @@
   },
   {
     "ContainingType": "backTOT.Controllers.EnrollmentsController",
-    "Method": "GetCoursesByUserId",
-    "RelativePath": "api/enrollments/getCoursesByUserId/{userId}",
+    "Method": "getEnrollmentByUserId",
+    "RelativePath": "api/enrollments/getEnrollmentByUserId/{studentId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userId",
+        "Name": "studentId",
         "Type": "System.Int32",
         "IsRequired": true
       }

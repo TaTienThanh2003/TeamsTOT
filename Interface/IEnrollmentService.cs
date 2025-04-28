@@ -6,7 +6,7 @@ namespace backTOT.Interface
     public interface IEnrollmentService 
     {
         bool AddEnrollment(Enrollments enrollment);
-        ICollection<Courses> GetCoursesByUserId(int userId);
+        ICollection<Enrollments> GetEnrollmentByUserId(int userId);
         bool Save();
     }
 }

@@ -20,6 +20,7 @@ namespace backTOT.Halper
             CreateMap<Users, TeacherDto>();
             CreateMap<Courses, CoursesDto>();
             CreateMap<CoursesDto, Courses>();
+            CreateMap<Enrollments, EnrollmentDtoResponse>();
         }
     }
 }
