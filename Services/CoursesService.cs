@@ -21,8 +21,8 @@ namespace backTOT.Services
             string keyword = TextUtils.RemoveDiacritics(name).ToLower();
 
             return _context.Courses
-                .AsEnumerable() 
-                .Where(c => TextUtils.RemoveDiacritics(c.Name).ToLower().Contains(keyword))
+                .AsEnumerable()
+                .Where(c => TextUtils.RemoveDiacritics(c.TitleVI).ToLower().Contains(keyword))
                 .ToList();
         }
     }

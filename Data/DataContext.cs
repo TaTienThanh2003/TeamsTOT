@@ -19,6 +19,10 @@ namespace backTOT.Data
         public DbSet<Carts> Carts { get; set; }
         public DbSet<CourseTeachers> CourseTeachers { get; set; }
         public DbSet<Reviews> Reviews { get; set; }
+        public DbSet<Sections> Sections { get; set; }
+        public DbSet<User_plans> User_plans { get; set; }
+        public DbSet<Lesson_notes> Lesson_notes { get; set; }
+        public DbSet<Comments> Comments { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // primary and convert
@@ -27,14 +31,42 @@ namespace backTOT.Data
             {
                 entity.HasKey(u => u.Id);
                 entity.Property(u => u.Role)
-                      .HasConversion(new EnumToStringConverter<Role>())
-                      .HasDefaultValue(Role.USER);
+                      .HasConversion(new EnumToStringConverter<Entitys.Role>())
+                      .HasDefaultValue(Entitys.Role.USER);
+            });
+            modelBuilder.Entity<User_plans>(entity =>
+            {
+                entity.HasKey(up => up.Id);
+                entity.Property(up => up.Status)
+                      .HasConversion(new EnumToStringConverter<Status>())
+                      .HasDefaultValue(Status.ACTIVE);
             });
             modelBuilder.Entity<Courses>(entity =>
             {
                 entity.HasKey(c => c.Id);
                 entity.Property(c => c.Mode)
-             .HasConversion(new EnumToStringConverter<Mode>()); 
+             .HasConversion(new EnumToStringConverter<Entitys.Mode>()); 
+            });
+            modelBuilder.Entity<Lessons>(entity =>
+            {
+                entity.Property(e => e.Completed)
+                      .HasDefaultValue(false); // Mặc định Completed = false trong DB
+
+                entity.Property(e => e.Position)
+                      .HasDefaultValue(0); // Mặc định Position = 0 trong DB
+            });
+            modelBuilder.Entity<Plans>(entity =>
+            {
+                entity.Property(p => p.TrialPeriodDays)
+                      .HasDefaultValue(30); 
+            });
+            modelBuilder.Entity<Comments>(entity =>
+            {
+                entity.Property(cm => cm.Likes)
+                      .HasDefaultValue(0);
+                entity.Property(cm => cm.DisLikes)
+                      .HasDefaultValue(0);
+
             });
             modelBuilder.Entity<Enrollments>().HasKey(e => e.Id);
             modelBuilder.Entity<Lessons>().HasKey(l => l.Id);
@@ -43,6 +75,31 @@ namespace backTOT.Data
             modelBuilder.Entity<Carts>().HasKey(c => c.Id);
             modelBuilder.Entity<CourseTeachers>().HasKey(ct => ct.Id);
             modelBuilder.Entity<Reviews>().HasKey(r => r.Id);
+            modelBuilder.Entity<Sections>().HasKey(se => se.Id);
+            modelBuilder.Entity<User_plans>().HasKey(up => up.Id);
+            modelBuilder.Entity<Lesson_notes>().HasKey(ln => ln.Id);
+            modelBuilder.Entity<Comments>().HasKey(cm => cm.Id);
+
+            /////// relation
+
+            // Quan hệ users - User_plans  
+            modelBuilder.Entity<User_plans>()
+               .HasOne(up => up.users)
+               .WithMany(u => u.User_Plans)
+               .HasForeignKey(up => up.User_id)
+               .OnDelete(DeleteBehavior.Cascade);
+            // Quan hệ plans - User_plans  
+            modelBuilder.Entity<User_plans>()
+               .HasOne(up => up.plans)
+               .WithMany(p => p.User_Plans)
+               .HasForeignKey(up => up.Plan_id)
+               .OnDelete(DeleteBehavior.Cascade);
+            // Quan hệ cart - course
+            modelBuilder.Entity<Carts>()
+               .HasOne(ca => ca.course)
+               .WithMany(c => c.Carts)
+               .HasForeignKey(c => c.Course_id)
+               .OnDelete(DeleteBehavior.Cascade);
             // Quan hệ Carts - course  
             modelBuilder.Entity<Carts>()
                .HasOne(ca => ca.course)  
@@ -89,10 +146,16 @@ namespace backTOT.Data
                .WithMany(c => c.Schedules)
                .HasForeignKey(sch => sch.Courses_id)
                .OnDelete(DeleteBehavior.Cascade);
-            // Quan hệ courses - lessons
+            // Quan hệ sections - lessons
             modelBuilder.Entity<Lessons>()
-               .HasOne(l => l.courses)
-               .WithMany(c => c.Lessons)
+               .HasOne(l => l.sections)
+               .WithMany(se => se.Lessons)
+               .HasForeignKey(l => l.Section_id)
+               .OnDelete(DeleteBehavior.Cascade);
+            // Quan hệ sections - course
+            modelBuilder.Entity<Sections>()
+               .HasOne(se => se.courses)
+               .WithMany(c => c.Sections)
                .HasForeignKey(l => l.Courses_id)
                .OnDelete(DeleteBehavior.Cascade);
             // Quan hệ users - Scores
@@ -119,6 +182,30 @@ namespace backTOT.Data
                 .HasOne(r => r.courses)
                 .WithMany(c => c.Reviews)
                 .HasForeignKey(r => r.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
+            // Quan hệ lessons - lesson_note
+            modelBuilder.Entity<Lesson_notes>()
+                .HasOne(ln => ln.lessons)
+                .WithMany(l => l.Lesson_notes)
+                .HasForeignKey(ln => ln.Lesson_id)
+                .OnDelete(DeleteBehavior.Restrict);
+            // Quan hệ users - lesson_note
+            modelBuilder.Entity<Lesson_notes>()
+                .HasOne(ln => ln.users)
+                .WithMany(l => l.Lesson_notes)
+                .HasForeignKey(ln => ln.User_id)
+                .OnDelete(DeleteBehavior.Restrict);
+            // Quan hệ users - Comments
+            modelBuilder.Entity<Comments>()
+                .HasOne(cm => cm.users)
+                .WithMany(u => u.Comments)
+                .HasForeignKey(cm => cm.User_id)
+                .OnDelete(DeleteBehavior.Restrict);
+            // Quan hệ lessons - Comments
+            modelBuilder.Entity<Comments>()
+                .HasOne(cm => cm.lessons)
+                .WithMany(l => l.Comments)
+                .HasForeignKey(cm => cm.Lesson_id)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

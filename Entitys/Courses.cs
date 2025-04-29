@@ -12,10 +12,12 @@ namespace backTOT.Entitys
     public class Courses
     {
         public  int Id { get; set; }
-        [MaxLength(50)]
-        public string Name { get; set; }
-
-        public string? Description { get; set; }
+        [MaxLength(255)]
+        public string TitleVI { get; set; }
+        [MaxLength(255)]
+        public string TitleEN { get; set; }
+        public string? DesVI { get; set; }
+        public string? DesEN { get; set; }
         public int CountDay { get; set; }
 
         [Column(TypeName = "decimal(10,2)")]
@@ -25,7 +27,7 @@ namespace backTOT.Entitys
         public string Img { get; set; }
         // relation
         public ICollection<Enrollments> Enrollments { get; set; } = new List<Enrollments>();
-        public ICollection<Lessons> Lessons { get; set; } = new List<Lessons>();
+        public ICollection<Sections> Sections { get; set; } = new List<Sections>();
         public ICollection<Schedules> Schedules { get; set; } = new List<Schedules>();
         public ICollection<Scores> Scores { get; set; } = new List<Scores>();
         public ICollection<Carts> Carts { get; set; } = new List<Carts>();

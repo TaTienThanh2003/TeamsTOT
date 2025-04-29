@@ -36,5 +36,8 @@ namespace backTOT.Entitys
         public ICollection<Carts> Carts { get; set; } = new List<Carts>();
         [JsonIgnore]
         public ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
+        public ICollection<User_plans> User_Plans { get; set; } = new List<User_plans>();
+        public ICollection<Lesson_notes> Lesson_notes { get; set; } = new List<Lesson_notes>();
+        public ICollection<Comments> Comments { get; set; } = new List<Comments>();
     }
 }
