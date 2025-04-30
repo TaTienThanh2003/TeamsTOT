@@ -1,6 +1,7 @@
 ﻿using backTOT.Data;
 using backTOT.Entitys;
 using backTOT.Interface;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace backTOT.Services
@@ -13,9 +14,12 @@ namespace backTOT.Services
             _context = context;
         }
 
-        public ICollection<Lessons> getLessonByCourses(int courseId)
+        public ICollection<Sections> getLessonByCourses(int courseId)
         {
-            throw new NotImplementedException();
+            return _context.Sections
+                          .Where(s => s.Courses_id == courseId)
+                          .Include(s => s.Lessons)
+                          .ToList();
         }
 
         public ICollection<Lessons> GetLessons()

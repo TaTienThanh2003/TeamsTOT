@@ -1119,6 +1119,47 @@
         },
         "additionalProperties": false
       },
+      "Comments": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lesson_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "likes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "disLikes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "parent_id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "lessons": {
+            "$ref": "#/components/schemas/Lessons"
+          },
+          "users": {
+            "$ref": "#/components/schemas/Users"
+          }
+        },
+        "additionalProperties": false
+      },
       "CourseTeachers": {
         "type": "object",
         "properties": {
@@ -1150,12 +1191,21 @@
             "type": "integer",
             "format": "int32"
           },
-          "name": {
-            "maxLength": 50,
+          "titleVI": {
+            "maxLength": 255,
             "type": "string",
             "nullable": true
           },
-          "description": {
+          "titleEN": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
+          },
+          "desVI": {
+            "type": "string",
+            "nullable": true
+          },
+          "desEN": {
             "type": "string",
             "nullable": true
           },
@@ -1181,10 +1231,10 @@
             },
             "nullable": true
           },
-          "lessons": {
+          "sections": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Lessons"
+              "$ref": "#/components/schemas/Sections"
             },
             "nullable": true
           },
@@ -1277,6 +1327,42 @@
         },
         "additionalProperties": false
       },
+      "Lesson_notes": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lesson_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "video_time": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "created_ad": {
+            "type": "string",
+            "format": "date"
+          },
+          "lessons": {
+            "$ref": "#/components/schemas/Lessons"
+          },
+          "users": {
+            "$ref": "#/components/schemas/Users"
+          }
+        },
+        "additionalProperties": false
+      },
       "Lessons": {
         "type": "object",
         "properties": {
@@ -1284,22 +1370,37 @@
             "type": "integer",
             "format": "int32"
           },
-          "courses_id": {
+          "section_id": {
             "type": "integer",
             "format": "int32"
           },
-          "title": {
-            "maxLength": 255,
+          "titleVI": {
             "type": "string",
             "nullable": true
           },
-          "content": {
+          "titleEN": {
+            "type": "string",
+            "nullable": true
+          },
+          "desVI": {
+            "type": "string",
+            "nullable": true
+          },
+          "desEN": {
             "type": "string",
             "nullable": true
           },
           "video_url": {
             "type": "string",
             "nullable": true
+          },
+          "completed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "position": {
+            "type": "integer",
+            "format": "int32"
           },
           "schedules": {
             "type": "array",
@@ -1308,8 +1409,22 @@
             },
             "nullable": true
           },
-          "courses": {
-            "$ref": "#/components/schemas/Courses"
+          "lesson_notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Lesson_notes"
+            },
+            "nullable": true
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comments"
+            },
+            "nullable": true
+          },
+          "sections": {
+            "$ref": "#/components/schemas/Sections"
           }
         },
         "additionalProperties": false
@@ -1334,6 +1449,49 @@
           "OFFLINE"
         ],
         "type": "string"
+      },
+      "Plans": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "titleVI": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
+          },
+          "titleEN": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
+          },
+          "desVI": {
+            "type": "string",
+            "nullable": true
+          },
+          "desEN": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "trialPeriodDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user_Plans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User_plans"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "ProblemDetails": {
         "type": "object",
@@ -1495,6 +1653,58 @@
         },
         "additionalProperties": false
       },
+      "Sections": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "titleVI": {
+            "type": "string",
+            "nullable": true
+          },
+          "titleEN": {
+            "type": "string",
+            "nullable": true
+          },
+          "desVI": {
+            "type": "string",
+            "nullable": true
+          },
+          "desEN": {
+            "type": "string",
+            "nullable": true
+          },
+          "courses_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "position": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "courses": {
+            "$ref": "#/components/schemas/Courses"
+          },
+          "lessons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Lessons"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Status": {
+        "enum": [
+          "ACTIVE",
+          "EXPIRED",
+          "CANCELED"
+        ],
+        "type": "string"
+      },
       "UserDto": {
         "type": "object",
         "properties": {
@@ -1512,6 +1722,46 @@
             "maxLength": 50,
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "User_plans": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "plan_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "created_ad": {
+            "type": "string",
+            "format": "date"
+          },
+          "status": {
+            "$ref": "#/components/schemas/Status"
+          },
+          "users": {
+            "$ref": "#/components/schemas/Users"
+          },
+          "plans": {
+            "$ref": "#/components/schemas/Plans"
           }
         },
         "additionalProperties": false
@@ -1576,6 +1826,27 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Carts"
+            },
+            "nullable": true
+          },
+          "user_Plans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User_plans"
+            },
+            "nullable": true
+          },
+          "lesson_notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Lesson_notes"
+            },
+            "nullable": true
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comments"
             },
             "nullable": true
           }
