@@ -21,6 +21,7 @@ namespace backTOT.Halper
             CreateMap<Courses, CoursesDto>();
             CreateMap<CoursesDto, Courses>();
             CreateMap<Enrollments, EnrollmentDtoResponse>();
+            CreateMap<CommentDto, Comments>();
         }
     }
 }

@@ -13,8 +13,8 @@ namespace backTOT.Dto
     public class CoursesDto
     {
         public int Id { get; set; }
-        public string NameVI { get; set; }
-        public string NameEN { get; set; }
+        public string TitleVI { get; set; }
+        public string TitleEN { get; set; }
         public string? DesVI { get; set; }
         public string? DesEN { get; set; }
         public int CountDay { get; set; }
