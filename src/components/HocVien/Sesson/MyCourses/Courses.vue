@@ -3,11 +3,12 @@ import { onMounted, ref } from 'vue';
 import CourseItem from './CourseItem.vue';
 import ShowDetail from './ShowDetail.vue';
 import { getEnrollments, getLessons } from '@/services';
+import i18n from '@/i18n';
 
 const showDetail = ref(false);
 const selectedTaskId = ref<number | null>(null);
-const courses = ref<any>([]);
-const lessons = ref<any>([]);
+const enrollments = ref<any>([]);
+const sections = ref<any>([]);
 const user = JSON.parse(localStorage.getItem("user") || "{}");
 const userid = user.id;
 
@@ -38,10 +39,21 @@ const showCourse = async () => {
         const res = await getEnrollments(userid);
         const resdata = res.data;
 
-        courses.value = resdata.map((course: any) => ({
-            id: course.id,
-            name: course.name,
-        }));
+        const locale = i18n.global.locale.toUpperCase();
+        const nameKey = `title${locale}`;
+        enrollments.value = resdata.map((enrollment: any) => {
+            const today = new Date();
+            const endDate = new Date(enrollment.end_date);
+            const status = endDate >= today ? "Đang học" : "Đã kết thúc";
+
+            return {
+                id: enrollment.courses.id,
+                img: enrollment.courses.img,
+                name: enrollment.courses[nameKey],
+                status: status
+            };
+        });
+
     } catch (error) {
 
     }
@@ -51,18 +63,16 @@ const showLessons = async (courseid: number) => {
         const res = await getLessons(courseid);
         const resdata = res.data;
 
-        lessons.value = resdata.map((lesson: any) => ({
-            id: lesson.id,
-            title: lesson.title,
-            content: lesson.content,
-            videoUrl: lesson.video_url,
-            completed: false,
-            current: false,
+        const locale = i18n.global.locale.toUpperCase();
+        const nameKey = `title${locale}`;
+        sections.value = resdata.map((section: any) => ({
+            title: section[nameKey],
+            lessons: section.lessons
         }));
-    } catch (error) {
-
+    } catch (err: any) {
+        console.log("Lỗi api khóa học" + err)
     }
-}
+};
 onMounted(() => {
     showCourse()
 });
@@ -71,10 +81,11 @@ onMounted(() => {
 <template>
     <div class="tab-pane fade" id="my-courses">
         <div v-if="!showDetail" class="d-flex">
-            <div v-for="(course, index) in courses" :key="index">
-                <CourseItem :name="course.name" @click="() => openTaskDetail(course.id)" />
+            <div v-for="(course, index) in enrollments" :key="index">
+                <CourseItem :img="course.img" :name="course.name" :status="course.status"
+                    @click="() => openTaskDetail(course.id)" />
             </div>
         </div>
-        <ShowDetail v-if="showDetail" :lessons="lessons" @back="backToList" />
+        <ShowDetail v-if="showDetail" :sections="sections" @back="backToList" />
     </div>
 </template>

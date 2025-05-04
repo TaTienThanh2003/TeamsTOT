@@ -4,7 +4,7 @@ import { ref } from 'vue';
 defineProps<{
     showNoteInput: boolean;
 }>();
-
+const openSchedule = ref(false)
 const emit = defineEmits(['setClose']);
 
 const onCloseDetail = () => {
@@ -21,21 +21,42 @@ const notes = ref([
 <template>
     <div v-if="showNoteInput" :class="showNoteInput ? 'note-panel active' : 'note-panel'">
         <div class="note-content">
-            <div class="d-flex justify-between align-items-center mb-4">
+            <div class="d-flex justify-between align-items-center mb-3 p-0">
                 <h3 class="fs-5 bold">Ghi chú của bạn</h3>
                 <button class="fs-5" @click="onCloseDetail()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <input type="text" placeholder="Tìm ghi chú..." class="note-search" />
-            <ul class="note-list">
-                <li v-for="(note, index) in notes" :key="index" class="note-item">
-                    <div class="note-text">📌 {{ note.text }}</div>
-                    <div class="note-time">{{ note.date }}</div>
-                </li>
-            </ul>
-        </div>
+            <div v-if="!openSchedule" class="d-flex justify-content-between">
+                <button class="btn btn-sm btn-outline-primary" @click="openSchedule = true">
+                    + Ghi chú
+                </button>
+                <select class="form-select w-auto">
+                    <option value="all">Tất cả bài học</option>
+                    <option value="current">Bài học hiện tại</option>
+                </select>
+            </div>
 
+            <div v-if="openSchedule" class="mb-3">
+                <textarea id="note" class="form-control" placeholder="Nhập nội dung ghi chú..." rows="3"
+                    style="width: 100%;"></textarea>
+
+                <div class="d-flex justify-content-end mt-2 gap-2">
+                    <button class="btn btn-secondary btn-sm" @click="openSchedule = false">
+                        Hủy
+                    </button>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fas fa-paper-plane me-1"></i> Gửi
+                    </button>
+                </div>
+            </div>
+        </div>
+        <ul class="note-list px-2">
+            <li v-for="(note, index) in notes" :key="index" class="note-item">
+                <div class="note-text">📌 {{ note.text }}</div>
+                <div class="note-time">{{ note.date }}</div>
+            </li>
+        </ul>
     </div>
 </template>
 <style scoped>

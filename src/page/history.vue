@@ -15,16 +15,15 @@
             <tbody>
                 <tr v-for="(enrollment, index) in enrollments" :key="index">
                     <td>{{ enrollment.name }}</td>
-                    <td>10/04/2025</td>
+                    <td>{{ enrollment.startDate }}</td>
                     <td>
-                        <span class="badge bg-success">Đã đăng ký</span>
-                        <!-- <span class="badge" :class="{
-                            'bg-success': course.status === 'Đã đăng ký',
-                            'bg-warning text-dark': course.status === 'Đang xử lý',
-                            'bg-danger': course.status === 'Từ chối'
+                        <span class="badge" :class="{
+                            'bg-success': enrollment.status === 'Đang học',
+                            'bg-warning text-dark': enrollment.status === 'Đã kết thúc',
+                            // 'bg-danger': enrollment.status === 'Từ chối'
                         }">
-                            {{ course.status }}
-                        </span> -->
+                            {{ enrollment.status }}
+                        </span>
                     </td>
                     <td>
                         <button class="btn btn-outline-primary btn-sm">Xem chi tiết</button>
@@ -38,33 +37,37 @@
 
 <script setup lang="ts">
 import Header from '@/components/Home/Header.vue';
-import { getCourseById, getEnrollments } from '@/services';
+import i18n from '@/i18n';
+import { getEnrollments } from '@/services';
 import { onMounted, ref } from 'vue';
 
 const user = JSON.parse(localStorage.getItem("user") || "{}");
 const userId = user.id;
-// const registeredCourses = ref([
-//     {
-//         name: 'TOEIC Cơ bản',
-//         registeredDate: '10/04/2025',
-//         status: 'Đã đăng ký'
-//     },
-//     {
-//         name: 'TOEIC Nâng cao',
-//         registeredDate: '09/04/2025',
-//         status: 'Đang xử lý'
-//     }
-// ]);
+
 const enrollments = ref<any>([]);
 const showEnrollments = async () => {
     try {
         const res = await getEnrollments(userId);
         const resdata = res.data;
-        enrollments.value = resdata.map((enrollment : any) => ({
-            name: enrollment.name
-        }))
+
+        const locale = i18n.global.locale.toUpperCase();
+        const nameKey = `title${locale}`;
+        enrollments.value = resdata.map((enrollment: any) => {
+            const today = new Date();
+            const endDate = new Date(enrollment.end_date);
+            const status = endDate >= today ? "Đang học" : "Đã kết thúc";
+
+            return {
+                name: enrollment.courses[nameKey],
+                startDate: enrollment.start_date,
+                endDate: enrollment.end_date,
+                status: status,
+                action: "Xem chi tiết"
+            };
+        });
+
     } catch (error) {
-        
+
     }
 }
 onMounted(() => {

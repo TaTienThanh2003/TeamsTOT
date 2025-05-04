@@ -20,10 +20,9 @@ export default {
       this.$i18n.locale = lang;
     },
     logout() {
-      // Xóa userId trong localStorage khi đăng xuất
       localStorage.removeItem('user');
-      this.user = null; // Cập nhật lại userId sau khi logout
-      this.$router.push('/login'); // Điều hướng về trang đăng nhập
+      this.user = null;
+      this.$router.push('/login');
     },
   },
 };
@@ -57,7 +56,7 @@ export default {
           </li>
         </ul>
       </div>
-      
+
       <div class="ms-auto  d-flex align-items-center gap-3">
         <div class="lang-switch">
           <input type="radio" id="lang-vi" name="lang" value="vi" checked @change="changeLanguage('vi')" />

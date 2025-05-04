@@ -17,7 +17,9 @@ defineProps<{
     </div>
     <h2 class="h5 fw-bold text-center mb-2">{{ title }}</h2>
     <ul class="small">
-      <li v-for="(feature, index) in features" :key="index">{{ feature }}</li>
+      <li v-for="(feature, index) in features" :key="index">
+        <i class="fas fa-check text-white mr-1"></i> {{ feature }}
+      </li>
     </ul>
     <div class="text-center">
       <router-link class="text-warning fw-bold text-decoration-none" :to="`/detail-course/${id}`">

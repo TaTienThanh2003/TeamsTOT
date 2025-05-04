@@ -7,12 +7,13 @@ import { getLessons, addCarts, getTeacher, getReview } from '@/services';
 import DetailItem from '@/components/Home/Detail/DetailItem.vue';
 import TeacherItem from '@/components/Home/Sesson/Teachers/TeacherItem.vue';
 import ReviewItem from '@/components/Home/Detail/ReviewItem.vue';
+import i18n from '@/i18n';
 
 const router = useRoute();
 const showModal = ref(false);
 const selectedOption = ref('');
 const isLogin = ref(false);
-const lessons = ref<any>([]);
+const sections = ref<any>([]);
 const teachers = ref<any>([]);
 const reviews = ref<any>([]);
 const id = parseInt(router.params.id as string);
@@ -37,9 +38,12 @@ const showLessons = async () => {
     try {
         const res = await getLessons(id);
         const resdata = res.data;
-        console.log(resdata);
-        lessons.value = resdata.slice(0, 2).map((lesson: any) => ({
-            title: lesson.title,
+   
+        const locale = i18n.global.locale.toUpperCase();
+        const nameKey = `title${locale}`;
+        sections.value = resdata.map((section: any) => ({
+            title: section[nameKey],
+            lessons: section.lessons
         }));
     } catch (err: any) {
         console.log("Lỗi api khóa học" + err)
@@ -60,9 +64,7 @@ const showreview = async () => {
 }
 const addtoCarts = async () => {
     try {
-        const res = await addCarts(userId, id);
-        console.log(res);
-        alert('Thêm thành công vào giỏ hàng')
+        await addCarts(userId, id);
     } catch (err: any) {
         console.log("Lỗi thêm vào giỏ hàng" + err)
     }
@@ -122,18 +124,10 @@ onMounted(() => {
 
                 <h4 class="mt-5 mb-4 fs-4 font-blue">Nội dung khóa học (Xem trước)</h4>
 
-                <!-- Preview 2 bài miễn phí -->
-                <DetailItem v-for="lesson in lessons" :key="id" :title="lesson.title" />
+                <DetailItem v-for="(section, index) in sections" :key="id" :title="section.title"
+                    :lessons="section.lessons" :isLocked="index !== 0" />
 
-                <!-- Các bài bị khoá -->
-                <div class="card mb-3 p-3 blurred-card">
-                    <p>Bài 3: Kỹ thuật nghe Part 2 - Hỏi đáp ngắn</p>
-                </div>
-                <div class="card mb-3 p-3 blurred-card">
-                    <p>Bài 4: Ngữ pháp trọng điểm trong TOEIC</p>
-                </div>
                 <div class="container my-5">
-                    <!-- Giáo viên -->
                     <h4 class="mt-4 fs-3 font-blue">Giáo viên</h4>
                     <div class="d-flex mt-4 gap-5">
                         <div v-for="(teacher, index) in teachers" :key="index">
@@ -267,12 +261,6 @@ onMounted(() => {
 
 .benefits li {
     margin-bottom: 12px;
-}
-
-.blurred-card {
-    filter: blur(2px);
-    pointer-events: none;
-    position: relative;
 }
 
 i {

@@ -1,4 +1,54 @@
 <script setup lang="ts">
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    type ChartOptions
+} from 'chart.js'
+import { Line } from 'vue-chartjs'
+
+// Đăng ký các thành phần ChartJS
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+)
+
+// Dữ liệu biểu đồ
+const data = {
+    labels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'],
+    datasets: [
+        {
+            label: 'Bài học đã hoàn thành',
+            backgroundColor: '#42A5F5',
+            borderColor: '#1E88E5',
+            data: [3, 5, 2, 8, 7, 4, 2, 1],
+            fill: false,
+        }
+    ]
+}
+
+const options: ChartOptions<'line'> = {
+    responsive: true,
+    plugins: {
+        legend: {
+            position: 'top' as const,
+        },
+        title: {
+            display: true,
+            // text: 'Tiến độ học tập',
+        },
+    },
+}
 </script>
 
 <template>
@@ -105,7 +155,7 @@
                 </div>
             </div>
             <div class="mt-4">
-                <img alt="Line chart showing study time log" class="img-fluid" src="https://placehold.co/600x300" />
+                <Line :data="data" :options="options" />
             </div>
         </div>
     </div>

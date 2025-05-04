@@ -1,60 +1,150 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import NoteList from './DetailItem/NoteList.vue';
 import CommentList from './DetailItem/CommentList.vue';
+import ModelSchedule from './DetailItem/ModelSchedule.vue';
+import DetailItem from '@/components/Home/Detail/DetailItem.vue';
 
 const props = defineProps<{
-    lessons: {
-        id: number;
+    sections: {
         title: string;
-        description: string;
-        completed: boolean;
-        current?: boolean;
-        videoUrl: string;
+        lessons: {
+            id: number;
+            titleVI: string;
+            titleEN: string;
+            desVI: string;
+            desEN: string;
+            completed: boolean;
+            current?: boolean;
+            videoUrl: string;
+        }[];
     }[];
 }>();
 
 const emit = defineEmits(['back']);
 const showNoteInput = ref(false)
 const showCommentInput = ref(false)
+const openScheduleModal = ref(false)
 const currentLesson = ref<any>({});
+const showSidebar = ref(true)
 
-const changeVideo = (lesson: typeof props.lessons[0]) => {
+const isSectionCompleted = (section: typeof props.sections[number]) =>
+    section.lessons.length > 0 && section.lessons.every(lesson => lesson.completed);
+
+const total = computed(() => props.sections.length);
+
+const completed = computed(() =>
+    props.sections.filter(isSectionCompleted).length
+);
+const toggleSidebar = () => {
+    showSidebar.value = !showSidebar.value
+}
+const changeVideo = (lesson: any) => {
+
+    props.sections.forEach(section => {
+        section.lessons.forEach(l => {
+            l.current = false;
+        });
+    });
+    lesson.current = true;
     currentLesson.value = lesson;
 }
+
+const OnPrevVideo = () => {
+    let found = false;
+
+    for (let i = 0; i < props.sections.length; i++) {
+        const section = props.sections[i];
+        for (let j = 0; j < section.lessons.length; j++) {
+            const l = section.lessons[j];
+
+            if (l === currentLesson.value) {
+                l.current = false;
+
+                if (i === 0 && j === 0) return; // Đang ở bài đầu tiên
+                if (j > 0) {
+                    const prev = section.lessons[j - 1];
+                    prev.current = true;
+                    currentLesson.value = prev;
+                } else {
+                    const prevSection = props.sections[i - 1];
+                    const prev = prevSection.lessons[prevSection.lessons.length - 1];
+                    prev.current = true;
+                    currentLesson.value = prev;
+                }
+
+                found = true;
+                break;
+            }
+        }
+        if (found) break;
+    }
+};
+const OnNextVideo = () => {
+    let found = false;
+
+    for (let i = 0; i < props.sections.length; i++) {
+        const section = props.sections[i];
+        for (let j = 0; j < section.lessons.length; j++) {
+            const l = section.lessons[j];
+
+            if (l === currentLesson.value) {
+                l.current = false;
+
+                if (j < section.lessons.length - 1) {
+                    const next = section.lessons[j + 1];
+                    next.current = true;
+                    currentLesson.value = next;
+                } else if (i < props.sections.length - 1) {
+                    const nextSection = props.sections[i + 1];
+                    if (nextSection.lessons.length > 0) {
+                        const next = nextSection.lessons[0];
+                        next.current = true;
+                        currentLesson.value = next;
+                    }
+                }
+
+                found = true;
+                break;
+            }
+        }
+        if (found) break;
+    }
+};
+
 const toggleCloseNote = () => {
     showNoteInput.value = false;
 }
 const toggleCloseComment = () => {
     showCommentInput.value = false;
 }
+const toggleCloseModel = () => {
+    openScheduleModal.value = false;
+}
+onMounted(() => {
+    if (props.sections.length > 0 && props.sections[0].lessons.length > 0) {
+        currentLesson.value = props.sections[0].lessons[0];
+        currentLesson.value.current = true;
+    }
+});
 </script>
-
 
 <template>
     <div class="course-detail row">
-        <div class="col-md-8">
-            <div class="course-header mb-4">
-                <iframe class="video-player" :src="currentLesson.videoUrl" title="Giới thiệu khóa học" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-4">
+        <div :class="['col-md-8', showSidebar ? 'transition-show' : 'transition-hide']">
+            <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="course-info">
                     <div class="courset-s">
                         <div class="d-flex align-items-center gap-2">
                             <button class="btn p-0 border-0 bg-transparent" @click="emit('back')"
-                                style="font-size: 20px;">
-                                &lt;
+                                style="font-size: 18px;">
+                                <i class="fas fa-chevron-left"></i>
                             </button>
-                            <h2 class="course-title m-0">{{ currentLesson.title }}</h2>
+                            <h2 class="course-title m-0 fs-4">{{ currentLesson.titleVI }}</h2>
                         </div>
                     </div>
                 </div>
                 <div class="progress-container">
-                    <div class="icon-label">
-                        <i class="fas fa-check-circle"></i> 37/37 bài học
-                    </div>
                     <div class="icon-label" @click="showNoteInput = !showNoteInput">
                         <i class="fas fa-pen"></i> Ghi chú
                     </div>
@@ -62,65 +152,116 @@ const toggleCloseComment = () => {
                         <i class="fas fa-comment"></i> Bình luận
                     </div>
                 </div>
-
-                <NoteList :showNoteInput="showNoteInput" @setClose="toggleCloseNote" />
-                <CommentList :showCommentInput="showCommentInput" @setClose="toggleCloseComment" />
             </div>
+            <div class="course-header mb-3">
+                <div class="video-wrapper">
+                    <iframe class="video-player" :src="currentLesson.video_url" title="Giới thiệu khóa học"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center gap-2 mb-2">
+                <button class="btn btn-outline-primary p-2" @click="OnPrevVideo">
+                    Bài học trước
+                </button>
+                <button class="btn btn-outline-primary  p-2" @click="OnNextVideo">
+                    Bài học tiếp
+                </button>
+            </div>
+
+            <NoteList :showNoteInput="showNoteInput" @setClose="toggleCloseNote" />
+            <CommentList :showCommentInput="showCommentInput" @setClose="toggleCloseComment" />
+
             <div class="lesson-details">
-                <p class="lesson-content">{{ currentLesson.content }}</p>
-            </div>
-            <button class="btn btn-sm btn-outline-primary mt-3" @click="showNoteInput = !showNoteInput">+ Thêm ghi
-                chú</button>
-            <div class="mt-3" v-if="showNoteInput">
-                <div class="border rounded-3 p-3 bg-white">
-                    <div class="mb-3">
-                        <input class="form-control border-0 shadow-none border-bottom" placeholder="Tiêu đề"></input>
-                        <input class="form-control border-0 shadow-none" placeholder="Nội dung ghi chú..."></input>
-                    </div>
+                <p class="lesson-content mb-5 fs-5 fw-bold">{{ currentLesson.desVI }}</p>
 
-                    <div class="d-flex justify-content-end gap-2">
-                        <button class="btn btn-primary btn-lg rounded-pill">
-                            <i class="fas fa-sticky-note"></i>
-                        </button>
-                        <button class="btn btn-outline-primary btn-lg rounded-pill" @click="showNoteInput = false">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
+                <div class="center-info">
+                    <h3 class="fs-6 mb-3">Tham gia cộng đồng học tập để trao đổi, hỏi đáp và cập nhật thông tin mới nhất
+                        từ trung tâm.</h3>
+                    <p>
+                        📘 Nhóm học tập:
+                        <a href="https://www.facebook.com/groups/ten-nhom" target="_blank" rel="noopener noreferrer">
+                            https://www.facebook.com/groups/ten-nhom
+                        </a>
+                    </p>
+                    <p>📞 Liên hệ: 0909 999 999</p>
+                    <p>📧 Email: support@trungtam.vn</p>
                 </div>
             </div>
 
         </div>
 
-        <div class="col-md-4">
-            <div class="lesson-list-scrollable">
-                <h1 class="fs-4 p-3">Khóa học TOIEC</h1>
-                <ul>
-                    <li v-for="lesson in lessons" :key="lesson.id" class="lesson-card p-3" @click="changeVideo(lesson)"
-                        :class="{ watching: lesson.current, completed: lesson.completed }">
-                        <div class="lesson-status">
-                            <i v-if="lesson.completed" class="fas fa-check-circle text-primary status-icon"
-                                title="Hoàn thành"></i>
-                            <i v-else-if="lesson.current" class="fas fa-play-circle text-warning status-icon"
-                                title="Đang học"></i>
-                            <i v-else class="far fa-circle text-secondary status-icon" title="Chưa học"></i>
+        <div :class="['col-md-4', showSidebar ? 'transition-show' : 'transition-hide']">
+            <div :class="['lesson-list-scrollable pt-3', showSidebar ? 'transition-show' : 'transition-hide']">
+                <div class="d-flex justify-between">
+                    <button @click="toggleSidebar" :class="[showSidebar ? 'icon-show' : 'icon-hide']">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+                <div v-show="showSidebar">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h1 class="fs-4 py-3">Khóa học TOIEC</h1>
+                        <div class="icon-label" @click="toggleSidebar">
+                            <i class="fas fa-bars"></i>
                         </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <small class="text-muted">{{ completed }}/{{ total }} Hoàn thành</small>
+                        <div class="d-flex align-items-center gap-1" style="cursor: pointer;"
+                            @click="openScheduleModal = true">
+                            <i class="fas fa-trophy text-warning"></i>
+                            <small class="text-muted">Đặt lịch học</small>
+                        </div>
+                    </div>
 
-                        <div class="lesson-content">
-                            <div class="lesson-index"><span class="lesson-title">{{ lesson.title }}</span></div>
-                            <div class="lesson-desc">{{ lesson.description }}</div>
-                        </div>
-                    </li>
-                </ul>
+                    <div class="d-flex gap-1 mb-3">
+                        <div v-for="(section, index) in props.sections" :key="index"
+                            :class="['flex-fill', isSectionCompleted(section) ? 'bg-primary' : 'bg-secondary-subtle']"
+                            style="height: 4px; border-radius: 2px;"></div>
+                    </div>
+
+                    <DetailItem v-for="(section, index) in sections" :key="index" :title="section.title"
+                        :lessons="section.lessons" :isLocked="false" @play="changeVideo" />
+                </div>
             </div>
         </div>
-
     </div>
+    <ModelSchedule :openScheduleModal="openScheduleModal" @setClose="toggleCloseModel" />
 </template>
 <style scoped>
+.icon-show {
+    display: none;
+}
+
+.icon-hide {
+    display: block;
+}
+
 .courset-s {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.lesson-list-scrollable.transition-show {
+    right: 0;
+}
+
+.lesson-list-scrollable.transition-hide {
+    right: -26%;
+    background-color: #fff;
+    height: calc(100% - 65px);
+}
+
+.transition-hide.col-md-8 {
+    width: 100% !important;
+    transition: width 0.3s ease;
+}
+
+.transition-hide.col-md-4 {
+    width: 0% !important;
+    transition: width 0.3s ease;
 }
 
 .progress-container {
@@ -141,22 +282,23 @@ const toggleCloseComment = () => {
     font-size: 16px;
 }
 
+.bg-custom-light {
+    background-color: #e8eff8;
+}
+
+
 .lesson-list-scrollable,
 .note-panel {
     background-color: #fff;
     height: calc(100% - 65px);
     overflow-y: auto;
-    padding-right: 10px;
+    padding: 10px 20px;
     text-align: left;
     position: fixed;
     top: 65px;
     right: 0;
     width: 30%;
-    z-index: 100;
-}
-
-.lesson-list-scrollable {
-    direction: rtl;
+    z-index: 1;
 }
 
 .note-panel {
@@ -169,103 +311,40 @@ const toggleCloseComment = () => {
 }
 
 .course-header {
-    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 16px;
+    width: 100%;
 }
 
-.video-player {
+.video-wrapper {
+    position: relative;
     width: 100%;
-    height: 360px;
-    border-radius: 16px;
-    border: none;
+    max-width: 800px;
+    aspect-ratio: 16 / 9;
+    border-radius: 4px;
+    overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
 
 .course-title {
     font-size: 22px;
     font-weight: 700;
 }
 
-.instructor {
-    font-size: 16px;
-    color: #6c757d;
-}
-
-.lesson-card {
-    background: white;
-    border-radius: 12px;
-    border-left: 4px solid #dee2e6;
-    margin-bottom: 12px;
-    margin-left: 8px;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    transition: all 0.2s ease;
-    cursor: pointer;
-}
-
-.lesson-card:hover {
-    transform: translateY(-2px);
-    background-color: #eeedff;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-}
-
-.lesson-card.watching {
-    border-left: 6px solid #eef125;
-    background-color: #f8fcdb;
-}
-
-.lesson-card.completed {
-    border-left: 6px solid #4176e9;
-}
-
-.lesson-status .badge {
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 999px;
-    font-weight: 500;
-}
-
-
-.badge.completed {
-    background-color: #4176e9;
-    color: white;
-}
-
-.badge.watching {
-    background-color: #eef125;
-    color: white;
-}
-
-.badge.not-started {
-    background-color: #dee2e6;
-    color: #495057;
-}
-
 .lesson-content {
     flex: 1;
-}
-
-.lesson-index {
-    font-weight: bold;
-    margin-bottom: 4px;
-    color: #343a40;
-}
-
-.lesson-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.lesson-desc {
-    font-size: 14px;
-    color: #6c757d;
-}
-
-.status-icon {
-    font-size: 20px;
-    margin-right: 8px;
 }
 
 .note-section {
@@ -283,7 +362,9 @@ textarea:focus {
     outline: none;
 }
 
-.border-bottom {
-    border-bottom: 1px solid #ccc;
+.lesson-details {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
 }
 </style>
