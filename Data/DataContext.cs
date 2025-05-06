@@ -206,7 +206,13 @@ namespace backTOT.Data
                 .HasOne(cm => cm.lessons)
                 .WithMany(l => l.Comments)
                 .HasForeignKey(cm => cm.Lesson_id)
+                .OnDelete(DeleteBehavior.Restrict); 
+            modelBuilder.Entity<Comments>()
+                .HasOne(cm => cm.ParentComment)
+                .WithMany(cm => cm.Replies)
+                .HasForeignKey(cm => cm.Parent_id)
                 .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

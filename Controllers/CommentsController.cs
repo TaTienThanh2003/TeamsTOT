@@ -20,16 +20,17 @@ namespace backTOT.Controllers
         }
         // get GetCommentsByLessonId
         [HttpGet("{lessonId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Comments>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<CommentDto>))]
         [ProducesResponseType(404)]
         public IActionResult GetCommentsByLessonId(int lessonId)
         {
             var comments = _iCommentsService.GetCommentsByLessonId(lessonId);
-            if (comments == null)
+            var commetsDto = _mapper.Map<List<CommentsDto>>(comments);
+            if (commetsDto == null)
             {
                 return NotFound(new { status = 404, message = "No comments found" });
             }
-            return Ok(new { status = 200, message = "Success", data = comments });
+            return Ok(new { status = 200, message = "Success", data = commetsDto });
         }
         [HttpPost("addComment")]
         [ProducesResponseType(201)]

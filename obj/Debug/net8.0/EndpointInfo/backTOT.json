@@ -287,7 +287,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Comments"
+                    "$ref": "#/components/schemas/CommentDto"
                   }
                 }
               },
@@ -295,7 +295,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Comments"
+                    "$ref": "#/components/schemas/CommentDto"
                   }
                 }
               },
@@ -303,7 +303,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Comments"
+                    "$ref": "#/components/schemas/CommentDto"
                   }
                 }
               }
@@ -1287,6 +1287,16 @@
           "parent_id": {
             "type": "integer",
             "format": "int32",
+            "nullable": true
+          },
+          "parentComment": {
+            "$ref": "#/components/schemas/Comments"
+          },
+          "replies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comments"
+            },
             "nullable": true
           },
           "lessons": {

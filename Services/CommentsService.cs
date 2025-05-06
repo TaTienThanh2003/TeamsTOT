@@ -1,6 +1,7 @@
 ﻿using backTOT.Data;
 using backTOT.Entitys;
 using backTOT.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace backTOT.Services
 {
@@ -22,9 +23,12 @@ namespace backTOT.Services
         {
             return _context.Comments
                 .Where(cm => cm.Lesson_id == lessonId)
-                .OrderBy(cm => cm.Lesson_id)
+                .Include(cm => cm.ParentComment)
+                .Include(cm => cm.users)
+                .OrderBy(cm => cm.Id)
                 .ToList();
         }
+
 
         public bool Save()
         {
