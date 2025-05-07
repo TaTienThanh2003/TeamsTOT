@@ -1,13 +1,11 @@
-﻿using backTOT.Entitys;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using backTOT.Entitys;
 
 namespace backTOT.Dto
 {
-    public class CoursesDto
+    public class CoursesActionDto
     {
-        public int Id { get; set; }
         public string TitleVI { get; set; }
         public string TitleEN { get; set; }
         public string? DesVI { get; set; }

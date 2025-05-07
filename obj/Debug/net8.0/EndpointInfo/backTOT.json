@@ -29,7 +29,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Courses"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
                   }
                 }
               },
@@ -37,7 +37,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Courses"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
                   }
                 }
               },
@@ -45,7 +45,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Courses"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
                   }
                 }
               }
@@ -56,17 +56,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -76,17 +76,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -127,7 +127,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Carts"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Carts"
                   }
                 }
               },
@@ -135,7 +135,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Carts"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Carts"
                   }
                 }
               },
@@ -143,7 +143,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Carts"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Carts"
                   }
                 }
               }
@@ -154,17 +154,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -174,17 +174,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -201,17 +201,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CartsDto"
+                "$ref": "#/components/schemas/backTOT.Dto.CartsDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CartsDto"
+                "$ref": "#/components/schemas/backTOT.Dto.CartsDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CartsDto"
+                "$ref": "#/components/schemas/backTOT.Dto.CartsDto"
               }
             }
           }
@@ -225,17 +225,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -245,17 +245,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -287,7 +287,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CommentDto"
+                    "$ref": "#/components/schemas/backTOT.Dto.CommentDto"
                   }
                 }
               },
@@ -295,7 +295,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CommentDto"
+                    "$ref": "#/components/schemas/backTOT.Dto.CommentDto"
                   }
                 }
               },
@@ -303,7 +303,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CommentDto"
+                    "$ref": "#/components/schemas/backTOT.Dto.CommentDto"
                   }
                 }
               }
@@ -314,17 +314,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -341,17 +341,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CommentDto"
+                "$ref": "#/components/schemas/backTOT.Dto.CommentDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CommentDto"
+                "$ref": "#/components/schemas/backTOT.Dto.CommentDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CommentDto"
+                "$ref": "#/components/schemas/backTOT.Dto.CommentDto"
               }
             }
           }
@@ -365,17 +365,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -396,7 +396,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Courses"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
                   }
                 }
               },
@@ -404,7 +404,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Courses"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
                   }
                 }
               },
@@ -412,7 +412,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Courses"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
                   }
                 }
               }
@@ -423,17 +423,174 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/courses/api/courses/{id}": {
+      "get": {
+        "tags": [
+          "Courses"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Courses"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.CoursesActionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.CoursesActionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.CoursesActionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/courses/{id}": {
+      "delete": {
+        "tags": [
+          "Courses"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/courses/addCourse": {
+      "post": {
+        "tags": [
+          "Courses"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.CoursesActionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.CoursesActionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.CoursesActionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -463,7 +620,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Courses"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
                   }
                 }
               },
@@ -471,7 +628,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Courses"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
                   }
                 }
               },
@@ -479,7 +636,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Courses"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
                   }
                 }
               }
@@ -490,17 +647,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -563,17 +720,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EnrollmentDto"
+                "$ref": "#/components/schemas/backTOT.Entitys.EnrollmentDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/EnrollmentDto"
+                "$ref": "#/components/schemas/backTOT.Entitys.EnrollmentDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/EnrollmentDto"
+                "$ref": "#/components/schemas/backTOT.Entitys.EnrollmentDto"
               }
             }
           }
@@ -587,17 +744,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -607,17 +764,273 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lessonNotes/{userId}": {
+      "get": {
+        "tags": [
+          "LessonNotes"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Dto.Lesson_notesDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Dto.Lesson_notesDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Dto.Lesson_notesDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lessonNotes/lessonNoteByUser": {
+      "get": {
+        "tags": [
+          "LessonNotes"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lessonId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Dto.Lesson_notesDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Dto.Lesson_notesDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Dto.Lesson_notesDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lessonNotes/addLessonNote": {
+      "post": {
+        "tags": [
+          "LessonNotes"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.Lesson_notesDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.Lesson_notesDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.Lesson_notesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -649,7 +1062,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Lessons"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Lessons"
                   }
                 }
               },
@@ -657,7 +1070,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Lessons"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Lessons"
                   }
                 }
               },
@@ -665,7 +1078,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Lessons"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Lessons"
                   }
                 }
               }
@@ -676,17 +1089,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -696,17 +1109,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -738,7 +1151,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Reviews"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Reviews"
                   }
                 }
               },
@@ -746,7 +1159,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Reviews"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Reviews"
                   }
                 }
               },
@@ -754,7 +1167,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Reviews"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Reviews"
                   }
                 }
               }
@@ -765,17 +1178,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -785,17 +1198,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -812,17 +1225,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ReviewsDto"
+                "$ref": "#/components/schemas/backTOT.Dto.ReviewsDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ReviewsDto"
+                "$ref": "#/components/schemas/backTOT.Dto.ReviewsDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ReviewsDto"
+                "$ref": "#/components/schemas/backTOT.Dto.ReviewsDto"
               }
             }
           }
@@ -847,7 +1260,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Users"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Users"
                   }
                 }
               },
@@ -855,7 +1268,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Users"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Users"
                   }
                 }
               },
@@ -863,7 +1276,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Users"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Users"
                   }
                 }
               }
@@ -874,17 +1287,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -905,7 +1318,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Users"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Users"
                   }
                 }
               },
@@ -913,7 +1326,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Users"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Users"
                   }
                 }
               },
@@ -921,7 +1334,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Users"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Users"
                   }
                 }
               }
@@ -932,17 +1345,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -974,7 +1387,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Users"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Users"
                   }
                 }
               },
@@ -982,7 +1395,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Users"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Users"
                   }
                 }
               },
@@ -990,7 +1403,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Users"
+                    "$ref": "#/components/schemas/backTOT.Entitys.Users"
                   }
                 }
               }
@@ -1001,17 +1414,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -1021,17 +1434,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -1048,17 +1461,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserDto"
+                "$ref": "#/components/schemas/backTOT.Dto.UserDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserDto"
+                "$ref": "#/components/schemas/backTOT.Dto.UserDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UserDto"
+                "$ref": "#/components/schemas/backTOT.Dto.UserDto"
               }
             }
           }
@@ -1072,17 +1485,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -1092,17 +1505,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -1119,17 +1532,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+                "$ref": "#/components/schemas/backTOT.Dto.LoginRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+                "$ref": "#/components/schemas/backTOT.Dto.LoginRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+                "$ref": "#/components/schemas/backTOT.Dto.LoginRequest"
               }
             }
           }
@@ -1140,17 +1553,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Users"
+                  "$ref": "#/components/schemas/backTOT.Entitys.Users"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Users"
+                  "$ref": "#/components/schemas/backTOT.Entitys.Users"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Users"
+                  "$ref": "#/components/schemas/backTOT.Entitys.Users"
                 }
               }
             }
@@ -1160,17 +1573,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -1180,17 +1593,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
                 }
               }
             }
@@ -1201,7 +1614,189 @@
   },
   "components": {
     "schemas": {
-      "Carts": {
+      "Microsoft.AspNetCore.Mvc.ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "backTOT.Dto.CartsDto": {
+        "type": "object",
+        "properties": {
+          "users_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "course_id": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "backTOT.Dto.CommentDto": {
+        "type": "object",
+        "properties": {
+          "lesson_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "parent_id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "backTOT.Dto.CoursesActionDto": {
+        "type": "object",
+        "properties": {
+          "titleVI": {
+            "type": "string",
+            "nullable": true
+          },
+          "titleEN": {
+            "type": "string",
+            "nullable": true
+          },
+          "desVI": {
+            "type": "string",
+            "nullable": true
+          },
+          "desEN": {
+            "type": "string",
+            "nullable": true
+          },
+          "countDay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/backTOT.Entitys.Mode"
+          },
+          "img": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "backTOT.Dto.Lesson_notesDto": {
+        "type": "object",
+        "properties": {
+          "lesson_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "video_time": {
+            "type": "string",
+            "format": "date-span"
+          }
+        },
+        "additionalProperties": false
+      },
+      "backTOT.Dto.LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "backTOT.Dto.ReviewsDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "courseId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "star": {
+            "maximum": 5,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "backTOT.Dto.UserDto": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "backTOT.Entitys.Carts": {
         "type": "object",
         "properties": {
           "id": {
@@ -1217,47 +1812,15 @@
             "format": "int32"
           },
           "users": {
-            "$ref": "#/components/schemas/Users"
+            "$ref": "#/components/schemas/backTOT.Entitys.Users"
           },
           "course": {
-            "$ref": "#/components/schemas/Courses"
+            "$ref": "#/components/schemas/backTOT.Entitys.Courses"
           }
         },
         "additionalProperties": false
       },
-      "CartsDto": {
-        "type": "object",
-        "properties": {
-          "users_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "course_id": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CommentDto": {
-        "type": "object",
-        "properties": {
-          "lesson_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "user_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "text": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Comments": {
+      "backTOT.Entitys.Comments": {
         "type": "object",
         "properties": {
           "id": {
@@ -1290,25 +1853,25 @@
             "nullable": true
           },
           "parentComment": {
-            "$ref": "#/components/schemas/Comments"
+            "$ref": "#/components/schemas/backTOT.Entitys.Comments"
           },
           "replies": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Comments"
+              "$ref": "#/components/schemas/backTOT.Entitys.Comments"
             },
             "nullable": true
           },
           "lessons": {
-            "$ref": "#/components/schemas/Lessons"
+            "$ref": "#/components/schemas/backTOT.Entitys.Lessons"
           },
           "users": {
-            "$ref": "#/components/schemas/Users"
+            "$ref": "#/components/schemas/backTOT.Entitys.Users"
           }
         },
         "additionalProperties": false
       },
-      "CourseTeachers": {
+      "backTOT.Entitys.CourseTeachers": {
         "type": "object",
         "properties": {
           "id": {
@@ -1320,19 +1883,19 @@
             "format": "int32"
           },
           "course": {
-            "$ref": "#/components/schemas/Courses"
+            "$ref": "#/components/schemas/backTOT.Entitys.Courses"
           },
           "teacherId": {
             "type": "integer",
             "format": "int32"
           },
           "teacher": {
-            "$ref": "#/components/schemas/Users"
+            "$ref": "#/components/schemas/backTOT.Entitys.Users"
           }
         },
         "additionalProperties": false
       },
-      "Courses": {
+      "backTOT.Entitys.Courses": {
         "type": "object",
         "properties": {
           "id": {
@@ -1366,7 +1929,7 @@
             "format": "double"
           },
           "mode": {
-            "$ref": "#/components/schemas/Mode"
+            "$ref": "#/components/schemas/backTOT.Entitys.Mode"
           },
           "img": {
             "type": "string",
@@ -1375,56 +1938,56 @@
           "enrollments": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Enrollments"
+              "$ref": "#/components/schemas/backTOT.Entitys.Enrollments"
             },
             "nullable": true
           },
           "sections": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Sections"
+              "$ref": "#/components/schemas/backTOT.Entitys.Sections"
             },
             "nullable": true
           },
           "schedules": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Schedules"
+              "$ref": "#/components/schemas/backTOT.Entitys.Schedules"
             },
             "nullable": true
           },
           "scores": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Scores"
+              "$ref": "#/components/schemas/backTOT.Entitys.Scores"
             },
             "nullable": true
           },
           "carts": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Carts"
+              "$ref": "#/components/schemas/backTOT.Entitys.Carts"
             },
             "nullable": true
           },
           "courseTeachers": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CourseTeachers"
+              "$ref": "#/components/schemas/backTOT.Entitys.CourseTeachers"
             },
             "nullable": true
           },
           "reviews": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Reviews"
+              "$ref": "#/components/schemas/backTOT.Entitys.Reviews"
             },
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "EnrollmentDto": {
+      "backTOT.Entitys.EnrollmentDto": {
         "type": "object",
         "properties": {
           "student_id": {
@@ -1438,7 +2001,7 @@
         },
         "additionalProperties": false
       },
-      "Enrollments": {
+      "backTOT.Entitys.Enrollments": {
         "type": "object",
         "properties": {
           "id": {
@@ -1467,15 +2030,15 @@
             "format": "date"
           },
           "user": {
-            "$ref": "#/components/schemas/Users"
+            "$ref": "#/components/schemas/backTOT.Entitys.Users"
           },
           "courses": {
-            "$ref": "#/components/schemas/Courses"
+            "$ref": "#/components/schemas/backTOT.Entitys.Courses"
           }
         },
         "additionalProperties": false
       },
-      "Lesson_notes": {
+      "backTOT.Entitys.Lesson_notes": {
         "type": "object",
         "properties": {
           "id": {
@@ -1503,15 +2066,15 @@
             "format": "date"
           },
           "lessons": {
-            "$ref": "#/components/schemas/Lessons"
+            "$ref": "#/components/schemas/backTOT.Entitys.Lessons"
           },
           "users": {
-            "$ref": "#/components/schemas/Users"
+            "$ref": "#/components/schemas/backTOT.Entitys.Users"
           }
         },
         "additionalProperties": false
       },
-      "Lessons": {
+      "backTOT.Entitys.Lessons": {
         "type": "object",
         "properties": {
           "id": {
@@ -1553,52 +2116,38 @@
           "schedules": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Schedules"
+              "$ref": "#/components/schemas/backTOT.Entitys.Schedules"
             },
             "nullable": true
           },
           "lesson_notes": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Lesson_notes"
+              "$ref": "#/components/schemas/backTOT.Entitys.Lesson_notes"
             },
             "nullable": true
           },
           "comments": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Comments"
+              "$ref": "#/components/schemas/backTOT.Entitys.Comments"
             },
             "nullable": true
           },
           "sections": {
-            "$ref": "#/components/schemas/Sections"
+            "$ref": "#/components/schemas/backTOT.Entitys.Sections"
           }
         },
         "additionalProperties": false
       },
-      "LoginRequest": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Mode": {
+      "backTOT.Entitys.Mode": {
         "enum": [
           "ONLINE",
           "OFFLINE"
         ],
         "type": "string"
       },
-      "Plans": {
+      "backTOT.Entitys.Plans": {
         "type": "object",
         "properties": {
           "id": {
@@ -1634,41 +2183,14 @@
           "user_Plans": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/User_plans"
+              "$ref": "#/components/schemas/backTOT.Entitys.User_plans"
             },
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "ProblemDetails": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "detail": {
-            "type": "string",
-            "nullable": true
-          },
-          "instance": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": { }
-      },
-      "Reviews": {
+      "backTOT.Entitys.Reviews": {
         "type": "object",
         "properties": {
           "id": {
@@ -1695,39 +2217,15 @@
             "nullable": true
           },
           "users": {
-            "$ref": "#/components/schemas/Users"
+            "$ref": "#/components/schemas/backTOT.Entitys.Users"
           },
           "courses": {
-            "$ref": "#/components/schemas/Courses"
+            "$ref": "#/components/schemas/backTOT.Entitys.Courses"
           }
         },
         "additionalProperties": false
       },
-      "ReviewsDto": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "courseId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "content": {
-            "type": "string",
-            "nullable": true
-          },
-          "star": {
-            "maximum": 5,
-            "minimum": 1,
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Role": {
+      "backTOT.Entitys.Role": {
         "enum": [
           "USER",
           "ADMIN",
@@ -1735,7 +2233,7 @@
         ],
         "type": "string"
       },
-      "Schedules": {
+      "backTOT.Entitys.Schedules": {
         "type": "object",
         "properties": {
           "id": {
@@ -1755,15 +2253,15 @@
             "format": "date"
           },
           "courses": {
-            "$ref": "#/components/schemas/Courses"
+            "$ref": "#/components/schemas/backTOT.Entitys.Courses"
           },
           "lessons": {
-            "$ref": "#/components/schemas/Lessons"
+            "$ref": "#/components/schemas/backTOT.Entitys.Lessons"
           }
         },
         "additionalProperties": false
       },
-      "Scores": {
+      "backTOT.Entitys.Scores": {
         "type": "object",
         "properties": {
           "id": {
@@ -1793,15 +2291,15 @@
             "format": "date"
           },
           "user": {
-            "$ref": "#/components/schemas/Users"
+            "$ref": "#/components/schemas/backTOT.Entitys.Users"
           },
           "courses": {
-            "$ref": "#/components/schemas/Courses"
+            "$ref": "#/components/schemas/backTOT.Entitys.Courses"
           }
         },
         "additionalProperties": false
       },
-      "Sections": {
+      "backTOT.Entitys.Sections": {
         "type": "object",
         "properties": {
           "id": {
@@ -1833,19 +2331,19 @@
             "format": "int32"
           },
           "courses": {
-            "$ref": "#/components/schemas/Courses"
+            "$ref": "#/components/schemas/backTOT.Entitys.Courses"
           },
           "lessons": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Lessons"
+              "$ref": "#/components/schemas/backTOT.Entitys.Lessons"
             },
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "Status": {
+      "backTOT.Entitys.Status": {
         "enum": [
           "ACTIVE",
           "EXPIRED",
@@ -1853,28 +2351,7 @@
         ],
         "type": "string"
       },
-      "UserDto": {
-        "type": "object",
-        "properties": {
-          "userName": {
-            "maxLength": 50,
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "maxLength": 50,
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "maxLength": 50,
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "User_plans": {
+      "backTOT.Entitys.User_plans": {
         "type": "object",
         "properties": {
           "id": {
@@ -1903,18 +2380,18 @@
             "format": "date"
           },
           "status": {
-            "$ref": "#/components/schemas/Status"
+            "$ref": "#/components/schemas/backTOT.Entitys.Status"
           },
           "users": {
-            "$ref": "#/components/schemas/Users"
+            "$ref": "#/components/schemas/backTOT.Entitys.Users"
           },
           "plans": {
-            "$ref": "#/components/schemas/Plans"
+            "$ref": "#/components/schemas/backTOT.Entitys.Plans"
           }
         },
         "additionalProperties": false
       },
-      "Users": {
+      "backTOT.Entitys.Users": {
         "type": "object",
         "properties": {
           "id": {
@@ -1950,7 +2427,7 @@
             "nullable": true
           },
           "role": {
-            "$ref": "#/components/schemas/Role"
+            "$ref": "#/components/schemas/backTOT.Entitys.Role"
           },
           "created_ad": {
             "type": "string",
@@ -1959,42 +2436,42 @@
           "enrollments": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Enrollments"
+              "$ref": "#/components/schemas/backTOT.Entitys.Enrollments"
             },
             "nullable": true
           },
           "scores": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Scores"
+              "$ref": "#/components/schemas/backTOT.Entitys.Scores"
             },
             "nullable": true
           },
           "carts": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Carts"
+              "$ref": "#/components/schemas/backTOT.Entitys.Carts"
             },
             "nullable": true
           },
           "user_Plans": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/User_plans"
+              "$ref": "#/components/schemas/backTOT.Entitys.User_plans"
             },
             "nullable": true
           },
           "lesson_notes": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Lesson_notes"
+              "$ref": "#/components/schemas/backTOT.Entitys.Lesson_notes"
             },
             "nullable": true
           },
           "comments": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Comments"
+              "$ref": "#/components/schemas/backTOT.Entitys.Comments"
             },
             "nullable": true
           }

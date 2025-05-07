@@ -20,6 +20,8 @@ namespace backTOT.Halper
             CreateMap<Users, TeacherDto>();
             CreateMap<Courses, CoursesDto>();
             CreateMap<CoursesDto, Courses>();
+            CreateMap<Courses, CoursesActionDto>();
+            CreateMap<CoursesActionDto, Courses>();
             CreateMap<Enrollments, EnrollmentDtoResponse>();
             CreateMap<CommentsDto, Comments>();
             CreateMap<Comments, CommentsDto>()
@@ -30,6 +32,8 @@ namespace backTOT.Halper
                  .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.FullName)) 
                  .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image)) ;
             CreateMap<UsersCommentsDto, Users>();
+            CreateMap<Lesson_notes, Lesson_notesDto>();
+            CreateMap<Lesson_notesDto, Lesson_notes>();
         }
     }
 }

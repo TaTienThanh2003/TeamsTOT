@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using backTOT;
 using backTOT.Data;
 using backTOT.Interface;
@@ -25,15 +25,22 @@ builder.Services.AddScoped<IEnrollmentService, EnrollmentsService>();
 builder.Services.AddScoped<IReviewsService, ReviewsService>();
 builder.Services.AddScoped<ICourseTeachersService, CourseTeachersService>();
 builder.Services.AddScoped<ICommentsService, CommentsService>();
-// Th�m Swagger/OpenAPI
+builder.Services.AddScoped<ILesson_notes, Lesson_NotesService>();
+// Thêm Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// C?u h�nh DbContext v?i SQL Server
+// C?u hình DbContext v?i SQL Server
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+// tránh trùng lặp
+builder.Services.AddSwaggerGen(c =>
+{
+    c.CustomSchemaIds(type => type.FullName); // Phân biệt dựa theo namespace
+});
+
 
 // CORS Policy
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
