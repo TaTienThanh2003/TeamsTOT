@@ -4,6 +4,7 @@ export default {
         day: "Day",
         week: "Week",
         month: "Month",
+        today: "Today",
         tomorrow: "Tomorrow",
         view: "View",
         report: "Report",

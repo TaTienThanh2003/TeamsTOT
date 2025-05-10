@@ -51,6 +51,8 @@ body {
     margin-top: 65px;
     height: calc(100vh - 65px);
     overflow-y: auto;
+    z-index: 1;
+    position: relative;
 }
 
 .main-content.expanded {

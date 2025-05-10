@@ -4,6 +4,7 @@ import NoteList from './DetailItem/NoteList.vue';
 import CommentList from './DetailItem/CommentList.vue';
 import ModelSchedule from './DetailItem/ModelSchedule.vue';
 import DetailItem from '@/components/Home/Detail/DetailItem.vue';
+import i18n from '@/i18n';
 
 const props = defineProps<{
     sections: {
@@ -27,6 +28,7 @@ const showCommentInput = ref(false)
 const openScheduleModal = ref(false)
 const currentLesson = ref<any>({});
 const showSidebar = ref(true)
+const locale = i18n.global.locale.toUpperCase();
 
 const isSectionCompleted = (section: typeof props.sections[number]) =>
     section.lessons.length > 0 && section.lessons.every(lesson => lesson.completed);
@@ -140,17 +142,23 @@ onMounted(() => {
                                 style="font-size: 18px;">
                                 <i class="fas fa-chevron-left"></i>
                             </button>
-                            <h2 class="course-title m-0 fs-4">{{ currentLesson.titleVI }}</h2>
+                            <h2 class="course-title m-0 fs-4">{{ locale === 'vi' ? currentLesson.titleVI : currentLesson.titleEN }}</h2>
                         </div>
                     </div>
                 </div>
-                <div class="progress-container">
-                    <div class="icon-label" @click="showNoteInput = !showNoteInput">
-                        <i class="fas fa-pen"></i> Ghi chú
-                    </div>
-                    <div class="icon-label" @click="showCommentInput = !showCommentInput">
-                        <i class="fas fa-comment"></i> Bình luận
-                    </div>
+                <div class="d-flex gap-2 align-items-center">
+                    <button type="button"
+                        :class="['btn', 'btn-primary', 'rounded-circle', 'btn-customer', { 'btn-active': showNoteInput }]"
+                        style="width: 40px; height: 40px;" @click="showNoteInput = !showNoteInput" title="Ghi chú">
+                        <i class="fas fa-pen text-primary"></i>
+                    </button>
+
+                    <button type="button"
+                        :class="['btn', 'btn-primary', 'rounded-circle', 'btn-customer', { 'btn-active': showCommentInput }]"
+                        style="width: 40px; height: 40px;" @click="showCommentInput = !showCommentInput"
+                        title="Bình luận">
+                        <i class="fas fa-comment text-primary"></i>
+                    </button>
                 </div>
             </div>
             <div class="course-header mb-3">
@@ -170,11 +178,11 @@ onMounted(() => {
                 </button>
             </div>
 
-            <NoteList :showNoteInput="showNoteInput" @setClose="toggleCloseNote" />
-            <CommentList :showCommentInput="showCommentInput" @setClose="toggleCloseComment" />
+            <NoteList :lessonid="currentLesson.id" :showNoteInput="showNoteInput" @setClose="toggleCloseNote" />
+            <CommentList :lessonid="currentLesson.id" :showCommentInput="showCommentInput" @setClose="toggleCloseComment" />
 
             <div class="lesson-details">
-                <p class="lesson-content mb-5 fs-5 fw-bold">{{ currentLesson.desVI }}</p>
+                <p class="lesson-content mb-5 fs-5 fw-bold">{{ locale === 'vi' ? currentLesson.desVI : currentLesson.desEN }}</p>
 
                 <div class="center-info">
                     <h3 class="fs-6 mb-3">Tham gia cộng đồng học tập để trao đổi, hỏi đáp và cập nhật thông tin mới nhất
@@ -264,10 +272,21 @@ onMounted(() => {
     transition: width 0.3s ease;
 }
 
-.progress-container {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+.btn-customer i {
+    transition: color 0.2s ease;
+}
+
+
+.btn-customer:hover i {
+    color: #fff !important;
+}
+
+.btn-active {
+    background-color: #2237fa;
+}
+
+.btn-active i {
+    color: #fff !important;
 }
 
 .icon-label {
@@ -340,7 +359,8 @@ onMounted(() => {
 
 .course-title {
     font-size: 22px;
-    font-weight: 700;
+    font-weight: 600;
+    color: #333;
 }
 
 .lesson-content {

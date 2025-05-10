@@ -95,7 +95,7 @@ const setActiveTab = (tabName: string) => {
 }
 
 .nav-link i {
-    font-size: 20px;
+    font-size: 18px;
     transition: transform 0.3s ease;
 }
 

@@ -1,5 +1,7 @@
+import Admin from '@/page/admin.vue'
 import Cart from '@/page/Cart.vue'
 import DetailCourse from '@/page/DetailCourse.vue'
+import DetailOff from '@/page/DetailOff.vue'
 import History from '@/page/history.vue'
 import Hocvien from '@/page/hocvien.vue'
 import Home from '@/page/home.vue'
@@ -53,6 +55,16 @@ const routes = [
         path: '/signin',
         name: 'SignIn',
         component: Signin
+    },
+    {
+        path: '/admin',
+        name: 'Admin',
+        component: Admin
+    },
+    {
+        path: '/detail-off',
+        name: 'DetaitOff',
+        component: DetailOff
     }
 ]
 

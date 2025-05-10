@@ -29,6 +29,10 @@ export const getCourses = async () => {
     const res = await axios.get(`${api}/courses`)
     return res.data
 };
+export const getUser = async () => {
+    const res = await axios.get(`${api}/users`)
+    return res.data
+}
 
 export const getTeacher = async () => {
     const res = await axios.get(`${api}/users/getTeacher`)
@@ -91,7 +95,28 @@ export const getComment = async (lessonid: number) => {
     const res = await axios.get(`${api}/comments/${lessonid}`)
     return res.data;
 }
-
+export const addComment = async (lesson_id: number, user_id: number, text: string,parent_id: number | null = null) => {
+    const res = await axios.post(`${api}/comments/addComment`, {
+        lesson_id,
+        user_id,
+        text,
+        parent_id
+    })
+    return res.data;
+}
+export async function getNotebylesson(lesson_id: number, user_id: number) {
+    const res = await axios.get(`${api}/lessonNotes/lessonNoteByUser?userId=${user_id}&lessonId=${lesson_id}`)
+    return res.data;
+}
+export async function addNote(lesson_id: number, user_id: number,text: string,video_time: string) {
+    const res = await axios.post(`${api}/lessonNotes/addLessonNote`,{
+        lesson_id,
+        user_id,
+        text,
+        video_time
+    })
+    return res.data;
+}
 export async function checkPaid(): Promise<any> {
     try {
         const response = await axios.get(api_bank_url, {
@@ -104,4 +129,19 @@ export async function checkPaid(): Promise<any> {
     } catch (error) {
         console.error('Có lỗi xảy ra:', error);
     }
+}
+export async function translateViEn(text: String) {
+    const res = await fetch('https://libretranslate.de/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            q: text,
+            source: 'vi',
+            target: 'en',
+            format: 'text'
+        })
+    });
+    const data = await res.json();
+    console.log(data.translatedText);
+    return data;
 }

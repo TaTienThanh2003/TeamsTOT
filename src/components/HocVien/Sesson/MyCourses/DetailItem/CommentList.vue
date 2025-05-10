@@ -1,52 +1,101 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { getComment } from '@/services';
+import { addComment } from '@/services';
+import { onMounted, ref, watch } from 'vue';
 
-defineProps<{
+const props = defineProps<{
     showCommentInput: boolean;
+    lessonid: number;
 }>();
 
 const emit = defineEmits(['setClose']);
-
+const user = JSON.parse(localStorage.getItem("user") || "{}");
+const userid = user.id;
+const username = user.fullName;
+const comments = ref<any>([]);
+const commentText = ref<string>('');
 const onCloseDetail = () => {
     emit('setClose', false)
 }
-
-const comments = ref<any>([
-    {
-        username: 'Nguyễn Văn A',
-        text: 'Bình luận về mẫu câu chào hỏi cơ bản',
-        date: '3 giờ trước',
-        likes: 2,
-        replies: []
-    },
-    {
-        username: 'Trần Thị B',
-        text: 'Bình luận về từ vựng gia đình và bạn bè',
-        date: '2 ngày trước',
-        likes: 5,
-        replies: []
-    }
-]);
-
-const activeReplyIndex = ref<number | null>(null);
-const replyText = ref<string>('');
+const activeReplyId = ref<number | null>(null);
+const replyText = ref<{ [key: number]: string }>({});
 const likeComment = (comment: (typeof comments.value)[0]) => {
     comment.likes++;
 }
 
-const submitReply = (index: number) => {
-    if (replyText.value.trim() !== '') {
-        comments.value[index].replies.push({
-            username: 'Người dùng mới',
-            text: replyText.value,
-            date: 'Vừa xong',
-            likes: 0,
-            replies: []
-        });
-        replyText.value = '';
-        activeReplyIndex.value = null;
+const submitReply = async (parentId: number) => {
+    const text = replyText.value[parentId]?.trim();
+    if (text) {
+        try {
+            await addComment(props.lessonid, userid, text, parentId);
+            replyText.value[parentId] = ''; // clear text for that parent
+            activeReplyId.value = null;
+            await showcomment(props.lessonid); // refresh comments and replies
+        } catch (error) {
+            console.log("Lỗi gửi reply:", error);
+        }
     }
 };
+const addComments = async (lesson_id: number, userid: number, text: string, parent_id: number | null = null) => {
+    try {
+        await addComment(lesson_id, userid, text, parent_id);
+        commentText.value = '';
+        await showcomment(lesson_id);
+    } catch (err: any) {
+        console.log("Lỗi comments: " + err);
+    }
+}
+const showcomment = async (lessonid: number) => {
+    try {
+        const res = await getComment(lessonid);
+        const resdata = res.data;
+
+        // Tạo một đối tượng để lưu trữ các comment theo ID
+        const commentMap: { [key: number]: any } = {};
+
+        // Duyệt qua dữ liệu và tạo comment và reply
+        resdata.forEach((item: any) => {
+            if (item.parent_id === null) {
+                // Đây là một comment cha
+                commentMap[item.id] = {
+                    id: item.id,
+                    text: item.text,
+                    likes: item.likes,
+                    user: item.user || {},
+                    replies: [] // Khởi tạo mảng replies
+                };
+            } else {
+                // Đây là một reply
+                const parentId = item.parent_id;
+                if (commentMap[parentId]) {
+                    commentMap[parentId].replies.push({
+                        id: item.id,
+                        text: item.text,
+                        likes: item.likes,
+                        user: item.user || {}
+                    });
+                }
+            }
+        });
+
+        // Chuyển đổi đối tượng comment thành một mảng
+        comments.value = Object.values(commentMap);
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+onMounted(() => {
+    if (props.lessonid) {
+        showcomment(props.lessonid);
+    }
+});
+
+watch(() => props.lessonid, (newId) => {
+    if (newId) {
+        showcomment(newId);
+    }
+});
 </script>
 
 
@@ -58,16 +107,20 @@ const submitReply = (index: number) => {
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        <input class="start-discussion" type="text" placeholder="Nhập bình luận mới của bạn" />
+        <input class="start-discussion" type="text" placeholder="Nhập bình luận mới của bạn" v-model="commentText" />
+        <button class="btn btn-primary" @click="addComments(props.lessonid, userid, commentText, null)">
+            Bình luận
+        </button>
 
         <ul class="comment-list">
             <li v-for="(comment, index) in comments" :key="index" class="comment-item">
                 <div class="comment-header">
                     <div class="user-info">
-                        <div class="user-avatar">{{ comment.username.charAt(0) }}</div>
+                        <div class="user-avatar">
+                            <img :src="comment.user.image" alt="avatar" class="user-avatar">
+                        </div>
                         <div class="user-name-time">
-                            <div class="username">{{ comment.username }}</div>
-                            <div class="time">{{ comment.date }}</div>
+                            <div class="username">{{ comment.user.userName }}</div>
                         </div>
                     </div>
                     <div class="actions">
@@ -79,24 +132,25 @@ const submitReply = (index: number) => {
 
                 <div class="comment-footer">
                     <button class="like-btn" @click="likeComment(comment)">👍 {{ comment.likes }}</button>
-                    <button class="reply-btn" @click="activeReplyIndex = index">Reply</button>
+                    <button class="reply-btn" @click="activeReplyId = comment.id">Reply</button>
                 </div>
 
                 <!-- Hộp nhập reply -->
-                <div v-if="activeReplyIndex === index" class="reply-input">
-                    <input v-model="replyText" type="text" placeholder="Write a reply..." />
-                    <button @click="submitReply(index)" class="send-btn">Send</button>
+                <div v-if="activeReplyId === comment.id" class="reply-input">
+                    <input v-model="replyText[comment.id]" type="text" placeholder="Write a reply..." />
+                    <button @click="submitReply(comment.id)" class="send-btn">Send</button>
                 </div>
 
-                <!-- Danh sách reply -->
+                <!-- Danh sách reply, now properly nested under the respective comment -->
                 <ul class="reply-list">
-                    <li v-for="(reply, replyIndex) in comment.replies" :key="replyIndex" class="reply-item">
+                    <li v-for="reply in comment.replies" :key="reply.id" class="reply-item">
                         <div class="reply-header">
                             <div class="user-info">
-                                <div class="user-avatar">{{ reply.username.charAt(0) }}</div>
+                                <div class="user-avatar">
+                                    <img :src="reply.user.image" alt="avatar" class="user-avatar">
+                                </div>
                                 <div class="user-name-time">
-                                    <div class="username">{{ reply.username }}</div>
-                                    <div class="time">{{ reply.date }}</div>
+                                    <div class="username">{{ reply.user.userName }}</div>
                                 </div>
                             </div>
                         </div>
@@ -111,6 +165,7 @@ const submitReply = (index: number) => {
 
             </li>
         </ul>
+
     </div>
 </template>
 

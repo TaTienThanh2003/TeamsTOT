@@ -1,36 +1,42 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+<script lang="ts">
 
-defineProps<{ showDetail: boolean }>()
+export default {
+    data() {
+        return {
+            currentLanguage: "Vietnamese", // Ngôn ngữ mặc định
+            user: localStorage.getItem("user"),
+            name: user.fullName,
+        };
+    },
+    methods: {
+        changeLanguage(lang: string) {
+            this.$i18n.locale = lang;
+            if (lang === "en") {
+                this.currentLanguage = "English";
+            } else if (lang === "vi") {
+                this.currentLanguage = "Vietnamese";
+            }
+        },
+        logout() {
+            // Xóa userId trong localStorage khi đăng xuất
+            localStorage.removeItem('user');
+            this.user = null; // Cập nhật lại userId sau khi logout
+            this.$router.push('/'); // Điều hướng về trang chủ
+        },
+    },
+};
 
-const router = useRouter()
-const { locale } = useI18n()
-
-const user = ref(JSON.parse(localStorage.getItem("user") || "{}"))
-const name = ref(user.value?.fullName || "")
-const currentLanguage = ref("Vietnamese")
-
-function changeLanguage(lang: string) {
-    locale.value = lang
-    currentLanguage.value = lang === "en" ? "English" : "Vietnamese"
-}
-
-function logout() {
-    localStorage.removeItem('user')
-    user.value = null
-    router.push('/')
-}
+const user = JSON.parse(localStorage.getItem("user") || "{}");
+const userid = user.id;
 </script>
-
 
 <template>
     <div class="header d-flex justify-content-between align-items-center">
-        <h1 :class="['logo text-primary', showDetail ? 'expanded' : 'collapsed']">
+        <h1 class="logo text-primary">
             TOT<span class="text-dark">Learn</span>
         </h1>
 
+        <!-- Menu & Search -->
         <div class="d-flex justify-content-center align-items-center flex-grow-1">
             <div class="search-bar input-group" style="max-width: 400px; flex-grow: 1;">
                 <input class="form-control bg-light border-0 pl-4" placeholder="Search" type="text" />
@@ -54,7 +60,7 @@ function logout() {
 
             <!-- Thông tin người dùng -->
             <div class="user-info d-flex align-items-center gap-3">
-                <div class="dropdown">
+                <div class="dropdown" >
                     <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
                         id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="language text-muted">{{ currentLanguage }}</span>
@@ -82,15 +88,19 @@ function logout() {
     </div>
 </template>
 <style scoped>
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1050; /* Lớn hơn các nội dung khác */
+    background-color: white;
+}
 .logo {
     font-size: 2.2rem;
 }
-
-.logo.expanded {
-    margin-left: 0;
-}
-
-.logo.collapsed {
-    margin-left: 36px;
+.dropdown-menu {
+  z-index: 1100;
+  position: absolute
 }
 </style>

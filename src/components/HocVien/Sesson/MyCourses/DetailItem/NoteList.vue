@@ -1,21 +1,49 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { getNotebylesson } from '@/services';
+import { onMounted, ref, watch } from 'vue';
 
-defineProps<{
+const props = defineProps<{
     showNoteInput: boolean;
+    lessonid: number;
 }>();
 const openSchedule = ref(false)
 const emit = defineEmits(['setClose']);
+const notes = ref<any>([]);
+const user = JSON.parse(localStorage.getItem("user") || "{}");
+const userId = user.id;
 
 const onCloseDetail = () => {
     emit('setClose', false)
 }
-const notes = ref([
-    { text: 'Ghi nhớ mẫu câu chào hỏi cơ bản', date: '2025-04-15' },
-    { text: 'Từ vựng về gia đình và bạn bè', date: '2025-04-17' },
-    { text: 'Luyện nghe bài 3: Daily routine', date: '2025-04-20' },
-    { text: 'Ngữ pháp: thì hiện tại tiếp diễn', date: '2025-04-21' }
-])
+// const notes = ref([
+//     { text: 'Ghi nhớ mẫu câu chào hỏi cơ bản', date: '2025-04-15' },
+//     { text: 'Từ vựng về gia đình và bạn bè', date: '2025-04-17' },
+//     { text: 'Luyện nghe bài 3: Daily routine', date: '2025-04-20' },
+//     { text: 'Ngữ pháp: thì hiện tại tiếp diễn', date: '2025-04-21' }
+// ])
+const getNotes = async () => {
+    try {
+        const res = await getNotebylesson(props.lessonid, userId);
+        const resdata = res.data;
+        notes.value = resdata.map((note: any) => ({
+            text: note.text,
+            time: note.video_time
+        }));
+    } catch (error) {
+
+    }
+}
+onMounted(() => {
+    if (props.lessonid) {
+        getNotes();
+    }
+});
+
+watch(() => props.lessonid, (newId) => {
+    if (newId) {
+        getNotes();
+    }
+});
 </script>
 
 <template>
@@ -54,7 +82,7 @@ const notes = ref([
         <ul class="note-list px-2">
             <li v-for="(note, index) in notes" :key="index" class="note-item">
                 <div class="note-text">📌 {{ note.text }}</div>
-                <div class="note-time">{{ note.date }}</div>
+                <div class="note-time">{{ note.time }}</div>
             </li>
         </ul>
     </div>

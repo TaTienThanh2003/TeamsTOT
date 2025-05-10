@@ -2,7 +2,8 @@
 import Header from '@/components/Home/Header.vue';
 import PayModel from '@/components/Model/payModel.vue';
 import { getCourseById, deletecarts, getCourserbyUserId, checkPaid } from '@/services';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
+import i18n from '@/i18n';
 
 const selectedTab = ref('card');
 const showModal = ref(false);
@@ -15,11 +16,14 @@ const showCarts = async () => {
         const res = await getCourserbyUserId(userId);
         const resdata = res.data;
         console.log(resdata);
+        const locale = i18n.global.locale.toUpperCase();
+        const nameKey = `title${locale}`;
+        const desKey = `des${locale}`;
 
         Carts.value = resdata.map((Cart: any) => ({
             id: Cart.id,
-            name: Cart.name,
-            description: Cart.description,
+            name: Cart[nameKey],
+            description: Cart[desKey],
             image: Cart.image || 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
             price: Cart.price,
         }));
@@ -61,6 +65,10 @@ const showbank = async () => {
     const res = await checkPaid();
     console.log(res)
 }
+watch(() => i18n.global.locale, () => {
+    showCarts();
+});
+
 onMounted(() => {
     showCarts();
     showbank();
@@ -74,16 +82,16 @@ onMounted(() => {
 
         <div class="row mt-4">
             <div class="col-md-8">
-                <div v-for="(item, index) in Carts" :key="index"
+                <div v-for="(Cart, index) in Carts" :key="index"
                     class="d-flex align-items-center mb-4 border-bottom pb-3">
-                    <img :src="item.image" class="me-4"
+                    <img :src="Cart.image" class="me-4"
                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;" />
                     <div class="flex-grow-1">
-                        <h5 class="mb-1">{{ item.name }}</h5>
-                        <small class="text-muted">{{ item.description }}</small>
+                        <h5 class="mb-1">{{ Cart.name }}</h5>
+                        <small class="text-muted">{{ Cart.description }}</small>
                     </div>
-                    <div class="me-3 fw-bold">{{ item.price.toLocaleString('vi-VN') }}đ</div>
-                    <button class="btn btn-outline-danger btn-sm" @click="remove(item.id)">×</button>
+                    <div class="me-3 fw-bold">{{ Cart.price.toLocaleString('vi-VN') }}đ</div>
+                    <button class="btn btn-outline-danger btn-sm" @click="remove(Cart.id)">×</button>
                 </div>
             </div>
             <div class="col-md-4">

@@ -12,5 +12,5 @@ const i18n = createI18n({
         vi,
     },
 })
-
+console.log('i18n Locale:', i18n.global.locale)
 export default i18n

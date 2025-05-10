@@ -94,11 +94,8 @@ onMounted(() => {
         </div>
 
         <div class="row">
-
             <div class="col-md-8">
-
                 <h4 class="mb-4 fs-3 font-blue">Bạn sẽ học được gì?</h4>
-
                 <ul class="benefits">
                     <li>
                         <i class="fas fa-check-circle text-primary me-2"></i>
@@ -117,45 +114,10 @@ onMounted(() => {
                         Không cần kiến thức tiếng Anh trước đó
                     </li>
                 </ul>
-
-                <button v-if="!isLogin" class="btn btn-cart mt-3" @click="addtoCarts">
-                    <i class="fa-solid fa-cart-plus me-2"></i>Thêm vào giỏ hàng
-                </button>
-
-                <h4 class="mt-5 mb-4 fs-4 font-blue">Nội dung khóa học (Xem trước)</h4>
-
+                <h4 class="mt-5 mb-4 fs-3 font-blue">Nội dung khóa học (Xem trước)</h4>
                 <DetailItem v-for="(section, index) in sections" :key="id" :title="section.title"
                     :lessons="section.lessons" :isLocked="index !== 0" />
-
-                <div class="container my-5">
-                    <h4 class="mt-4 fs-3 font-blue">Giáo viên</h4>
-                    <div class="d-flex mt-4 gap-5">
-                        <div v-for="(teacher, index) in teachers" :key="index">
-                            <TeacherItem :fullname="teacher.FullName" :image="teacher.image" />
-                        </div>
-                    </div>
-
-                    <div class="mt-5 row">
-                        <div class="col-md-4">
-                            <h4 class="mb-4 fs-3 font-blue">Đánh giá của học viên</h4>
-                            <div class="d-flex align-items-center mb-2">
-                                <h3 class="me-2 mb-0">4.7</h3>
-                                <div class="text-warning me-2">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="bi bi-star-half"></i>
-                                </div>
-                                <span class="text-muted">50 đánh giá</span>
-                            </div>
-                            <button class="btn btn-secondary btn-sm">Viết đánh giá</button>
-                        </div>
-                        <div v-for="(review, index) in reviews" :key="index">
-                            <ReviewItem :name="review.name" :content="review.content" :star="review.star" />
-                        </div>
-                    </div>
-                </div>
+                <TeacherReview />
             </div>
 
             <div class="col-md-4">
@@ -168,57 +130,36 @@ onMounted(() => {
                             allowfullscreen></iframe>
                     </div>
 
-                    <div class="form-check mt-3">
-                        <input class="form-check-input" type="radio" value="video" v-model="selectedOption"
-                            id="optionVideo">
-                        <label class="form-check-label" for="optionVideo">
-                            Học video (giá: 499.000đ)
-                        </label>
-                    </div>
-                    <div v-if="selectedOption === 'video'" class="mt-3 custom-info-box">
-                        <p class="mb-1"><i class="fas fa-play-circle text-white me-2"></i> Xem video mọi lúc, mọi nơi
-                        </p>
-                        <p class="mb-1"><i class="fas fa-tachometer-alt text-white me-2"></i> Học theo tốc độ cá nhân
-                        </p>
-                        <p class="mb-0"><i class="fas fa-infinity text-white me-2"></i> Truy cập trọn đời vào nội dung
-                        </p>
-                    </div>
+                    <h3 class="text-danger fw-bold fs-5 mb-3">
+                        1,600,000đ
+                        <span class="text-muted fs-6 ms-2 text-decoration-line-through">2,500,000đ</span>
+                    </h3>
 
-                    <div class="form-check mt-2">
-                        <input class="form-check-input" type="radio" value="class" v-model="selectedOption"
-                            id="optionClass">
-                        <label class="form-check-label" for="optionClass">
-                            Học theo lớp (giá: 1.200.000đ) <br />
-                            <small class="text-primary">→ Bao gồm video miễn phí</small>
-                        </label>
-                    </div>
-                    <div v-if="selectedOption === 'class'" class="mt-3 custom-info-box">
-                        <p class="mb-1">
-                            <i class="fas fa-user-check text-white me-2"></i>
-                            Bạn sẽ được <strong>tự động xếp vào lớp phù hợp</strong>
-                        </p>
-                        <p class="mb-1">
-                            <i class="fas fa-users text-white me-2"></i>
-                            Mỗi lớp tối đa <strong>10 học viên</strong>
-                        </p>
-                        <p class="mb-0">
-                            <i class="fas fa-calendar-alt text-white me-2"></i>
-                            Sau khi được xếp lớp, bạn sẽ nhận lịch học & danh sách giáo viên
-                        </p>
-                    </div>
-
-
-                    <button class="btn btn-warning btn-lg w-100 mt-4" :disabled="!selectedOption"
-                        @click="showModal = true">
-                        <i class="fas fa-credit-card me-2"></i>
+                    <button v-if="!isLogin" class="btn btn-primary btn-lg w-100 mb-2" @click="addtoCarts">
+                        Thêm vào giỏ hàng
+                    </button>
+                    <button class="btn btn-outline-primary btn-lg w-100 mb-2" @click="showModal = true">
                         Tiến hành thanh toán
                     </button>
-                </div>
+                    <div class="p-3 rounded-3 h-100">
+                        <h5 class="fs-5 mb-3 font-blue">Khóa học TOIEC</h5>
+                        <p class="mb-2"><i class="fas fa-play-circle me-2"></i> Xem video mọi lúc, mọi nơi</p>
+                        <p class="mb-2"><i class="fas fa-tachometer-alt me-2"></i> Học theo tốc độ cá nhân</p>
+                        <p class="mb-2"><i class="fas fa-infinity me-2"></i> Truy cập trọn đời vào nội dung</p>
+                    </div>
 
+                    <div class="border p-3 rounded mb-2">
+                        <p class="mb-1 text-muted small">LETLEARNNOW đã được áp dụng</p>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Nhập mã giảm giá">
+                        <button class="btn btn-primary">Áp dụng</button>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- Modal thanh toán -->
-        <PayModel v-if="showModal" :show="showModal" :amount="computedAmount" @close="showModal = false" />
+        <PayModel v-if="showModal" :show="showModal" :amount="499000" @close="showModal = false" />
     </div>
 </template>
 
@@ -228,31 +169,12 @@ onMounted(() => {
 }
 
 .course-banner {
-    background: linear-gradient(135deg, #610dfd, #2e00d2);
+    background: linear-gradient(135deg, #8787fc, #6C63FF);
     color: white;
     padding: 40px;
     border-radius: 16px;
     margin-bottom: 30px;
 }
-
-.btn-cart {
-    border: 1px solid #6C63FF;
-    color: #6C63FF;
-}
-
-.btn-cart:hover {
-    background-color: #6C63FF;
-    color: #fff;
-}
-
-.custom-info-box {
-    background-color: #6C63FF;
-    color: white;
-    border-radius: 10px;
-    padding: 16px;
-    font-size: 0.95rem;
-}
-
 
 .benefits {
     list-style: none;
