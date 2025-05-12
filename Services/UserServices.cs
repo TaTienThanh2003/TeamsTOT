@@ -1,6 +1,7 @@
 ﻿using backTOT.Data;
 using backTOT.Entitys;
 using backTOT.Interface;
+using BCrypt.Net;
 
 namespace backTOT.Services
 {
@@ -10,6 +11,12 @@ namespace backTOT.Services
         public UserServices(DataContext context){
             _context = context;
         }
+        public bool ischeckId(int userId)
+        {
+            _context.Users.FirstOrDefault(u => u.Id == userId);
+            return Save();
+        }
+
         public ICollection<Users> GetUsers()
         {
             return _context.Users.OrderBy(p => p.Id).ToList();
@@ -26,7 +33,7 @@ namespace backTOT.Services
             return isbool != null;
         }
 
-        public Users GetUsersId(int id)
+        public Users GetUserId(int id)
         {
             return _context.Users.FirstOrDefault(p => p.Id == id);
         }
@@ -39,13 +46,16 @@ namespace backTOT.Services
 
         public bool UsersLogin(string email, string password)
         {
-            var user =  _context.Users.FirstOrDefault(p => p.Email == email && p.Password == password);
-            return user!=null;
+            var user =  _context.Users.FirstOrDefault(p => p.Email == email );
+            if (user == null) return false;
+            // So sánh mật khẩu plaintext với password hash trong DB
+            return BCrypt.Net.BCrypt.Verify(password, user.Password);
         }
 
         public bool UsersSignIn(Users users)
         {
-             _context.Users.Add(users);
+            users.Password = BCrypt.Net.BCrypt.HashPassword(users.Password);
+            _context.Users.Add(users);
             return Save();
         }
 
@@ -58,5 +68,59 @@ namespace backTOT.Services
         {
             return _context.Users.FirstOrDefault(p => p.Email == email);
         }
+
+        public bool deleteUser(int userId)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            _context.Users.Remove(user);
+            return Save();
+        }
+
+        public bool updateUser(Users user)
+        {
+            var existingUser = _context.Users.FirstOrDefault(u => u.Id == user.Id);
+            if (existingUser == null)
+            {
+                return false; // Không tìm thấy user
+            }
+
+            // Cập nhật các trường của existingUser với giá trị từ user
+            existingUser.FullName = user.FullName;
+            existingUser.Email = user.Email;
+            existingUser.Password = user.Password;
+            existingUser.Phone = user.Phone;
+
+            bool result = Save(); // Lưu thay đổi vào CSDL
+            if (!result)
+            {
+                Console.WriteLine("Không thể lưu thay đổi vào CSDL");
+            }
+
+            return result; 
+        }
+
+
+        public bool UpdateUserRole(int userId, Role newRole)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.Role = newRole;
+            return Save();
+        }
+
+
+        public bool UpdatePassUser(int userId, string newPassword)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null) return false;
+            // Mã hoá mật khẩu trước khi lưu
+            user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            return Save();
+        }
+
     }
 }

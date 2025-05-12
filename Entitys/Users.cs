@@ -18,7 +18,6 @@ namespace backTOT.Entitys
         public String? FullName  { get; set; }
         [MaxLength(50)]
         public String Email { get; set; }
-        [MaxLength(50)]
         public String Password { get; set; }
         [MaxLength(12)]
         public String? Phone { get; set; }

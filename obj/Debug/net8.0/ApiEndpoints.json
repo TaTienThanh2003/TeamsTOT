@@ -695,6 +695,22 @@
   },
   {
     "ContainingType": "backTOT.Controllers.UsersController",
+    "Method": "DeleteUser",
+    "RelativePath": "api/users/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backTOT.Controllers.UsersController",
     "Method": "GetUserById",
     "RelativePath": "api/users/{userId}",
     "HttpMethod": "GET",
@@ -849,5 +865,26 @@
         "StatusCode": 409
       }
     ]
+  },
+  {
+    "ContainingType": "backTOT.Controllers.UsersController",
+    "Method": "UpdateCourse",
+    "RelativePath": "api/users/updateUser/{userid}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "userDto",
+        "Type": "backTOT.Dto.UserDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

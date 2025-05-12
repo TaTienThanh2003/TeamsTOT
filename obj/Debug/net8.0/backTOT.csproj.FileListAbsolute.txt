@@ -141,3 +141,4 @@ C:\Users\Admin\Documents\net\backTOT\backTOT\obj\Debug\net8.0\backTOT.pdb
 C:\Users\Admin\Documents\net\backTOT\backTOT\obj\Debug\net8.0\backTOT.genruntimeconfig.cache
 C:\Users\Admin\Documents\net\backTOT\backTOT\obj\Debug\net8.0\ref\backTOT.dll
 C:\Users\Admin\Documents\net\backTOT\backTOT\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\Admin\Documents\net\backTOT\backTOT\bin\Debug\net8.0\BCrypt.Net-Next.dll

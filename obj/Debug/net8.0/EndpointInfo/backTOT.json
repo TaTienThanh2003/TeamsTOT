@@ -1452,6 +1452,71 @@
         }
       }
     },
+    "/api/users/{id}": {
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/users/updateUser/{userid}": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.UserDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.UserDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.UserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/users/signup": {
       "post": {
         "tags": [
@@ -1778,18 +1843,19 @@
       "backTOT.Dto.UserDto": {
         "type": "object",
         "properties": {
-          "userName": {
-            "maxLength": 50,
+          "fullName": {
             "type": "string",
             "nullable": true
           },
           "email": {
-            "maxLength": 50,
             "type": "string",
             "nullable": true
           },
           "password": {
-            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
             "type": "string",
             "nullable": true
           }
@@ -2409,7 +2475,6 @@
             "nullable": true
           },
           "password": {
-            "maxLength": 50,
             "type": "string",
             "nullable": true
           },

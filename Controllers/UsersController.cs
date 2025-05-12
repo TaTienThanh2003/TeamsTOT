@@ -2,6 +2,7 @@
 using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
+using backTOT.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
@@ -50,12 +51,32 @@ namespace backTOT.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetUserById(int userId)
         {
-            var user = _userServices.GetUsersId(userId);
+            var user = _userServices.GetUserId(userId);
             if (user == null)
             {
                 return NotFound(new { status = 404, message = "User not found" });
             }
             return Ok(new { status = 200, message = "Success", data = user });
+        }
+        // deleteCourse
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUser(int id)
+        {
+            var ischeck = _userServices.ischeckId(id);
+            if (ischeck) return NotFound("Id không tồn tại");
+            _userServices.deleteUser(id);
+            return Ok(new { status = 200, message = "delete Success" });
+        }
+        [HttpPut("updateUser/{userid}")]
+        public IActionResult UpdateCourse(int userid, [FromBody] UserDto userDto)
+        {
+            var user = _userServices.GetUserId(userid);
+            if (user == null)
+                return NotFound("Không tìm thấy user");
+            var users = _mapper.Map<Users>(userDto);
+            users.Id = user.Id;
+            var ischeck = _userServices.updateUser(users);
+            return Ok(new { status = 200, message = "Success", data = userDto });
         }
         [HttpPost("signup")]
         [ProducesResponseType(201)]
@@ -85,22 +106,21 @@ namespace backTOT.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetUserLogin([FromBody] LoginRequest request)
         {
-            if (!_userServices.isCheckEmail(request.Email))
+            var user = _userServices.findUserByEmail(request.Email);
+            if (user == null)
             {
                 return NotFound(new { status = 404, message = "Email not found" });
             }
-            if (!_userServices.isCheckPassword(request.Password))
+            // So sánh mật khẩu tại đây thông qua UsersLogin
+            var isLoginValid = _userServices.UsersLogin(request.Email, request.Password);
+            if (!isLoginValid)
             {
                 return BadRequest(new { status = 400, message = "Invalid password" });
             }
-            var ischeck = _userServices.UsersLogin(request.Email, request.Password);
-            if (ischeck)
-            {
-                 var user =  _userServices.findUserByEmail(request.Email);
-                var userConvert = _mapper.Map<UserLoginDto>(user);
-                return Ok(new { status = 200, message = "Login successful", data = userConvert });
-            }
-            return BadRequest("login false");
+
+            var userConvert = _mapper.Map<UserLoginDto>(user);
+            return Ok(new { status = 200, message = "Login successful", data = userConvert });
         }
+
     }
 }
