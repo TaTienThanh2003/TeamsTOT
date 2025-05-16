@@ -7,6 +7,7 @@ namespace backTOT.Interface
         ICollection<Courses> GetCourses();
         ICollection<Courses> GetCoursesByOnline();
         ICollection<Courses> GetCoursesByOffline();
+        ICollection<Courses> GetCoursesByCatalogId(int catalogId);
         Courses GetCoursesById(int courseId);
         ICollection<Courses> GetCoursesByName(String name);
         bool addCourse(Courses courses);

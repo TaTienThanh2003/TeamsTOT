@@ -27,6 +27,7 @@ builder.Services.AddScoped<ICourseTeachersService, CourseTeachersService>();
 builder.Services.AddScoped<ICommentsService, CommentsService>();
 builder.Services.AddScoped<ILesson_notes, Lesson_NotesService>();
 builder.Services.AddScoped<ISectionsService, SectionsService>();
+builder.Services.AddScoped<ICatalogsService, CatalogsService>();
 // Thêm Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

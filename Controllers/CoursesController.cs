@@ -31,6 +31,20 @@ namespace backTOT.Controllers
             }
             return Ok(new { status = 200, message = "Success", data = courses });
         }
+        // GetCoursesByCatalogId
+        [HttpGet("catalog/{id}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Courses>))]
+        [ProducesResponseType(404)]
+        public IActionResult GetCoursesByCatalogId(int id)
+        {
+            var courses = _coursesService.GetCoursesByCatalogId(id);
+            if (courses == null)
+            {
+                return NotFound(new { status = 404, message = "No courses found" });
+            }
+            var courseDto = _mapper.Map<List<CoursesDto>>(courses);
+            return Ok(new { status = 200, message = "Success", data = courseDto });
+        }
         // getCourseByOnline
         [HttpGet("online")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Courses>))]

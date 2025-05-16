@@ -12,6 +12,7 @@ namespace backTOT.Entitys
     public class Courses
     {
         public  int Id { get; set; }
+        public int? CatalogId { get; set; }
         [MaxLength(255)]
         public string TitleVI { get; set; }
         [MaxLength(255)]
@@ -22,9 +23,9 @@ namespace backTOT.Entitys
 
         [Column(TypeName = "decimal(10,2)")]
         public decimal price { get; set; }
-
         public Mode? Mode { get; set; }
         public string Img { get; set; }
+        public int Num { get; set; }
         // relation
         public ICollection<Enrollments> Enrollments { get; set; } = new List<Enrollments>();
         public ICollection<Sections> Sections { get; set; } = new List<Sections>();
@@ -34,5 +35,6 @@ namespace backTOT.Entitys
         public ICollection<CourseTeachers> CourseTeachers { get; set; } = new List<CourseTeachers>();
         public ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
         public CourseOff courseOff { get; set; }
+        public Catalogs catalogs { get; set; }
     }
 }

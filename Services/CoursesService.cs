@@ -31,6 +31,11 @@ namespace backTOT.Services
             return _context.Courses.OrderBy(c => c.Id).ToList();
         }
 
+        public ICollection<Courses> GetCoursesByCatalogId(int catalogId)
+        {
+            return _context.Courses.Where(c => c.CatalogId == catalogId).ToList();
+        }
+
         public Courses GetCoursesById(int courseId)
         {
             return _context.Courses.FirstOrDefault(c => c.Id == courseId);

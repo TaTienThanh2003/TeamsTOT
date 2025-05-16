@@ -263,6 +263,64 @@
         }
       }
     },
+    "/api/catalogs": {
+      "get": {
+        "tags": [
+          "Catalogs"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/comments/{lessonId}": {
       "get": {
         "tags": [
@@ -387,6 +445,75 @@
       "get": {
         "tags": [
           "Courses"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.Courses"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/courses/catalog/{id}": {
+      "get": {
+        "tags": [
+          "Courses"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -2337,6 +2464,36 @@
         },
         "additionalProperties": false
       },
+      "backTOT.Entitys.Catalogs": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
+          },
+          "desVI": {
+            "type": "string",
+            "nullable": true
+          },
+          "desEN": {
+            "type": "string",
+            "nullable": true
+          },
+          "courses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/backTOT.Entitys.Courses"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "backTOT.Entitys.Comments": {
         "type": "object",
         "properties": {
@@ -2451,6 +2608,11 @@
             "type": "integer",
             "format": "int32"
           },
+          "catalogId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "titleVI": {
             "maxLength": 255,
             "type": "string",
@@ -2483,6 +2645,10 @@
           "img": {
             "type": "string",
             "nullable": true
+          },
+          "num": {
+            "type": "integer",
+            "format": "int32"
           },
           "enrollments": {
             "type": "array",
@@ -2535,6 +2701,9 @@
           },
           "courseOff": {
             "$ref": "#/components/schemas/backTOT.Entitys.CourseOff"
+          },
+          "catalogs": {
+            "$ref": "#/components/schemas/backTOT.Entitys.Catalogs"
           }
         },
         "additionalProperties": false
