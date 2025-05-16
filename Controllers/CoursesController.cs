@@ -31,8 +31,34 @@ namespace backTOT.Controllers
             }
             return Ok(new { status = 200, message = "Success", data = courses });
         }
+        // getCourseByOnline
+        [HttpGet("online")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Courses>))]
+        [ProducesResponseType(404)]
+        public IActionResult GetCoursesByOnline()
+        {
+            var courses = _coursesService.GetCoursesByOnline();
+            if (courses == null)
+            {
+                return NotFound(new { status = 404, message = "No courses found" });
+            }
+            return Ok(new { status = 200, message = "Success", data = courses });
+        }
+        // getCourseByOffline
+        [HttpGet("offline")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Courses>))]
+        [ProducesResponseType(404)]
+        public IActionResult GetCoursesByOffline()
+        {
+            var courses = _coursesService.GetCoursesByOffline();
+            if (courses == null)
+            {
+                return NotFound(new { status = 404, message = "No courses found" });
+            }
+            return Ok(new { status = 200, message = "Success", data = courses });
+        }
         // getCourseById
-        [HttpGet("api/courses/{id}")]
+        [HttpGet("{id}")]
         public IActionResult UpdateCourse(int id)
         {
             var course  = _coursesService.GetCoursesById(id);
@@ -50,7 +76,7 @@ namespace backTOT.Controllers
             _coursesService.deleteCourse(id);
             return Ok(new { status = 200, message = "delete Success" });
         }
-        [HttpPut("api/courses/{id}")]
+        [HttpPut("{id}")]
         public IActionResult UpdateCourse(int id, [FromBody] CoursesActionDto courseDto)
         {
             var course = _coursesService.GetCoursesById(id);

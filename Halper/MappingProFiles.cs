@@ -34,6 +34,10 @@ namespace backTOT.Halper
             CreateMap<UsersCommentsDto, Users>();
             CreateMap<Lesson_notes, Lesson_notesDto>();
             CreateMap<Lesson_notesDto, Lesson_notes>();
+            CreateMap<Lessons, LessonsDto>();
+            CreateMap<LessonsDto, Lessons>();
+            CreateMap<Sections, SectionsDto>();
+            CreateMap<SectionsDto, Sections>();
         }
     }
 }

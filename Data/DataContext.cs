@@ -23,6 +23,7 @@ namespace backTOT.Data
         public DbSet<User_plans> User_plans { get; set; }
         public DbSet<Lesson_notes> Lesson_notes { get; set; }
         public DbSet<Comments> Comments { get; set; }
+        public DbSet<CourseOff> CourseOff { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // primary and convert
@@ -79,9 +80,10 @@ namespace backTOT.Data
             modelBuilder.Entity<User_plans>().HasKey(up => up.Id);
             modelBuilder.Entity<Lesson_notes>().HasKey(ln => ln.Id);
             modelBuilder.Entity<Comments>().HasKey(cm => cm.Id);
+            modelBuilder.Entity<CourseOff>().HasKey(co => co.Id);
 
             /////// relation
-
+            
             // Quan hệ users - User_plans  
             modelBuilder.Entity<User_plans>()
                .HasOne(up => up.users)
@@ -212,7 +214,11 @@ namespace backTOT.Data
                 .WithMany(cm => cm.Replies)
                 .HasForeignKey(cm => cm.Parent_id)
                 .OnDelete(DeleteBehavior.Restrict);
-
+            modelBuilder.Entity<Courses>()
+                .HasOne(c => c.courseOff)
+                .WithOne(co => co.courses)
+                .HasForeignKey<CourseOff>(co => co.course_id)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

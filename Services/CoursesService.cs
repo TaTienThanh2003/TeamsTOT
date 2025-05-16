@@ -1,6 +1,7 @@
 ﻿using backTOT.Data;
 using backTOT.Entitys;
 using backTOT.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace backTOT.Services
 {
@@ -35,6 +36,7 @@ namespace backTOT.Services
             return _context.Courses.FirstOrDefault(c => c.Id == courseId);
         }
 
+
         public ICollection<Courses> GetCoursesByName(string name)
         {
             string keyword = TextUtils.RemoveDiacritics(name).ToLower();
@@ -43,6 +45,17 @@ namespace backTOT.Services
                 .AsEnumerable()
                 .Where(c => TextUtils.RemoveDiacritics(c.TitleVI).ToLower().Contains(keyword))
                 .ToList();
+        }
+        public ICollection<Courses> GetCoursesByOffline()
+        {
+            return _context.Courses.Where(c => c.Mode == Mode.OFFLINE)
+                .Include(c => c.courseOff)
+                .ToList();
+        }
+
+        public ICollection<Courses> GetCoursesByOnline()
+        {
+            return _context.Courses.Where(c => c.Mode == Mode.ONLINE).ToList();
         }
 
         public bool ischeckId(int courseId)

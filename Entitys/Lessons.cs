@@ -11,7 +11,7 @@ namespace backTOT.Entitys
         public string TitleEN { get; set; }
         public string? DesVI { get; set; }
         public string? DesEN { get; set; }
-        public String? Video_url { get; set; }
+        public string? Video_url { get; set; }
         public Boolean? Completed { get; set; } = false;
         public int Position { get; set; } = 0;
         // relation

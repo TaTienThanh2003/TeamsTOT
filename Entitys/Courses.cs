@@ -33,5 +33,6 @@ namespace backTOT.Entitys
         public ICollection<Carts> Carts { get; set; } = new List<Carts>();
         public ICollection<CourseTeachers> CourseTeachers { get; set; } = new List<CourseTeachers>();
         public ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
+        public CourseOff courseOff { get; set; }
     }
 }
