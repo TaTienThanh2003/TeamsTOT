@@ -352,15 +352,20 @@
   {
     "ContainingType": "backTOT.Controllers.CoursesController",
     "Method": "GetCoursesByCatalogId",
-    "RelativePath": "api/courses/catalog/{id}",
+    "RelativePath": "api/courses/byCatalog",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "catalogId",
         "Type": "System.Int32",
-        "IsRequired": true
+        "IsRequired": false
+      },
+      {
+        "Name": "num",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [

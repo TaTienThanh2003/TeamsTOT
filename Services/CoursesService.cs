@@ -31,10 +31,13 @@ namespace backTOT.Services
             return _context.Courses.OrderBy(c => c.Id).ToList();
         }
 
-        public ICollection<Courses> GetCoursesByCatalogId(int catalogId)
+        public ICollection<Courses> GetCoursesByCatalogId(int catalogId, int num)
         {
-            return _context.Courses.Where(c => c.CatalogId == catalogId).ToList();
+            return _context.Courses
+                .Where(c => c.CatalogId == catalogId && c.Num == num && c.Mode == Mode.ONLINE)
+                .ToList();
         }
+
 
         public Courses GetCoursesById(int courseId)
         {

@@ -31,14 +31,13 @@ namespace backTOT.Controllers
             }
             return Ok(new { status = 200, message = "Success", data = courses });
         }
-        // GetCoursesByCatalogId
-        [HttpGet("catalog/{id}")]
+        [HttpGet("byCatalog")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Courses>))]
         [ProducesResponseType(404)]
-        public IActionResult GetCoursesByCatalogId(int id)
+        public IActionResult GetCoursesByCatalogId( [FromQuery] int catalogId, [FromQuery] int num)
         {
-            var courses = _coursesService.GetCoursesByCatalogId(id);
-            if (courses == null)
+            var courses = _coursesService.GetCoursesByCatalogId(catalogId, num);
+            if (courses == null || !courses.Any())
             {
                 return NotFound(new { status = 404, message = "No courses found" });
             }

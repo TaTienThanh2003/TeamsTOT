@@ -499,16 +499,23 @@
         }
       }
     },
-    "/api/courses/catalog/{id}": {
+    "/api/courses/byCatalog": {
       "get": {
         "tags": [
           "Courses"
         ],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
+            "name": "catalogId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "num",
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
