@@ -1,3 +1,9 @@
+<script setup lang="ts">
+defineProps<{
+    name : string
+}>()
+</script>
+
 <template>
     <div class="modal fade" id="consultModal" tabindex="-1" aria-labelledby="consultModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -20,7 +26,7 @@
                             <input type="email" class="form-control w-100" placeholder="onah@gmail.com">
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control w-100" placeholder="Khóa học L&C" disabled>
+                            <input type="text" class="form-control w-100" :placeholder="name" disabled>
                         </div>
                         <button class="btn back-blue w-100 text-white">Đăng ký</button>
                     </form>

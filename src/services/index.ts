@@ -3,6 +3,7 @@ const api = import.meta.env.VITE_API_BACKEND_URL;
 const api_bank = import.meta.env.VITE_BANK_API_KEY;
 const api_bank_url = import.meta.env.VITE_API_BANK_URL;
 
+//login , sign up
 export const login = async (email: string, password: string) => {
     const res = await axios.post(`${api}/users/signin`, {
         email,
@@ -25,12 +26,22 @@ export const register = async (username: string, email: string, password: string
     }
 };
 
-export const getCourses = async () => {
-    const res = await axios.get(`${api}/courses`)
-    return res.data
-};
+//users
 export const getUser = async () => {
     const res = await axios.get(`${api}/users`)
+    return res.data
+}
+export const editUser = async (userId:number,fullName:string,email:string,password:string,phone:string) => {
+    const res = await axios.put(`${api}/users/updateUser/${userId}`, {
+        fullName,
+        email,
+        password,
+        phone,
+    })
+    return res.data
+}
+export const deleteUser = async (id : number) => {
+    const res = await axios.delete(`${api}/users/${id}`)
     return res.data
 }
 
@@ -39,6 +50,11 @@ export const getTeacher = async () => {
     return res.data
 }
 
+//Courses
+export const getCourses = async () => {
+    const res = await axios.get(`${api}/courses`)
+    return res.data
+};
 export const getCourseById = async (id: number) => {
     const res = await axios.get(`${api}/courses/${id}`)
     return res.data
@@ -49,17 +65,58 @@ export const getCourseByName = async (name: string) => {
     const res = await axios.get(`${api}/courses/name?name=${encodedName}`);
     return res.data;
 };
-
+export const getCourserbyUserId = async (userid: number) => {
+    const res = await axios.get(`${api}/carts/${userid}`)
+    return res.data
+}
+export const getCourseOff = async () =>{
+    const res = await axios.get(`${api}/courses/offline`)
+    return res.data
+}
+export const getCatalogs = async () =>{
+    const res = await axios.get(`${api}/catalogs`)
+    return res.data
+}
+export const getCourseByCatalogs = async (id:number,num:number) =>{
+    const res = await axios.get(`${api}/courses/byCatalog?catalogId=${id}&num=${num}`)
+    return res.data
+}
+export const addCourse = async (titleVI:string,titleEN:string,desVI:string,desEN:string,countday:number,price:number,mode:string,img:string) =>{
+    const res = await axios.post(`${api}/courses/addCourse`,{
+        titleVI,
+        titleEN,
+        desVI,
+        desEN,
+        countday,
+        price,
+        mode,
+        img,
+    })
+    return res.data
+}
+export const updateCourse = async (id: number, data: any) => {
+  const res = await axios.put(`${api}/courses/${id}`, data)
+  return res.data
+}
+export const deleteCourse = async (id : number) => {
+    const res = await axios.delete(`${api}/courses/${id}`)
+    return res.data
+}
+//Sections
+export const addSection = async (data:any) =>{
+    const res = await axios.post(`${api}/sections/addSection`,data)
+    return res.data
+}
+export const updateSection = async (id:number,data:any) =>{
+    const res = await axios.put(`${api}/sections/${id}`,data)
+}
+//lessons
 export const getLessons = async (id: number) => {
     const res = await axios.get(`${api}/lessons/${id}`)
     return res.data
 }
 
-export const getCourserbyUserId = async (userid: number) => {
-    const res = await axios.get(`${api}/carts/${userid}`)
-    return res.data
-}
-
+//Carts
 export const addCarts = async (users_id: number, course_id: number) => {
     const res = await axios.post(`${api}/carts/addCourse`, {
         users_id,
@@ -130,18 +187,20 @@ export async function checkPaid(): Promise<any> {
         console.error('Có lỗi xảy ra:', error);
     }
 }
-export async function translateViEn(text: String) {
-    const res = await fetch('https://libretranslate.de/translate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+export async function translateViEn(text: string): Promise<string> {
+    const res = await fetch("https://libretranslate.de/translate", {
+        method: "POST",
         body: JSON.stringify({
             q: text,
-            source: 'vi',
-            target: 'en',
-            format: 'text'
-        })
+            source: "auto",
+            target: "en",
+            format: "text",
+            api_key: ""
+        }),
+        headers: { "Content-Type": "application/json" }
     });
+
     const data = await res.json();
-    console.log(data.translatedText);
-    return data;
+    console.log("Kết quả dịch:", data);
+    return data.translatedText;
 }

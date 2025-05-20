@@ -1,4 +1,57 @@
-<script>
+<script setup lang="ts">
+import { deleteUser, getUser } from '@/services';
+import { computed, onMounted, ref } from 'vue';
+
+const users = ref<Array<{
+  id: number;
+  name: string;
+  des: string;
+  email: string;
+  phone: string;
+  image: string;
+  role: string;
+}>>([]);
+
+const activeRole = ref<string>('all');
+
+const showUser = async () => {
+  try {
+    const res = await getUser();
+    const resdata = res.data;
+    users.value = resdata.map((user: any) => ({
+      id: user.id,
+      name: user.fullName,
+      des: user.des,
+      email: user.email,
+      phone: user.phone,
+      image: user.image,
+      role: user.role
+    }));
+  } catch (err: any) {
+    console.log(err);
+  }
+}
+const removeUser = async (userId: number) => {
+  try {
+    const res = await deleteUser(userId);
+    console.log(res)
+    showUser()
+  } catch (error: any) {
+    console.log(error)
+  }
+}
+onMounted(() => {
+  showUser();
+});
+
+const filteredUsers = computed(() => {
+  if (activeRole.value === 'all') return users.value;
+  return users.value.filter(user => user.role.toLowerCase() === activeRole.value);
+});
+
+const setActiveRole = (role: string) => {
+  activeRole.value = role;
+};
 </script>
 
 <template>
@@ -11,18 +64,23 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
       <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Tất cả</a>
+          <a class="nav-link" :class="{ active: activeRole === 'all' }" href="#"
+            @click.prevent="setActiveRole('all')">Tất cả</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Học viên</a>
+          <a class="nav-link" :class="{ active: activeRole === 'user' }" href="#"
+            @click.prevent="setActiveRole('user')">Học viên</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Giáo viên</a>
+          <a class="nav-link" :class="{ active: activeRole === 'teacher' }" href="#"
+            @click.prevent="setActiveRole('teacher')">Giáo viên</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Nhân viên</a>
+          <a class="nav-link" :class="{ active: activeRole === 'staff' }" href="#"
+            @click.prevent="setActiveRole('staff')">Nhân viên</a>
         </li>
       </ul>
+
 
       <div class="mb-3">
         <input type="text" class="form-control" placeholder="Search" style="min-width: 300px;">
@@ -41,41 +99,21 @@
       </thead>
       <tbody>
         <!-- Sample Row -->
-        <tr>
+        <tr v-for="user in filteredUsers" :key="user.id">
           <td class="d-flex align-items-center">
             <img src="https://randomuser.me/api/portraits/men/32.jpg" class="table-avatar" />
             <div>
-              <strong>Edgar Rivera</strong><br>
-              <small class="text-muted">Fishermen Labs</small>
+              <strong>{{ user.name }}</strong><br>
+              <small class="text-muted">{{ user.des }}</small>
             </div>
           </td>
-          <td>Office Member<br><strong>$79.00</strong></td>
-          <td>Credit Card</td>
-          <td>Người dùng</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.role }}</td>
           <td><button class="btn btn-sm btn-outline-success mx-1" title="Sửa">
               <i class="fa fa-edit"></i>
             </button>
-            <button class="btn btn-sm btn-outline-danger mx-1" title="Xóa">
-              <i class="fa fa-trash"></i>
-            </button>
-          </td>
-        </tr>
-
-        <tr class="active-row">
-          <td class="d-flex align-items-center">
-            <img src="https://randomuser.me/api/portraits/women/65.jpg" class="table-avatar" />
-            <div>
-              <strong>Priya Bollam</strong><br>
-              <small class="text-muted">Airbnb</small>
-            </div>
-          </td>
-          <td>Part-Time<br><strong>$79.00</strong></td>
-          <td>Credit Card</td>
-          <td>Giao vien</td>
-          <td><button class="btn btn-sm btn-outline-success mx-1" title="Sửa">
-              <i class="fa fa-edit"></i>
-            </button>
-            <button class="btn btn-sm btn-outline-danger mx-1" title="Xóa">
+            <button class="btn btn-sm btn-outline-danger mx-1" title="Xóa" @click="removeUser(user.id)">
               <i class="fa fa-trash"></i>
             </button>
           </td>

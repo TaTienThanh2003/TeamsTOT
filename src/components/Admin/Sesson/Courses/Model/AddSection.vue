@@ -43,26 +43,62 @@
     </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { addSection } from '@/services';
+import { ref , watch} from 'vue';
+import { defineProps } from 'vue';
 
-const formData = ref({
+
+declare const bootstrap: any;
+const props = defineProps<{ courses_id?: number | null; }>();
+const emit = defineEmits(['refresh','close'])
+
+interface Section {
+    titleVI: string,
+    titleEN: string,
+    desVI: string,
+    desEN: string,
+    courses_id: number | null,
+    position: number | null,
+}
+
+const formData = ref<Section>({
     titleVI: '',
     titleEN: '',
     desVI: '',
     desEN: '',
+    courses_id: null,
     position: null
 });
-
-const submitForm = () => {
+const submitForm = async () => {
     // Xử lý gửi dữ liệu ở đây
-    console.log(formData.value);
-
-    // Đóng modal sau khi gửi
-    const modalElement = document.getElementById('addSectionlModal');
-    const modal = new bootstrap.Modal(modalElement);
-    modal.hide(); // Đóng modal
+    formData.value.courses_id = props.courses_id ?? null;
+    try {
+        console.log('Received course_id:', props.courses_id);
+        const res = await addSection(formData.value);
+        const modalElement = document.getElementById('addSectionlModal');
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show(); 
+        modal.hide();
+        // Reset form
+        formData.value = {
+            titleVI: '',
+            titleEN: '',
+            desVI: '',
+            desEN: '',
+            courses_id: null,
+            position: null
+        };
+        emit('close')
+        emit("refresh")
+    } catch (error) {
+        console.log(error)
+    }
+    // console.log(formData.value);
 };
+watch(() => props.courses_id, (newVal) => {
+  console.log('course_id changed:', newVal);
+});
 </script>
 
 <style scoped>

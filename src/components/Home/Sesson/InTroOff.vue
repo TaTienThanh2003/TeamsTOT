@@ -2,7 +2,7 @@
     <div class="section-customer">
         <h2 class="section-title">KHÓA HỌC TRỰC TIẾP</h2>
         <div class="course-list-wrapper">
-            <div v-for="(course, index) in upcomingCourses" :key="index" class="course-card back-blue">
+            <div v-for="(course, index) in coursesoff.slice(0, 4)" :key="index" class="course-card back-blue">
                 <h3 class="course-title text-warning">{{ course.name }}</h3>
                 <p class="course-time text-white">{{ course.time }} · {{ course.schedule }}</p>
                 <p class="course-date text-white">
@@ -11,7 +11,7 @@
                         {{ course.openingDate }}
                     </span>
                 </p>
-                <span class="course-status btn btn-warning" data-bs-toggle="modal" data-bs-target="#consultModal">
+                <span class="course-status btn btn-warning" data-bs-toggle="modal" data-bs-target="#consultModal"  @click="selectedCourseName = course.name">
                     {{ course.status }}
                 </span>
             </div>
@@ -22,41 +22,43 @@
             </RouterLink>
         </div>
     </div>
-    <EnrollModel />
+    <EnrollModel :name="selectedCourseName" />
 </template>
 <script setup lang="ts">
 import EnrollModel from '@/components/Model/EnrollModel.vue';
+import i18n from '@/i18n';
+import { getCourseByName, getCourseOff } from '@/services';
+import { ref , onMounted } from 'vue';
 
-const upcomingCourses = [
-    {
-        name: 'Nền tảng TOEIC',
-        time: '20h15–21h45',
-        schedule: 'Thứ 2, 4, 6',
-        openingDate: '05/08/2024',
-        status: 'Tuyển sinh',
-    },
-    {
-        name: 'TOEIC L&R - 450+',
-        time: '18h30–20h00',
-        schedule: 'Thứ 3, 5',
-        openingDate: '22/08/2024',
-        status: 'Tuyển sinh',
-    },
-    {
-        name: 'TOEIC S&W - Cơ bản',
-        time: '20h15–21h45',
-        schedule: 'Thứ 2, 4',
-        openingDate: '07/08/2024',
-        status: 'Tuyển sinh',
-    },
-    {
-        name: 'TOEIC L&R - 650+',
-        time: '20h15–21h45',
-        schedule: 'Thứ 3, 6',
-        openingDate: '30/08/2024',
-        status: 'Dự kiến',
-    },
-];
+const coursesoff = ref<any>([])
+const selectedCourseName = ref('');
+const locale = i18n.global.locale.toUpperCase();
+const titleKey = `title${locale}`;
+const formatDate = (dateStr: string): string => {
+  if (!dateStr) return ''
+  const [year, month, day] = dateStr.replace(/\//g, '-').split('-')
+  return `${day}/${month}/${year}`
+}
+const showcoursesoff = async () => {
+   try {
+    const res = await getCourseOff()
+    const resdata = res.data
+
+    coursesoff.value = resdata.map((course: any) => ({
+      id: course.id,
+      name: course[titleKey],
+      time: course.courseOff?.time || '',
+      schedule: course.courseOff?.schedule || '',
+      openingDate: formatDate(course.courseOff?.date || ''),
+      status: course.courseOff?.status ? 'Tuyển sinh' : 'Dự kiến'
+    }))
+  } catch (error) {
+    console.error('Lỗi khi lấy khóa học:', error)
+  }
+}
+onMounted(() =>{
+    showcoursesoff()
+})
 </script>
 <style scoped>
 .course-list-wrapper {

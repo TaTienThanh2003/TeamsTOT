@@ -35,7 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="course in courses" :key="course.name" @click="selectedCourse = course"
+                            <tr v-for="course in coursesoff" :key="course.name" @click="selectedCourse = course"
                                 style="cursor: pointer;">
                                 <td class="fw-semibold">{{ course.name }}</td>
                                 <td>{{ course.time }}</td>
@@ -129,61 +129,49 @@
                         <i class="fas fa-info-circle fa-2x mb-2"></i>
                         <p class="mb-0">Vui lòng chọn một khóa học để xem thông tin và đăng ký.</p>
                     </div>
-
-
                 </div>
             </div>
-            <EnrollModel />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import Header from '@/components/Home/Header.vue';
 import TeacherReview from '@/components/Home/Detail/TeacherReview.vue';
 import EnrollModel from '@/components/Model/EnrollModel.vue';
+import { getCourseOff } from '@/services';
+import i18n from '@/i18n';
 
 const selectedCourse = ref<any>(null)
-const showModal = ref(false);
+const coursesoff = ref<any>([])
+const locale = i18n.global.locale.toUpperCase();
+const titleKey = `title${locale}`;
+const formatDate = (dateStr: string): string => {
+  if (!dateStr) return ''
+  const [year, month, day] = dateStr.replace(/\//g, '-').split('-')
+  return `${day}/${month}/${year}`
+}
+const showcoursesoff = async () => {
+   try {
+    const res = await getCourseOff()
+    const resdata = res.data
 
-const courses = [
-    {
-        name: 'Nền tảng TOEIC',
-        time: '20h15–21h45',
-        schedule: 'Thứ 2, 4, 6',
-        openingDate: '05/08/2024',
-        status: 'Tuyển sinh',
-    },
-    {
-        name: 'TOEIC L&R - 450+',
-        time: '18h30–20h00',
-        schedule: 'Thứ 3, 5',
-        openingDate: '22/08/2024',
-        status: 'Tuyển sinh',
-    },
-    {
-        name: 'TOEIC S&W - Cơ bản',
-        time: '20h15–21h45',
-        schedule: 'Thứ 2, 4',
-        openingDate: '07/08/2024',
-        status: 'Tuyển sinh',
-    },
-    {
-        name: 'TOEIC L&R - 650+',
-        time: '20h15–21h45',
-        schedule: 'Thứ 3, 6',
-        openingDate: '30/08/2024',
-        status: 'Dự kiến',
-    },
-    {
-        name: 'TOEIC S&W - Nâng cao',
-        time: '20h15–21h45',
-        schedule: 'Thứ 6',
-        openingDate: '23/08/2024',
-        status: 'Dự kiến',
-    },
-];
+    coursesoff.value = resdata.map((course: any) => ({
+      id: course.id,
+      name: course[titleKey],
+      time: course.courseOff?.time || '',
+      schedule: course.courseOff?.schedule || '',
+      openingDate: formatDate(course.courseOff?.date || ''),
+      status: course.courseOff?.status ? 'Tuyển sinh' : 'Dự kiến'
+    }))
+  } catch (error) {
+    console.error('Lỗi khi lấy khóa học:', error)
+  }
+}
+onMounted(() =>{
+    showcoursesoff()
+})
 </script>
 
 <style scoped>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { addCourse } from '@/services';
 import { ref } from 'vue'
 
 defineProps<{
@@ -16,9 +17,27 @@ const newCourse = ref({
     img: ''
 })
 
-const emit = defineEmits(['cancel']);
+const emit = defineEmits(['cancel', 'refresh'])
 
-const saveCourse = () => {
+const saveCourse = async () => {
+    try {
+        const { titleVI, titleEN, desVI, desEN, countDay, price, mode, img } = newCourse.value
+        await addCourse(titleVI, titleEN, desVI, desEN, countDay, price, mode, img)
+        alert('Thêm thành công')
+        newCourse.value = {
+            titleVI: '',
+            titleEN: '',
+            desVI: '',
+            desEN: '',
+            countDay: 1,
+            price: 0,
+            mode: 'ONLINE',
+            img: ''
+        }
+        emit('refresh')
+    } catch (error) {
+        console.log(error)
+    }
 }
 </script>
 

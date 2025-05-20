@@ -1,5 +1,6 @@
 import Admin from '@/page/admin.vue'
 import Cart from '@/page/Cart.vue'
+import DetailCatalog from '@/page/DetailCatalog.vue'
 import DetailCourse from '@/page/DetailCourse.vue'
 import DetailOff from '@/page/DetailOff.vue'
 import History from '@/page/history.vue'
@@ -65,6 +66,11 @@ const routes = [
         path: '/detail-off',
         name: 'DetaitOff',
         component: DetailOff
+    },
+    {
+        path: '/detail-catalog/:id',
+        name: 'DetailCatalog',
+        component: DetailCatalog
     }
 ]
 
