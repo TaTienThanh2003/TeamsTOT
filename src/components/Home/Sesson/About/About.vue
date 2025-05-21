@@ -23,7 +23,7 @@ const reasons = [
 
 <template>
     <section id="page2" class="section-customer">
-        <h1 class="section-title">
+        <h1 class="section-title shine-text">
             {{ $t('home.page2.title') }}
         </h1>
         <div class="row">

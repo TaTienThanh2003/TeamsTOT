@@ -10,9 +10,9 @@ export default {
         report: "Report",
         next_day: "Next Day",
         previous_day: "Previous Day",
-        search_tip:"Search for a day or month...",
+        search_tip: "Search for a day or month...",
         close_calendar: "Close Calendar"
-    },     
+    },
     hv: {
         overview: 'Overview',
         mycourse: 'My course',
@@ -161,7 +161,7 @@ export default {
             ]
         },
         page3: {
-            title: "COURSES",
+            title: "SELF-STUDY COURSES",
             description: [
                 "for those who have lost their foundation or want to improve their speaking reflexes.",
                 "Natural reflex methods, practice right in class",

@@ -3,7 +3,7 @@
 
 <template>
     <section id="page6" class="section-customer">
-        <h1 class="section-title">{{ $t('home.page6.title') }}</h1>
+        <h1 class="section-title shine-text">{{ $t('home.page6.title') }}</h1>
 
         <div class="row g-4 px-5">
             <div class="col-md-6">

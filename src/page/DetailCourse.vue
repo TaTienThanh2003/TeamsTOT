@@ -1,38 +1,21 @@
 <script setup lang="ts">
 import Header from '@/components/Home/Header.vue';
 import PayModel from '@/components/Model/payModel.vue';
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { getLessons, addCarts, getTeacher, getReview } from '@/services';
+import { getLessons, addCarts} from '@/services';
 import DetailItem from '@/components/Home/Detail/DetailItem.vue';
-import TeacherItem from '@/components/Home/Sesson/Teachers/TeacherItem.vue';
-import ReviewItem from '@/components/Home/Detail/ReviewItem.vue';
+import TeacherReview from '@/components/Home/Detail/TeacherReview.vue';
 import i18n from '@/i18n';
 
 const router = useRoute();
 const showModal = ref(false);
-const selectedOption = ref('');
 const isLogin = ref(false);
 const sections = ref<any>([]);
-const teachers = ref<any>([]);
-const reviews = ref<any>([]);
+
 const id = parseInt(router.params.id as string);
 const user = JSON.parse(localStorage.getItem("user") || "{}");
 const userId = user.id;
-
-const showteacher = async () => {
-    try {
-        const res = await getTeacher();
-        const resdata = res.data;
-        teachers.value = resdata.map((teacher: any) => ({
-            id: teacher.id,
-            FullName: teacher.fullName,
-            image: 'https://storage.googleapis.com/a1aa/image/XWUbD4i3i_HDN4wMpfHgSlwoIuEVkAzNeH0nXuJ9mXM.jpg',
-        }));
-    } catch (error) {
-        console.log("Lỗi api giáo viên" + error)
-    }
-}
 
 const showLessons = async () => {
     try {
@@ -49,19 +32,7 @@ const showLessons = async () => {
         console.log("Lỗi api khóa học" + err)
     }
 };
-const showreview = async () => {
-    try {
-        const res = await getReview(id);
-        const resdata = res.data;
-        reviews.value = resdata.map((review: any) => ({
-            name: 'A',
-            content: review.content,
-            star: review.star
-        }));
-    } catch (error) {
 
-    }
-}
 const addtoCarts = async () => {
     try {
         await addCarts(userId, id);
@@ -70,15 +41,8 @@ const addtoCarts = async () => {
     }
 }
 
-const computedAmount = computed(() => {
-    if (selectedOption.value === 'video') return 499000;
-    if (selectedOption.value === 'class') return 1200000;
-    return 0;
-});
 onMounted(() => {
     showLessons();
-    showteacher();
-    showreview();
 });
 </script>
 
@@ -116,7 +80,7 @@ onMounted(() => {
                 </ul>
                 <h4 class="mt-5 mb-4 fs-3 font-blue">Nội dung khóa học (Xem trước)</h4>
                 <DetailItem v-for="(section, index) in sections" :key="id" :title="section.title"
-                    :lessons="section.lessons" :isLocked="index !== 0" />
+                    :lessons="section.lessons" :isLocked="true" />
                 <TeacherReview />
             </div>
 

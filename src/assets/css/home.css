@@ -7,6 +7,22 @@
 .font-blue{
   color: #6C63FF;
 }
+.shine-text {
+  background: linear-gradient(90deg, #b3b2b2, #0f0f0f, #000000);
+  background-size: 200%;
+  background-clip: text;
+  color: transparent;
+  animation: shine 4s linear infinite;
+}
+
+@keyframes shine {
+  from {
+    background-position: 200% center;
+  }
+  to {
+    background-position: -200% center;
+  }
+}
 
 .section-title {
     position: relative;

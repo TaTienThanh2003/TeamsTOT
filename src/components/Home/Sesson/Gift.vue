@@ -3,7 +3,7 @@
 
 <template>
     <div class="section-customer">
-        <h2 class="section-title">ƯU ĐÃI GIỚI HẠN</h2>
+        <h2 class="section-title shine-text">ƯU ĐÃI GIỚI HẠN</h2>
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="pricing-card">

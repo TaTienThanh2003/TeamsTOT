@@ -17,33 +17,54 @@ const showIcon = ref(false);
 </script>
 
 <template>
-    <div class="position-fixed bottom-0 end-0 p-3">
-        <div v-if="showIcon" class="d-flex flex-column">
-            <div class="btn icon-btn">
-                <i class="fa fa-phone" style="font-size: 30px;"></i>
+    <div>
+        <div class="position-fixed bottom-0 end-0 p-3">
+            <div v-if="showIcon" class="d-flex flex-column">
+                <div class="btn icon-btn">
+                    <i class="fa fa-phone" style="font-size: 30px;"></i>
+                </div>
+
+                <div class="btn icon-btn">
+                    <i class="fa fa-comment" style="font-size: 30px;"></i>
+                </div>
             </div>
 
-            <div class="btn icon-btn">
-                <i class="fa fa-comment" style="font-size: 30px;"></i>
-            </div>
+            <img src="@/assets/images/cu.png" :class="['animate-float', showIcon ? 'active' : '']"
+                @click="showIcon = !showIcon" />
         </div>
 
-        <img src="@/assets/images/cu.png" :class="['animate-float', showIcon ? 'active' : '']"
-            @click="showIcon = !showIcon" />
-    </div>
+        <Header :isShow="true" />
 
-    <Header :isShow="true" />
-    <Intro />
-    <Trust />
-    <About />
-    <Catalog />
-    <Course />
-    <InTroOff />
-    <Gift />
-    <Teacher />
-    <Detail />
-    <Contact />
-    <Footer />
+        <Intro />
+        <div data-aos="fade-up">
+            <Trust />
+        </div>
+        <div data-aos="fade-up">
+            <About />
+        </div>
+        <div data-aos="fade-up">
+            <Catalog />
+        </div>
+        <div data-aos="zoom-in">
+            <Course />
+        </div>
+        <div data-aos="zoom-in">
+            <InTroOff />
+        </div>
+        <div data-aos="fade-up">
+            <Gift />
+        </div>
+        <div data-aos="fade-up">
+            <Teacher />
+        </div>
+        <div data-aos="flip-left">
+            <Detail />
+        </div>
+        <div data-aos="fade-up">
+            <Contact />
+        </div>
+        <Footer />
+    </div>
 </template>
 
 <style scoped>
@@ -60,6 +81,11 @@ const showIcon = ref(false);
         transform: translateY(0px);
     }
 }
+
+.position-fixed {
+    z-index: 9999;
+}
+
 
 .animate-float {
     animation: floatUpDown 2s ease-in-out infinite;

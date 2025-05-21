@@ -41,7 +41,7 @@ onMounted(() => {
 
 <template>
     <section id="page3" class="section-customer">
-        <h1 class="section-title">
+        <h1 class="section-title shine-text">
             {{ $t('home.page3.title') }}
         </h1>
 

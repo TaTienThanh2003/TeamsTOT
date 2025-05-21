@@ -12,7 +12,7 @@ export default {
         previous_day: "Ngày trước",
         search_tip: "Tìm kiếm ngày/tháng...",
         close_calendar: "Đóng lịch"
-    }, 
+    },
     hv: {
         overview: 'Tổng quan',
         mycourse: 'Khóa học của tôi',
@@ -135,7 +135,7 @@ export default {
         lecturer: "Giảng viên",
         contact: "Liên hệ",
         search: "Tìm kiếm",
-        entersearch : "Nhập tên giảng viên hoặc tên khóa học",
+        entersearch: "Nhập tên giảng viên hoặc tên khóa học",
         page1: {
             title: "Nâng tầm tương lai với tiếng Anh. Hành động ngay hôm nay!",
             title2: "Học cùng chúng tôi để làm chủ tiếng Anh, mở ra cơ hội mới và thay đổi tương lai của bạn!",
@@ -163,7 +163,7 @@ export default {
             ]
         },
         page3: {
-            title: "KHÓA HỌC",
+            title: "KHÓA TỰ HỌC",
             description: [
                 "Dành cho những ai muốn cải thiện kỹ năng tiếng Anh một cách hiệu quả.",
                 "Phương pháp phản xạ tự nhiên, thực hành ngay tại lớp.",

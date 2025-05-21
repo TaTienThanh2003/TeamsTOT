@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import TasksModel from './TasksModel.vue';
 
 const emit = defineEmits(['back']);
 
 const questions = ref<any[]>([]);
 const currentQuestionIndex = ref(0);
+const selectedAnswers = ref(questions.value.map(() => null))
+
 const totalQuestions = ref(0);
 const isLoading = ref(true);
+const showModel = ref(false)
 
 onMounted(async () => {
     try {
@@ -28,10 +32,36 @@ function goToQuestion(index: number) {
         currentQuestionIndex.value = index;
     }
 }
+
+const checkResults = questions.value.map((q, i) => {
+    const userAnswer = selectedAnswers.value[i];
+    const correctAnswer = q.answers[q.correct_index];
+    const isCorrect = userAnswer === correctAnswer;
+    return {
+        question: q.question,
+        userAnswer,
+        correctAnswer,
+        isCorrect
+    };
+});
+
+const correctCount = checkResults.filter(r => r.isCorrect).length;
+
+const handelSubmit = () => {
+    console.log('Selected:', selectedAnswers.value) // ✅ kiểm tra xem mảng có dữ liệu chưa
+
+    if (selectedAnswers.value.some(a => a === null)) {
+        alert('Bạn chưa chọn hết đáp án')
+        return
+    }
+    showModel.value = true;
+}
+
 </script>
 
 
 <template>
+    <TasksModel v-if="showModel" :correctCount="correctCount" />
     <div class="container">
         <div class="test-container">
             <div v-if="isLoading">Đang tải dữ liệu...</div>
@@ -52,11 +82,13 @@ function goToQuestion(index: number) {
                             <div class="form-check" v-for="(option, index) in questions[currentQuestionIndex].answers"
                                 :key="index">
                                 <input class="form-check-input" type="radio" :name="'answer' + currentQuestionIndex"
-                                    :id="'a' + index" />
-                                <label class="form-check-label" :for="'a' + index">
+                                    :id="'a' + currentQuestionIndex + '-' + index" :value="option"
+                                    v-model="selectedAnswers[currentQuestionIndex]" />
+                                <label class="form-check-label" :for="'a' + currentQuestionIndex + '-' + index">
                                     {{ option }}
                                 </label>
                             </div>
+
                             <div class="d-flex justify-content-between mb-3 mt-3">
                                 <button class="btn btn-primary" @click.prevent="goToQuestion(currentQuestionIndex - 1)"
                                     :disabled="currentQuestionIndex === 0">
@@ -76,7 +108,7 @@ function goToQuestion(index: number) {
                             00 : 15 : 30
                         </div>
                         <div class="mb-3">
-                            <button class="btn btn-primary">Nộp bài</button>
+                            <button class="btn btn-primary" @click="handelSubmit">Nộp bài</button>
                         </div>
                         <p class="text-warning mb-3">
                             Chú ý: bạn có thể click vào số thứ tự câu hỏi trong bài để đánh dấu review
@@ -86,7 +118,7 @@ function goToQuestion(index: number) {
                             <div class="mt-2 d-flex flex-wrap gap-2 question-nav">
                                 <button v-for="(q, i) in questions" :key="i"
                                     class="btn btn-customer btn-outline-secondary btn-sm"
-                                    :class="{ active: currentQuestionIndex === i }" @click="goToQuestion(i)">
+                                    :class="{ active: !!selectedAnswers[i] }" @click="goToQuestion(i)">
                                     {{ i + 1 }}
                                 </button>
                             </div>

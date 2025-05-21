@@ -1,6 +1,6 @@
 <template>
     <div class="section-customer">
-        <h2 class="section-title">KHÓA HỌC TRỰC TIẾP</h2>
+        <h2 class="section-title shine-text">KHÓA HỌC TRỰC TIẾP</h2>
         <div class="course-list-wrapper">
             <div v-for="(course, index) in coursesoff.slice(0, 4)" :key="index" class="course-card back-blue">
                 <h3 class="course-title text-warning">{{ course.name }}</h3>

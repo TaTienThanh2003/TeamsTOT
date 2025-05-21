@@ -14,6 +14,15 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import i18n from './i18n'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+AOS.init({
+    duration: 1200,
+    offset: 200,
+    once: false,
+    easing: 'ease-in-out',
+});
 
 createApp(App)
     .use(i18n)
