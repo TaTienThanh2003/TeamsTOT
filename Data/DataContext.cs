@@ -25,6 +25,8 @@ namespace backTOT.Data
         public DbSet<Comments> Comments { get; set; }
         public DbSet<CourseOff> CourseOff { get; set; }
         public DbSet<Catalogs> Catalogs { get; set; }
+        public DbSet<Topics> Topics { get; set; }
+        public DbSet<Flashcards> Flashcards { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // primary and convert
@@ -83,6 +85,8 @@ namespace backTOT.Data
             modelBuilder.Entity<Comments>().HasKey(cm => cm.Id);
             modelBuilder.Entity<CourseOff>().HasKey(co => co.Id);
             modelBuilder.Entity<Catalogs>().HasKey(ctl => ctl.Id);
+            modelBuilder.Entity<Topics>().HasKey(t => t.Id);
+            modelBuilder.Entity<Flashcards>().HasKey(f => f.Id);
             /////// relation
 
             // Quan hệ users - User_plans  
@@ -215,18 +219,25 @@ namespace backTOT.Data
                 .HasOne(cm => cm.lessons)
                 .WithMany(l => l.Comments)
                 .HasForeignKey(cm => cm.Lesson_id)
-                .OnDelete(DeleteBehavior.Restrict); 
+                .OnDelete(DeleteBehavior.Restrict);
+            // Quan hệ ParentComment - Comments
             modelBuilder.Entity<Comments>()
                 .HasOne(cm => cm.ParentComment)
                 .WithMany(cm => cm.Replies)
                 .HasForeignKey(cm => cm.Parent_id)
                 .OnDelete(DeleteBehavior.Restrict);
+            // Quan hệ Coursesoff - Courses
             modelBuilder.Entity<Courses>()
                 .HasOne(c => c.courseOff)
                 .WithOne(co => co.courses)
                 .HasForeignKey<CourseOff>(co => co.course_id)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+            // Quan hệ Flashcards - Topics
+            modelBuilder.Entity<Flashcards>()
+                .HasOne(f => f.topics)
+                .WithMany(t => t.Flashcards)
+                .HasForeignKey(t => t.Topics_id)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

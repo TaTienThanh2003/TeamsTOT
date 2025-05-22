@@ -66,6 +66,13 @@ namespace backTOT.Services
             return _context.Courses.Where(c => c.Mode == Mode.ONLINE).ToList();
         }
 
+        public ICollection<Courses> GetCoursesOfflineByCatalogId(int catalogId)
+        {
+            return _context.Courses
+                 .Where(c => c.CatalogId == catalogId && c.Mode == Mode.OFFLINE)
+                 .ToList();
+        }
+
         public bool ischeckId(int courseId)
         {
             _context.Courses.FirstOrDefault(c => c.Id == courseId);

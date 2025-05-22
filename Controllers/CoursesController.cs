@@ -44,6 +44,19 @@ namespace backTOT.Controllers
             var courseDto = _mapper.Map<List<CoursesDto>>(courses);
             return Ok(new { status = 200, message = "Success", data = courseDto });
         }
+        [HttpGet("byCatalogOff")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Courses>))]
+        [ProducesResponseType(404)]
+        public IActionResult GetCoursesOfflineByCatalogId([FromQuery] int catalogId)
+        {
+            var courses = _coursesService.GetCoursesOfflineByCatalogId(catalogId);
+            if (courses == null || !courses.Any())
+            {
+                return NotFound(new { status = 404, message = "No courses found" });
+            }
+            var courseDto = _mapper.Map<List<CoursesDto>>(courses);
+            return Ok(new { status = 200, message = "Success", data = courseDto });
+        }
         // getCourseByOnline
         [HttpGet("online")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Courses>))]
