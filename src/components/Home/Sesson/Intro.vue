@@ -50,7 +50,6 @@ const user = localStorage.getItem("user");
 <style scoped>
 #page1 {
     position: relative;
-    /* background: linear-gradient(to bottom, #6C63FF, #d2d0ff); */
     z-index: 1;
     overflow: hidden;
 }

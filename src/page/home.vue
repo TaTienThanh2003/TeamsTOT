@@ -11,27 +11,20 @@ import Trust from '@/components/Home/Sesson/Trust.vue';
 import Gift from '@/components/Home/Sesson/Gift.vue';
 import InTroOff from '@/components/Home/Sesson/InTroOff.vue';
 import Catalog from '@/components/Home/Sesson/Catalog.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useLiveChat } from '@/components/useLiveChat';
 
-const showIcon = ref(false);
+onMounted(() => {
+    useLiveChat();
+})
 </script>
 
 <template>
     <div>
-        <div class="position-fixed bottom-0 end-0 p-3">
-            <div v-if="showIcon" class="d-flex flex-column">
-                <div class="btn icon-btn">
-                    <i class="fa fa-phone" style="font-size: 30px;"></i>
-                </div>
-
-                <div class="btn icon-btn">
-                    <i class="fa fa-comment" style="font-size: 30px;"></i>
-                </div>
-            </div>
-
-            <img src="@/assets/images/cu.png" :class="['animate-float', showIcon ? 'active' : '']"
-                @click="showIcon = !showIcon" />
-        </div>
+        <noscript>
+            <a href="https://www.livechat.com/chat-with/19173749/" rel="nofollow">Chat with us</a>,
+            powered by <a href="https://www.livechat.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a>
+        </noscript>
 
         <Header :isShow="true" />
 

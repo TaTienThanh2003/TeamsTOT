@@ -1,10 +1,10 @@
 <template>
     <!-- Modal -->
     <div class="modal fade" id="addSectionlModal" tabindex="-1" aria-labelledby="addSectionlModalLabel"
-        aria-hidden="true">
+        aria-hidden="false">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header back-blue text-white">
+            <div class="modal-content rounded-3 overflow-hidden">
+                <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="addSectionlModalLabel">Tạo Section</h5>
                     <button type="button" class="btn-close text-white" data-bs-dismiss="modal"
                         aria-label="Close">X</button>
@@ -45,13 +45,13 @@
 
 <script setup lang="ts">
 import { addSection } from '@/services';
-import { ref , watch} from 'vue';
+import { ref, watch } from 'vue';
 import { defineProps } from 'vue';
 
 
 declare const bootstrap: any;
 const props = defineProps<{ courses_id?: number | null; }>();
-const emit = defineEmits(['refresh','close'])
+const emit = defineEmits(['refresh', 'close'])
 
 interface Section {
     titleVI: string,
@@ -78,7 +78,7 @@ const submitForm = async () => {
         const res = await addSection(formData.value);
         const modalElement = document.getElementById('addSectionlModal');
         const modal = new bootstrap.Modal(modalElement);
-        modal.show(); 
+        modal.show();
         modal.hide();
         // Reset form
         formData.value = {
@@ -97,12 +97,6 @@ const submitForm = async () => {
     // console.log(formData.value);
 };
 watch(() => props.courses_id, (newVal) => {
-  console.log('course_id changed:', newVal);
+    console.log('course_id changed:', newVal);
 });
 </script>
-
-<style scoped>
-.img-fluid {
-    border-radius: 10px;
-}
-</style>

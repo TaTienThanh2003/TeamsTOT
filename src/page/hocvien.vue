@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import Header from '@/components/HocVien/Header.vue';
 import Calender from '@/components/HocVien/Sesson/Calender.vue';
-import Comments from '@/components/HocVien/Sesson/Comments/Comments.vue';
 import Courses from '@/components/HocVien/Sesson/MyCourses/Courses.vue';
 import Teacher from '@/components/HocVien/Sesson/MyTeacher/Teacher.vue';
 import Overview from '@/components/HocVien/Sesson/Overview/Overview.vue';
 import Tasks from '@/components/HocVien/Sesson/Tasks/Tasks.vue';
 import User from '@/components/HocVien/Sesson/User.vue';
+import Vocabulary from '@/components/HocVien/Sesson/Vocabulary/Vocabulary.vue';
 import Sidebar from '@/components/HocVien/Sidebar.vue';
 import { ref } from 'vue';
 
@@ -31,7 +31,7 @@ const toggleShow = () => {
                 <Teacher />
                 <Calender />
                 <Tasks @setFalse="toggleHidden" @setTrue="toggleShow" />
-                <Comments />
+                <Vocabulary />
                 <User />
             </div>
         </div>

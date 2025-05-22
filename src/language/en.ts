@@ -18,10 +18,10 @@ export default {
         mycourse: 'My course',
         myteacher: 'My teacher',
         schedule: 'Schedule',
-        exercise: 'Exercise & Check',
+        exercise: 'Exercise',
         note: 'Note',
         offer: 'Offer',
-        forum: 'Forum',
+        vocabulary: 'Vocabulary',
         account: 'Account',
         search: 'Search',
 
@@ -176,21 +176,22 @@ export default {
             years: "4 years of experience",
         },
         page5: {
-            title: "WE ARE THE TOP CHOICE FOR YOU",
+            title: "We provide you with the right tools to help you interact confidently in the real world.",
             points: [
                 {
-                    title: "High Expertise",
-                    description: "Certified in TESOL, CELTA, IELTS, TOEIC with years of teaching experience."
+                    title: "Skills",
+                    description: "Practice your listening, reading, writing, and speaking with fun materials. Strengthen your communication ability with hands-on topics. Audio and video to practice your skills in real-world contexts. Build confidence as you learn quickly and understand more."
                 },
                 {
-                    title: "Practical and Applicable",
-                    description: "Not only teaching theory, but teachers also guide students on how to apply English in real-life situations and work."
+                    title: "Test Your Level",
+                    description: "Take our quick placement test to find out your current English level. Identify your strengths and areas for improvement. Get personalized course recommendations based on your results."
                 },
                 {
-                    title: "Personalized Learning Paths",
-                    description: "Tailored study plans according to each student, maximizing their language potential."
+                    title: "Vocabulary",
+                    description: "Learn new words and improve your language level to be able to communicate more effectively. Discover word families, collocations, synonyms, and example use. Visual learning aids and audio pronunciation support."
                 }
-            ]
+            ],
+            btn: "Start learning",
         },
         page6: {
             title: "CONTACT & FEEDBACK",

@@ -60,7 +60,7 @@ const userid = user.id;
 
             <!-- Thông tin người dùng -->
             <div class="user-info d-flex align-items-center gap-3">
-                <div class="dropdown" >
+                <div class="dropdown">
                     <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
                         id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="language text-muted">{{ currentLanguage }}</span>
@@ -93,14 +93,16 @@ const userid = user.id;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1050; /* Lớn hơn các nội dung khác */
+    z-index: 1050;
     background-color: white;
 }
+
 .logo {
     font-size: 2.2rem;
 }
+
 .dropdown-menu {
-  z-index: 1100;
-  position: absolute
+    z-index: 1100;
+    position: absolute
 }
 </style>

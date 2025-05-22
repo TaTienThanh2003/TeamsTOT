@@ -80,7 +80,7 @@ const getIconStyle = (tabName: string) => {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 1200;
     height: 100%;
     background: #6C63FF;
     transition: width 0.4s ease;

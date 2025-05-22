@@ -6,6 +6,7 @@ import DetailCourse from './Model/DetailCourse.vue';
 import { translateViEn, getCourses, getLessons, deleteCourse } from '@/services';
 import i18n from '@/i18n';
 import AddSection from './Model/AddSection.vue';
+import AddLesson from './Model/AddLesson.vue';
 
 const showModal = ref(false)
 const showEditModal = ref(false)
@@ -238,7 +239,8 @@ onMounted(() => {
                                     <td class="ps-5">
                                         <div class="d-flex justify-between">
                                             Bài giảng khác
-                                            <button class="btn btn-sm btn-link">
+                                            <button class="btn btn-sm btn-link" data-bs-toggle="modal"
+                                                data-bs-target="#addLessonModal">
                                                 <i class="fa fa-plus"></i>
                                             </button>
                                         </div>
@@ -248,15 +250,15 @@ onMounted(() => {
                                 </tr>
 
                             </template>
-                            
+
                         </template>
                         <!-- Section thêm (nếu có) -->
                         <tr class="table-secondary">
                             <td class="ps-4">
                                 <div class="d-flex justify-between">
                                     Chuyên phần khác
-                                    <button @click="selectedCourseId = course.id" class="btn btn-sm btn-link" data-bs-toggle="modal"
-                                        data-bs-target="#addSectionlModal">
+                                    <button @click="selectedCourseId = course.id" class="btn btn-sm btn-link"
+                                        data-bs-toggle="modal" data-bs-target="#addSectionlModal">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
@@ -268,6 +270,7 @@ onMounted(() => {
                 </template>
                 <AddSection :courses_id="selectedCourseId" @refresh="showCourse" />
                 <DetailCourse :courseId="selectedCourseId" />
+                <AddLesson />
             </tbody>
         </table>
     </div>

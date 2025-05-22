@@ -18,10 +18,10 @@ export default {
         mycourse: 'Khóa học của tôi',
         myteacher: 'Giáo viên của tôi',
         schedule: 'Lịch học',
-        exercise: 'Bài tập & Kiểm tra',
+        exercise: 'Bài tập',
         note: 'Ghi chú',
         offer: 'Ưu đãi',
-        forum: 'Diễn đàn',
+        vocabulary: 'Từ vựng',
         account: 'Tài khoản',
         search: 'Tìm kiếm',
 
@@ -178,21 +178,22 @@ export default {
             years: "4 năm kinh nghiệm",
         },
         page5: {
-            title: "CHÚNG TÔI LÀ LỰA CHỌN HÀNG ĐẦU CHO BẠN",
+            title: "Chúng tôi cung cấp cho bạn những công cụ phù hợp để giúp bạn tự tin giao tiếp trong thế giới thực.",
             points: [
                 {
-                    title: "Chuyên môn cao",
-                    description: "Được chứng nhận TESOL, CELTA, IELTS, TOEIC với nhiều năm kinh nghiệm giảng dạy."
+                    title: "Kỹ năng",
+                    description: "Luyện tập kỹ năng nghe, đọc, viết và nói với các tài liệu thú vị. Tăng cường khả năng giao tiếp thông qua các chủ đề thực tế. Âm thanh và video giúp bạn luyện kỹ năng trong ngữ cảnh thực tế. Xây dựng sự tự tin khi bạn học nhanh và hiểu nhiều hơn."
                 },
                 {
-                    title: "Thực tế và ứng dụng",
-                    description: "Không chỉ dạy lý thuyết, giảng viên còn hướng dẫn học viên cách áp dụng tiếng Anh vào thực tế cuộc sống và công việc."
+                    title: "Kiểm tra trình độ",
+                    description: "Thực hiện bài kiểm tra xếp lớp nhanh để biết trình độ tiếng Anh hiện tại của bạn. Xác định điểm mạnh và những lĩnh vực cần cải thiện. Nhận đề xuất khóa học cá nhân hóa dựa trên kết quả của bạn."
                 },
                 {
-                    title: "Lộ trình cá nhân hóa",
-                    description: "Định hướng học tập phù hợp với từng học viên, giúp phát huy tối đa khả năng ngôn ngữ."
+                    title: "Từ vựng",
+                    description: "Học từ mới và nâng cao trình độ ngôn ngữ để giao tiếp hiệu quả hơn. Khám phá các nhóm từ, cụm từ cố định, từ đồng nghĩa và ví dụ sử dụng. Hỗ trợ học bằng hình ảnh và phát âm qua âm thanh."
                 }
-            ]
+            ],
+            btn: "Bắt đầu học",
         },
         page6: {
             title: "LIÊN HỆ & ĐÁNH GIÁ",

@@ -1,51 +1,96 @@
 <script setup lang="ts">
+const user = localStorage.getItem("user");
 </script>
 
 <template>
-    <section id="page5" class="section-customer back-blue">
-        <div class="row align-items-center">
-            <div class="col-md-6 d-flex align-items-center justify-content-center">
-                <h1 class="display-6 fw-bold text-warning">
-                    {{ $t('home.page5.title') }}
-                </h1>
+    <section class="bg-light py-5">
+        <div class="container text-center mb-5">
+            <h2 class="fs-2 px-5 font-blue">
+                {{ $t('home.page5.title') }}
+            </h2>
+        </div>
+        <div class="container mb-5" data-aos="fade-left">
+            <div class="row align-items-center bg-white rounded shadow p-4">
+                <div class="col-md-6">
+                    <img src="@/assets/images/intro1.png" alt="Skills" class="img-fluid rounded" />
+                </div>
+                <div class="col-md-6">
+                    <h3 class="fs-5 fw-bold text-dark">{{ $t('home.page5.points.0.title') }}</h3>
+                    <p class="my-3">
+                        {{ $t('home.page5.points.0.description') }}
+                    </p>
+                    <button class="btn back-blue text-white">
+                        <template v-if="user">
+                            <router-link to="/hocvien">
+                                {{ $t('home.page5.btn') }}
+                            </router-link>
+                        </template>
+                        <template v-else>
+                            <router-link to="/signin">
+                                {{ $t('home.page1.register') }}
+                            </router-link>
+                        </template>
+                    </button>
+                </div>
             </div>
-
-            <div class="col-md-6">
-                <div class="row g-4 text-white">
-                    <!-- Box 1 -->
-                    <div class="col-6 d-flex flex-column align-items-center text-center">
-                        <i class="fas fa-user-graduate fa-3x text-warning mb-3"></i>
-                        <h2 class="h3 fw-semibold mb-3">{{ $t('home.page5.points[0].title') }}</h2>
-                        <p>
-                            {{ $t('home.page5.points[0].description') }}
-                        </p>
-                    </div>
-
-                    <!-- Box 2 -->
-                    <div class="col-6"></div>
-
-                    <!-- Box 3 -->
-                    <div class="col-6"></div>
-
-                    <!-- Box 4 -->
-                    <div class="col-6 d-flex flex-column align-items-center text-center">
-                        <i class="fas fa-tools fa-3x text-warning mb-3"></i>
-                        <h2 class="h3 fw-semibold mb-3">{{ $t('home.page5.points[1].title') }}</h2>
-                        <p>
-                            {{ $t('home.page5.points[1].description') }}
-                        </p>
-                    </div>
-
-                    <!-- Box 5 -->
-                    <div class="col-6 d-flex flex-column align-items-center text-center">
-                        <i class="fas fa-user-check fa-3x text-warning mb-3"></i>
-                        <h2 class="h3 fw-semibold mb-3">{{ $t('home.page5.points[2].title') }}</h2>
-                        <p>
-                            {{ $t('home.page5.points[2].description') }}
-                        </p>
-                    </div>
+        </div>
+        <div class="container mb-5" data-aos="fade-right">
+            <div class="row align-items-center bg-white rounded shadow p-4 flex-md-row-reverse">
+                <div class="col-md-6">
+                    <img src="@/assets/images/intro2.png" alt="Test Your Level" class="img-fluid rounded" />
+                </div>
+                <div class="col-md-6">
+                    <h3 class="fs-5 fw-bold text-dark">{{ $t('home.page5.points.1.title') }}</h3>
+                    <p class="my-3">
+                        {{ $t('home.page5.points.1.description') }}
+                    </p>
+                    <button class="btn back-blue text-white">
+                        <template v-if="user">
+                            <router-link to="/hocvien">
+                                {{ $t('home.page5.btn') }}
+                            </router-link>
+                        </template>
+                        <template v-else>
+                            <router-link to="/signin">
+                                {{ $t('home.page1.register') }}
+                            </router-link>
+                        </template>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="container mb-5" data-aos="fade-left">
+            <div class="row align-items-center bg-white rounded shadow p-4">
+                <div class="col-md-6">
+                    <img src="@/assets/images/intro3.png" alt="Vocabulary" class="img-fluid rounded" />
+                </div>
+                <div class="col-md-6">
+                    <h3 class="fs-5 fw-bold text-dark">{{ $t('home.page5.points.2.title') }}</h3>
+                    <p class="my-3">
+                        {{ $t('home.page5.points.2.description') }}
+                    </p>
+                    <button class="btn back-blue text-white">
+                        <template v-if="user">
+                            <router-link to="/hocvien">
+                                {{ $t('home.page5.btn') }}
+                            </router-link>
+                        </template>
+                        <template v-else>
+                            <router-link to="/signin">
+                                {{ $t('home.page1.register') }}
+                            </router-link>
+                        </template>
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 </template>
+
+<style scoped>
+.img-fluid {
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
+}
+</style>
