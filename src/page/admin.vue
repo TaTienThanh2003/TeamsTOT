@@ -5,6 +5,7 @@ import Sidebar from '@/components/Admin/Sidebar.vue';
 import { ref } from 'vue';
 import Member from '@/components/Admin/Sesson/Member/Member.vue';
 import Overview from '@/components/Admin/Overview/Overview.vue';
+import Vocabulary from '@/components/Admin/Sesson/Vocabulary/Vocabulary.vue';
 
 const showDetail = ref(true);
 
@@ -19,6 +20,7 @@ const showDetail = ref(true);
                 <Overview />
                 <Courses />
                 <Member />
+                <Vocabulary />
             </div>
         </div>
     </div>

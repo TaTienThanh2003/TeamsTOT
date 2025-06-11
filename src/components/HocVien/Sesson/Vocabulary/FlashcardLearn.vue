@@ -2,7 +2,7 @@
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
             <div>
-                <a href="#" class="text-primary small me-3">
+                <a href="#" class="text-primary small me-3" @click="emit('back');">
                     <span class="material-symbols-outlined align-middle">arrow_back</span> Xem tất cả
                 </a>
 
@@ -18,13 +18,14 @@
         <div class="card text-center shadow-sm rounded-4 mb-4 position-relative" style="min-height: 220px;">
             <div class="card-body d-flex flex-column justify-content-center align-items-center">
                 <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">Từ mới</span>
-                <h4 class="fw-bold text-dark mb-2">
-                    {{ currentWord.word }}
+                <h4 class="fw-bold text-dark mb-2" @click="wordLearn = !wordLearn">
+                    {{ wordLearn ? currentWord.word : currentWord.wordvn }}
                     <button class="btn btn-link p-0 ms-2" @click="playAudio" aria-label="Play audio">
                         <span class="material-symbols-outlined">volume_up</span>
                     </button>
                 </h4>
-                <p class="text-muted fst-italic">({{ currentWord.type }}) /{{ currentWord.pronunciation }}/</p>
+                <p class="text-muted fst-italic" v-if="wordLearn">({{ currentWord.type }}) /{{ currentWord.pronunciation
+                    }}/</p>
             </div>
             <button class="btn btn-light position-absolute bottom-0 end-0 m-3" @click="flipCard" aria-label="Flip card">
                 <span class="material-symbols-outlined">autorenew</span>
@@ -53,8 +54,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+const emit = defineEmits(['back']);
+const wordLearn = ref(true)
 const currentWord = ref({
     word: "sack",
+    wordvn: "túi, bao lớn",
     type: "noun",
     pronunciation: "sæk",
     audio: "path-to-audio.mp3",

@@ -45,7 +45,7 @@ const getIconStyle = (tabName: string) => {
                 <span class="nav-text">{{ $t('hv.schedule') }}</span>
             </a>
 
-            <a class="nav-link text-muted white" data-bs-toggle="pill" href="#tasks"
+            <a class="nav-link text-muted white" data-bs-toggle="pill" href="#vocabulary"
                 :class="{ active: activeTab === 'tasks' }" @click="setActiveTab('tasks')">
                 <span class="material-symbols-outlined icon" :style="getIconStyle('tasks')">assignment</span>
                 <span class="nav-text">Bài tập</span>
