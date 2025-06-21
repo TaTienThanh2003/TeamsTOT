@@ -26,7 +26,9 @@ namespace backTOT.Data
         public DbSet<CourseOff> CourseOff { get; set; }
         public DbSet<Catalogs> Catalogs { get; set; }
         public DbSet<Topics> Topics { get; set; }
-        public DbSet<Flashcards> Flashcards { get; set; }
+        public DbSet<Vocabularys> Vocabularys { get; set; }
+        public DbSet<UserTopics> UserTopics { get; set; }
+        public DbSet<UserVocabularys> UserVocabularys { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // primary and convert
@@ -72,6 +74,11 @@ namespace backTOT.Data
                       .HasDefaultValue(0);
 
             });
+            modelBuilder.Entity<UserVocabularys>(entity =>
+            {
+                entity.Property(uv => uv.IsActive)
+                      .HasDefaultValue(true); // Mặc định IsActive = true trong DB
+            });
             modelBuilder.Entity<Enrollments>().HasKey(e => e.Id);
             modelBuilder.Entity<Lessons>().HasKey(l => l.Id);
             modelBuilder.Entity<Scores>().HasKey(s => s.Id);
@@ -86,7 +93,9 @@ namespace backTOT.Data
             modelBuilder.Entity<CourseOff>().HasKey(co => co.Id);
             modelBuilder.Entity<Catalogs>().HasKey(ctl => ctl.Id);
             modelBuilder.Entity<Topics>().HasKey(t => t.Id);
-            modelBuilder.Entity<Flashcards>().HasKey(f => f.Id);
+            modelBuilder.Entity<Vocabularys>().HasKey(f => f.Id);
+            modelBuilder.Entity<UserTopics>().HasKey(ut => ut.Id);
+            modelBuilder.Entity<UserVocabularys>().HasKey(uv => uv.Id);
             /////// relation
 
             // Quan hệ users - User_plans  
@@ -232,10 +241,10 @@ namespace backTOT.Data
                 .WithOne(co => co.courses)
                 .HasForeignKey<CourseOff>(co => co.course_id)
                 .OnDelete(DeleteBehavior.Restrict);
-            // Quan hệ Flashcards - Topics
-            modelBuilder.Entity<Flashcards>()
+            // Quan hệ Vocabulary - Topics
+            modelBuilder.Entity<Vocabularys>()
                 .HasOne(f => f.topics)
-                .WithMany(t => t.Flashcards)
+                .WithMany(t => t.Vocabularys)
                 .HasForeignKey(t => t.Topics_id)
                 .OnDelete(DeleteBehavior.Restrict);
         }

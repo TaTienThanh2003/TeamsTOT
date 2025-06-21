@@ -574,50 +574,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "backTOT.Controllers.FlashcardsController",
-    "Method": "GetFlashcardsBy",
-    "RelativePath": "api/flashcards/{topicId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "topicId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[backTOT.Entitys.Flashcards, backTOT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      }
-    ]
-  },
-  {
     "ContainingType": "backTOT.Controllers.CourseTeachersController",
     "Method": "GetTeacherByCourseId",
     "RelativePath": "api/GetTeacherByCourseId/{courseId}",
@@ -1144,6 +1100,22 @@
   },
   {
     "ContainingType": "backTOT.Controllers.UsersController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/users/ChangePassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "backTOT.Dto.ChangePasswordDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backTOT.Controllers.UsersController",
     "Method": "GetAllTeacher",
     "RelativePath": "api/users/getTeacher",
     "HttpMethod": "GET",
@@ -1275,5 +1247,49 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backTOT.Controllers.VocabularysController",
+    "Method": "getVocabularyByTopic",
+    "RelativePath": "api/vocabularies/{topicId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "topicId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[backTOT.Entitys.Vocabularys, backTOT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
   }
 ]

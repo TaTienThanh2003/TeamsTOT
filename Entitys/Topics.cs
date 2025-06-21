@@ -7,9 +7,11 @@ namespace backTOT.Entitys
         public int Id { get; set; }
         [MaxLength(100)]
         public string Name { get; set; }
-        public string Des { get; set; }
-
+        public int WordCount { get; set; }
+        public string ImageUrl { get; set; }
+        public string? Des { get; set; }
         // relation
-        public ICollection<Flashcards> Flashcards { get; set; } = new List<Flashcards>();
+        public ICollection<Users> Users { get; set; } = new List<Users>();
+        public ICollection<Vocabularys> Vocabularys { get; set; } = new List<Vocabularys>();
     }
 }

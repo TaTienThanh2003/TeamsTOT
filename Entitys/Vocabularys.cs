@@ -2,7 +2,7 @@
 
 namespace backTOT.Entitys
 {
-    public class Flashcards
+    public class Vocabularys
     {
         public int Id { get; set; }
         public int Topics_id { get; set; }
@@ -16,8 +16,12 @@ namespace backTOT.Entitys
         public string ExampleEn { get; set; }
         public string ExampleVn { get; set; }
         public string Img { get; set; }
-
+        public string AudioUrl { get; set; }
+        public int Level { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        
         // relation
         public Topics topics { get; set; }
+        public ICollection<UserVocabularys> UserVocabularys { get; set; } = new List<UserVocabularys>();
     }
 }

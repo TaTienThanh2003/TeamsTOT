@@ -121,6 +121,22 @@ namespace backTOT.Controllers
             var userConvert = _mapper.Map<UserLoginDto>(user);
             return Ok(new { status = 200, message = "Login successful", data = userConvert });
         }
+        [HttpPost("ChangePassword")]
+        public IActionResult ChangePassword([FromBody] ChangePasswordDto dto)
+        {
+            try
+            {
+                var result = _userServices.ChangePassword(dto.UserId, dto.OldPassword, dto.NewPassword);
 
+                if (!result)
+                    return BadRequest("User not found or Incorrect old password");
+
+                return Ok("Password changed successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }

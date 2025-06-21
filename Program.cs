@@ -29,7 +29,7 @@ builder.Services.AddScoped<ILesson_notes, Lesson_NotesService>();
 builder.Services.AddScoped<ISectionsService, SectionsService>();
 builder.Services.AddScoped<ICatalogsService, CatalogsService>();
 builder.Services.AddScoped<ITopicsService, TopicsService>();
-builder.Services.AddScoped<IFlashcardsService, FlashcardsService>();
+builder.Services.AddScoped<IVocabularysService, VocabularysService>();
 // Thêm Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

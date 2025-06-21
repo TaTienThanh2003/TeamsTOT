@@ -113,14 +113,21 @@ namespace backTOT.Services
         }
 
 
-        public bool UpdatePassUser(int userId, string newPassword)
+        public bool ChangePassword(int userId, string oldPassword, string newPassword)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             if (user == null) return false;
-            // Mã hoá mật khẩu trước khi lưu
+
+            // Kiểm tra mật khẩu cũ có đúng không
+            if (!BCrypt.Net.BCrypt.Verify(oldPassword, user.Password)) return false;
+
+            // Hash và cập nhật mật khẩu mới
             user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            _context.Users.Update(user);
+
             return Save();
         }
+
 
     }
 }

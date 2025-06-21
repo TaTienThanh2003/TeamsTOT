@@ -16,7 +16,8 @@ namespace backTOT.Interface
         bool deleteUser(int userId);
         bool updateUser(Users user);
         bool UpdateUserRole(int userId, Role newRole);
-        bool UpdatePassUser(int userId, String pass);
+        bool ChangePassword(int userId, string oldPassword, string newPassword);
+
         bool Save();
     }
 }
