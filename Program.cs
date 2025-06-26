@@ -30,6 +30,9 @@ builder.Services.AddScoped<ISectionsService, SectionsService>();
 builder.Services.AddScoped<ICatalogsService, CatalogsService>();
 builder.Services.AddScoped<ITopicsService, TopicsService>();
 builder.Services.AddScoped<IVocabularysService, VocabularysService>();
+builder.Services.AddScoped<IUserTopicsService, UserTopicsService>();
+builder.Services.AddScoped<IUserVocabularysService, UserVocabularysService>();
+builder.Services.AddScoped<IUsersLessonService, UsersLessonService>();
 // Thêm Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -18,6 +18,8 @@ namespace backTOT.Entitys
         public ICollection<Schedules> Schedules { get; set; } = new List<Schedules>();
         public ICollection<Lesson_notes> Lesson_notes { get; set; } = new List<Lesson_notes>();
         public ICollection<Comments> Comments { get; set; } = new List<Comments>();
+        public ICollection<UserLesson> UserLessons { get; set; }
+
         public Sections sections { get; set; }
     }
 }

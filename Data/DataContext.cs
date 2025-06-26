@@ -29,6 +29,7 @@ namespace backTOT.Data
         public DbSet<Vocabularys> Vocabularys { get; set; }
         public DbSet<UserTopics> UserTopics { get; set; }
         public DbSet<UserVocabularys> UserVocabularys { get; set; }
+        public DbSet<UserLesson> UserLessons { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // primary and convert
@@ -72,12 +73,21 @@ namespace backTOT.Data
                       .HasDefaultValue(0);
                 entity.Property(cm => cm.DisLikes)
                       .HasDefaultValue(0);
-
             });
             modelBuilder.Entity<UserVocabularys>(entity =>
             {
                 entity.Property(uv => uv.IsActive)
-                      .HasDefaultValue(true); // Mặc định IsActive = true trong DB
+                      .HasDefaultValue(true);
+            });
+            modelBuilder.Entity<UserLesson>(entity =>
+            {
+                entity.Property(ul => ul.IsComplete)
+                      .HasDefaultValue(true); 
+            });
+            modelBuilder.Entity<UserTopics>(entity =>
+            {
+                entity.Property(ut => ut.IsComplete)
+                      .HasDefaultValue(false);
             });
             modelBuilder.Entity<Enrollments>().HasKey(e => e.Id);
             modelBuilder.Entity<Lessons>().HasKey(l => l.Id);
@@ -96,6 +106,7 @@ namespace backTOT.Data
             modelBuilder.Entity<Vocabularys>().HasKey(f => f.Id);
             modelBuilder.Entity<UserTopics>().HasKey(ut => ut.Id);
             modelBuilder.Entity<UserVocabularys>().HasKey(uv => uv.Id);
+            modelBuilder.Entity<UserLesson>().HasKey(ul => ul.Id);
             /////// relation
 
             // Quan hệ users - User_plans  
@@ -247,6 +258,25 @@ namespace backTOT.Data
                 .WithMany(t => t.Vocabularys)
                 .HasForeignKey(t => t.Topics_id)
                 .OnDelete(DeleteBehavior.Restrict);
+            // Quan hệ user - Topics
+            modelBuilder.Entity<Topics>()
+            .HasOne(t => t.UserCreated)
+            .WithMany(u => u.TopicsCreated)
+            .HasForeignKey(t => t.UsersCreated_id)
+            .OnDelete(DeleteBehavior.Restrict);
+            // Quan hệ UserLesson - Users
+            modelBuilder.Entity<UserLesson>()
+                .HasOne(ul => ul.Users)
+                .WithMany(u => u.UserLessons)
+                .HasForeignKey(ul => ul.Student_id)
+                .OnDelete(DeleteBehavior.Cascade); // hoặc Restrict tùy bạn
+
+            // Quan hệ UserLesson - Lessons
+            modelBuilder.Entity<UserLesson>()
+                .HasOne(ul => ul.Lessons)
+                .WithMany(l => l.UserLessons)
+                .HasForeignKey(ul => ul.LessonsId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -39,6 +39,9 @@ namespace backTOT.Entitys
         public ICollection<Lesson_notes> Lesson_notes { get; set; } = new List<Lesson_notes>();
         public ICollection<Comments> Comments { get; set; } = new List<Comments>();
         public ICollection<Topics> Topics { get; set; } = new List<Topics>();
+        public ICollection<Topics> TopicsCreated { get; set; }
         public ICollection<UserVocabularys> UserVocabularys { get; set; } = new List<UserVocabularys>();
+        public ICollection<UserLesson> UserLessons { get; set; }
+
     }
 }

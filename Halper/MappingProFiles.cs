@@ -38,6 +38,12 @@ namespace backTOT.Halper
             CreateMap<LessonsDto, Lessons>();
             CreateMap<Sections, SectionsDto>();
             CreateMap<SectionsDto, Sections>();
+            CreateMap<UserLessonCreateDto, UserLesson>();
+            CreateMap<UserLesson, UserLessonCreateDto>();
+            CreateMap<UpdateUserTopicCompleteDto, UserTopics>();
+            CreateMap<UserTopics, UpdateUserTopicCompleteDto>();
+            CreateMap<AddUserTopicDto, UserTopics>();
+            CreateMap<UserTopics, AddUserTopicDto>();
         }
     }
 }

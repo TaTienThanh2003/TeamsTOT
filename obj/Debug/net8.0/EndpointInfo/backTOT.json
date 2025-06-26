@@ -1891,6 +1891,166 @@
         }
       }
     },
+    "/api/userlesson/{studentId}": {
+      "get": {
+        "tags": [
+          "UserLesson"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.UserLesson"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.UserLesson"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.UserLesson"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/userlesson/addUserLesson": {
+      "post": {
+        "tags": [
+          "UserLesson"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.UserLessonCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.UserLessonCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.UserLessonCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/users": {
       "get": {
         "tags": [
@@ -2351,6 +2511,356 @@
         }
       }
     },
+    "/api/usertopics": {
+      "get": {
+        "tags": [
+          "UserTopics"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.UserTopics"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.UserTopics"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.UserTopics"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/usertopics/{studentId}": {
+      "get": {
+        "tags": [
+          "UserTopics"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.UserTopics"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.UserTopics"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/backTOT.Entitys.UserTopics"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/usertopics/addUserTopics": {
+      "post": {
+        "tags": [
+          "UserTopics"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.AddUserTopicDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.AddUserTopicDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.AddUserTopicDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/usertopics/updateIsComplete": {
+      "put": {
+        "tags": [
+          "UserTopics"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.UpdateUserTopicCompleteDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.UpdateUserTopicCompleteDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.UpdateUserTopicCompleteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/uservocabularys/getUserVocabularys": {
+      "get": {
+        "tags": [
+          "UserVocabularys"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "topicId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/uservocabularys/addUserVocabularys": {
+      "post": {
+        "tags": [
+          "UserVocabularys"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Entitys.UserVocabularys"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Entitys.UserVocabularys"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Entitys.UserVocabularys"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/vocabularies/{topicId}": {
       "get": {
         "tags": [
@@ -2469,6 +2979,20 @@
           }
         },
         "additionalProperties": { }
+      },
+      "backTOT.Dto.AddUserTopicDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "topicId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
       },
       "backTOT.Dto.CartsDto": {
         "type": "object",
@@ -2689,6 +3213,23 @@
         },
         "additionalProperties": false
       },
+      "backTOT.Dto.UpdateUserTopicCompleteDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "topicId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isComplete": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "backTOT.Dto.UserDto": {
         "type": "object",
         "properties": {
@@ -2707,6 +3248,20 @@
           "phone": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "backTOT.Dto.UserLessonCreateDto": {
+        "type": "object",
+        "properties": {
+          "student_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lessonsId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -3126,6 +3681,13 @@
             },
             "nullable": true
           },
+          "userLessons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/backTOT.Entitys.UserLesson"
+            },
+            "nullable": true
+          },
           "sections": {
             "$ref": "#/components/schemas/backTOT.Entitys.Sections"
           }
@@ -3367,6 +3929,14 @@
             "type": "string",
             "nullable": true
           },
+          "usersCreated_id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userCreated": {
+            "$ref": "#/components/schemas/backTOT.Entitys.Users"
+          },
           "users": {
             "type": "array",
             "items": {
@@ -3384,6 +3954,54 @@
         },
         "additionalProperties": false
       },
+      "backTOT.Entitys.UserLesson": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "student_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "users": {
+            "$ref": "#/components/schemas/backTOT.Entitys.Users"
+          },
+          "lessonsId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lessons": {
+            "$ref": "#/components/schemas/backTOT.Entitys.Lessons"
+          },
+          "isComplete": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "backTOT.Entitys.UserTopics": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "topicId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isComplete": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "backTOT.Entitys.UserVocabularys": {
         "type": "object",
         "properties": {
@@ -3395,9 +4013,23 @@
             "type": "integer",
             "format": "int32"
           },
+          "users": {
+            "$ref": "#/components/schemas/backTOT.Entitys.Users"
+          },
           "vocabularyId": {
             "type": "integer",
             "format": "int32"
+          },
+          "vocabularys": {
+            "$ref": "#/components/schemas/backTOT.Entitys.Vocabularys"
+          },
+          "topicId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "topics": {
+            "$ref": "#/components/schemas/backTOT.Entitys.Topics"
           },
           "isActive": {
             "type": "boolean"
@@ -3535,10 +4167,24 @@
             },
             "nullable": true
           },
+          "topicsCreated": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/backTOT.Entitys.Topics"
+            },
+            "nullable": true
+          },
           "userVocabularys": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/backTOT.Entitys.UserVocabularys"
+            },
+            "nullable": true
+          },
+          "userLessons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/backTOT.Entitys.UserLesson"
             },
             "nullable": true
           }
