@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
@@ -28,7 +29,8 @@ namespace backTOT.Controllers
             {
                 return NotFound(new { status = 404, message = "No topics found" });
             }
-            return Ok(new { status = 200, message = "Success", data = topics });
+            var topicDto = _mapper.Map<List<TopicUserDtoLean>>(topics);
+            return Ok(new { status = 200, message = "Success", data = topicDto });
         }
 
     }

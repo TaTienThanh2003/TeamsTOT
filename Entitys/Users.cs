@@ -42,6 +42,7 @@ namespace backTOT.Entitys
         public ICollection<Topics> TopicsCreated { get; set; }
         public ICollection<UserVocabularys> UserVocabularys { get; set; } = new List<UserVocabularys>();
         public ICollection<UserLesson> UserLessons { get; set; }
-
+        public ICollection<Vocabularys> Vocabularys { get; set; }
+        public ICollection<UserTopics> UserTopics { get; set; }
     }
 }

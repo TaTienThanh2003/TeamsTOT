@@ -35,5 +35,10 @@ namespace backTOT.Services
                 .Where(e => e.Student_id == userId)
                 .ToList();
         }
+        public bool CheckExistEnrollment(int userId, int courseId)
+        {
+            return _context.Enrollments.Any(e => e.Student_id == userId && e.Courses_id == courseId);
+        }
+
     }
 }

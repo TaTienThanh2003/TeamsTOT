@@ -7,6 +7,7 @@ namespace backTOT.Interface
     {
         bool AddEnrollment(Enrollments enrollment);
         ICollection<Enrollments> GetEnrollmentByUserId(int userId);
+        bool CheckExistEnrollment(int userId, int courseId);
         bool Save();
     }
 }

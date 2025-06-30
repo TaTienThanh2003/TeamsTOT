@@ -1,6 +1,7 @@
 ﻿using backTOT.Data;
 using backTOT.Entitys;
 using backTOT.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace backTOT.Services
 {
@@ -13,7 +14,24 @@ namespace backTOT.Services
         }
         public ICollection<Topics> GetTopics()
         {
-            return _context.Topics.OrderBy(t => t.Id).ToList();
+            var topics = _context.Topics
+                .Include(t => t.UserTopics)
+                    .ThenInclude(ut => ut.Users)
+                    .Include(v => v.UserVocabularys)
+                    .ThenInclude(uv => uv.Vocabularys)
+                .OrderBy(t => t.Id)
+                .ToList();
+
+            // Gán thủ công danh sách Users cho từng Topic
+            foreach (var topic in topics)
+            {
+                topic.Users = topic.UserTopics.Select(ut => ut.Users).ToList();
+                // gán thêm Vocabularys
+                topic.Vocabularys = topic.UserVocabularys.Select(uv => uv.Vocabularys).ToList();
+            }
+
+            return topics;
         }
+
     }
 }

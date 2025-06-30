@@ -1,4 +1,5 @@
 ﻿using backTOT.Entitys;
+using Microsoft.EntityFrameworkCore;
 
 namespace backTOT.Interface
 {
@@ -8,6 +9,7 @@ namespace backTOT.Interface
         bool AddCourseOnCart(Carts cart);
         bool isCheckCoursesCart(int courseId);
         bool DeleteCourseOnCart(int courseId, int userID);
+        public bool CheckExistCart(int userId, int courseId);
         bool Save();
     }
 }

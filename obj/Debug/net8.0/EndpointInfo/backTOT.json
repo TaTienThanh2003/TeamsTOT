@@ -3950,6 +3950,20 @@
               "$ref": "#/components/schemas/backTOT.Entitys.Vocabularys"
             },
             "nullable": true
+          },
+          "userTopics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/backTOT.Entitys.UserTopics"
+            },
+            "nullable": true
+          },
+          "userVocabularys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/backTOT.Entitys.UserVocabularys"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -3988,13 +4002,19 @@
             "type": "integer",
             "format": "int32"
           },
-          "userId": {
+          "usersId": {
             "type": "integer",
             "format": "int32"
           },
-          "topicId": {
+          "users": {
+            "$ref": "#/components/schemas/backTOT.Entitys.Users"
+          },
+          "topicsId": {
             "type": "integer",
             "format": "int32"
+          },
+          "topics": {
+            "$ref": "#/components/schemas/backTOT.Entitys.Topics"
           },
           "isComplete": {
             "type": "boolean"
@@ -4185,6 +4205,20 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/backTOT.Entitys.UserLesson"
+            },
+            "nullable": true
+          },
+          "vocabularys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/backTOT.Entitys.Vocabularys"
+            },
+            "nullable": true
+          },
+          "userTopics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/backTOT.Entitys.UserTopics"
             },
             "nullable": true
           }

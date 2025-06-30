@@ -59,6 +59,11 @@ namespace backTOT.Controllers
             {
                 return BadRequest(new { status = 400, message = "Invalid cart data" });
             }
+            // Kiểm tra đã tồn tại chưa
+            if (_cartsService.CheckExistCart(cartDto.Users_id, cartDto.Course_id))
+            {
+                return Conflict(new { status = 409, message = "Enrollment already exists" });
+            }
             var cartAdd = _mapper.Map<Carts>(cartDto);
             var result = _cartsService.AddCourseOnCart(cartAdd);
             if (result == null)

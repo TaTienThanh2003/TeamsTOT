@@ -20,17 +20,17 @@ namespace backTOT.Services
 
         public ICollection<UserTopics> GetUserTopics()
         {
-            return _context.UserTopics.OrderBy(ut => ut.TopicId).ToList();
+            return _context.UserTopics.OrderBy(ut => ut.TopicsId).ToList();
         }
 
         public ICollection<UserTopics> GetUserTopicsByStudentId(int studentId)
         {
-            return _context.UserTopics.Where(ut => ut.UserId == studentId).ToList();
+            return _context.UserTopics.Where(ut => ut.UsersId == studentId).ToList();
         }
         public bool UpdateIsComplete(int studentId, int topicId, bool isComplete)
         {
             var userTopic = _context.UserTopics
-                .FirstOrDefault(ut => ut.UserId == studentId && ut.TopicId == topicId);
+                .FirstOrDefault(ut => ut.UsersId == studentId && ut.TopicsId == topicId);
 
             if (userTopic == null)
                 return false;

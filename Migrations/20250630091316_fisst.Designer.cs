@@ -12,8 +12,8 @@ using backTOT.Data;
 namespace backTOT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250621174023_AddVocabularyFixed")]
-    partial class AddVocabularyFixed
+    [Migration("20250630091316_fisst")]
+    partial class fisst
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -526,12 +526,45 @@ namespace backTOT.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("UsersCreated_id")
+                        .HasColumnType("int");
+
                     b.Property<int>("WordCount")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UsersCreated_id");
+
                     b.ToTable("Topics");
+                });
+
+            modelBuilder.Entity("backTOT.Entitys.UserLesson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsComplete")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<int>("LessonsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Student_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonsId");
+
+                    b.HasIndex("Student_id");
+
+                    b.ToTable("UserLessons");
                 });
 
             modelBuilder.Entity("backTOT.Entitys.UserTopics", b =>
@@ -542,47 +575,50 @@ namespace backTOT.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("TopicId")
+                    b.Property<bool>("IsComplete")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("TopicsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UsersId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TopicsId");
+
+                    b.HasIndex("UsersId");
 
                     b.ToTable("UserTopics");
                 });
 
             modelBuilder.Entity("backTOT.Entitys.UserVocabularys", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("Student_id")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("VocabularyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<int>("Student_id")
+                    b.Property<int?>("TopicId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UsersId")
-                        .HasColumnType("int");
+                    b.HasKey("Student_id", "VocabularyId");
 
-                    b.Property<int>("VocabularyId")
-                        .HasColumnType("int");
+                    b.HasIndex("TopicId");
 
-                    b.Property<int?>("VocabularysId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsersId");
-
-                    b.HasIndex("VocabularysId");
+                    b.HasIndex("VocabularyId");
 
                     b.ToTable("UserVocabularys");
                 });
@@ -712,6 +748,9 @@ namespace backTOT.Migrations
                     b.Property<int>("Topics_id")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UsersId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Word")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -725,6 +764,8 @@ namespace backTOT.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Topics_id");
+
+                    b.HasIndex("UsersId");
 
                     b.ToTable("Vocabularys");
                 });
@@ -946,15 +987,77 @@ namespace backTOT.Migrations
                     b.Navigation("courses");
                 });
 
+            modelBuilder.Entity("backTOT.Entitys.Topics", b =>
+                {
+                    b.HasOne("backTOT.Entitys.Users", "UserCreated")
+                        .WithMany("TopicsCreated")
+                        .HasForeignKey("UsersCreated_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("UserCreated");
+                });
+
+            modelBuilder.Entity("backTOT.Entitys.UserLesson", b =>
+                {
+                    b.HasOne("backTOT.Entitys.Lessons", "Lessons")
+                        .WithMany("UserLessons")
+                        .HasForeignKey("LessonsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backTOT.Entitys.Users", "Users")
+                        .WithMany("UserLessons")
+                        .HasForeignKey("Student_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lessons");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("backTOT.Entitys.UserTopics", b =>
+                {
+                    b.HasOne("backTOT.Entitys.Topics", "Topics")
+                        .WithMany("UserTopics")
+                        .HasForeignKey("TopicsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backTOT.Entitys.Users", "Users")
+                        .WithMany("UserTopics")
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Topics");
+
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("backTOT.Entitys.UserVocabularys", b =>
                 {
-                    b.HasOne("backTOT.Entitys.Users", null)
+                    b.HasOne("backTOT.Entitys.Users", "Users")
                         .WithMany("UserVocabularys")
-                        .HasForeignKey("UsersId");
+                        .HasForeignKey("Student_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("backTOT.Entitys.Vocabularys", null)
+                    b.HasOne("backTOT.Entitys.Topics", "Topics")
                         .WithMany("UserVocabularys")
-                        .HasForeignKey("VocabularysId");
+                        .HasForeignKey("TopicId");
+
+                    b.HasOne("backTOT.Entitys.Vocabularys", "Vocabularys")
+                        .WithMany("UserVocabularys")
+                        .HasForeignKey("VocabularyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Topics");
+
+                    b.Navigation("Users");
+
+                    b.Navigation("Vocabularys");
                 });
 
             modelBuilder.Entity("backTOT.Entitys.User_plans", b =>
@@ -983,6 +1086,10 @@ namespace backTOT.Migrations
                         .HasForeignKey("Topics_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("backTOT.Entitys.Users", null)
+                        .WithMany("Vocabularys")
+                        .HasForeignKey("UsersId");
 
                     b.Navigation("topics");
                 });
@@ -1024,6 +1131,8 @@ namespace backTOT.Migrations
                     b.Navigation("Lesson_notes");
 
                     b.Navigation("Schedules");
+
+                    b.Navigation("UserLessons");
                 });
 
             modelBuilder.Entity("backTOT.Entitys.Plans", b =>
@@ -1038,6 +1147,10 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Topics", b =>
                 {
+                    b.Navigation("UserTopics");
+
+                    b.Navigation("UserVocabularys");
+
                     b.Navigation("Vocabularys");
                 });
 
@@ -1057,9 +1170,17 @@ namespace backTOT.Migrations
 
                     b.Navigation("Scores");
 
+                    b.Navigation("TopicsCreated");
+
+                    b.Navigation("UserLessons");
+
+                    b.Navigation("UserTopics");
+
                     b.Navigation("UserVocabularys");
 
                     b.Navigation("User_Plans");
+
+                    b.Navigation("Vocabularys");
                 });
 
             modelBuilder.Entity("backTOT.Entitys.Vocabularys", b =>

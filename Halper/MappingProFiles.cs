@@ -44,6 +44,16 @@ namespace backTOT.Halper
             CreateMap<UserTopics, UpdateUserTopicCompleteDto>();
             CreateMap<AddUserTopicDto, UserTopics>();
             CreateMap<UserTopics, AddUserTopicDto>();
+            CreateMap<TopicUserDtoLean, Topics>();
+            CreateMap<VocabularyDto, Vocabularys>();
+            CreateMap<Vocabularys, VocabularyDto>();
+            CreateMap<Users, UserTopicDto>();
+            CreateMap<UserTopicDto, Users>();
+            CreateMap<Topics, TopicUserDtoLean>()
+            .ForMember(dest => dest.Vocabulary, opt =>
+                opt.MapFrom(src => src.UserVocabularys.Select(uv => uv.Vocabularys)))
+            .ForMember(dest => dest.Users, opt =>
+                opt.MapFrom(src => src.UserTopics.Select(ut => ut.Users)));
         }
     }
 }

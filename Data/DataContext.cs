@@ -277,6 +277,37 @@ namespace backTOT.Data
                 .WithMany(l => l.UserLessons)
                 .HasForeignKey(ul => ul.LessonsId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<UserTopics>()
+                .HasKey(ut => new { ut.UsersId, ut.TopicsId });
+            modelBuilder.Entity<UserTopics>()
+                .HasKey(ut => ut.Id);
+            modelBuilder.Entity<UserTopics>()
+                .HasOne(ut => ut.Users)
+                .WithMany()
+                .HasForeignKey(ut => ut.UsersId);
+
+            modelBuilder.Entity<UserTopics>()
+                .HasOne(ut => ut.Users)
+                .WithMany(u => u.UserTopics)
+                .HasForeignKey(ut => ut.UsersId);
+
+            modelBuilder.Entity<UserTopics>()
+                .HasOne(ut => ut.Topics)
+                .WithMany(t => t.UserTopics)
+                .HasForeignKey(ut => ut.TopicsId);
+
+            modelBuilder.Entity<UserVocabularys>()
+                .HasKey(uv => new { uv.Student_id, uv.VocabularyId });
+
+            modelBuilder.Entity<UserVocabularys>()
+                .HasOne(uv => uv.Users)
+                .WithMany(u => u.UserVocabularys)
+                .HasForeignKey(uv => uv.Student_id);
+
+            modelBuilder.Entity<UserVocabularys>()
+                .HasOne(uv => uv.Vocabularys)
+                .WithMany(v => v.UserVocabularys)
+                .HasForeignKey(uv => uv.VocabularyId);
         }
     }
 }

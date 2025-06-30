@@ -48,6 +48,11 @@ namespace backTOT.Controllers
             {
                 return BadRequest(new { status = 400, message = "Invalid enrollment data" });
             }
+            // Kiểm tra đã tồn tại chưa
+            if (_iEnrollmentService.CheckExistEnrollment(enrollmentDto.Student_id, enrollmentDto.Courses_id))
+            {
+                return Conflict(new { status = 409, message = "Enrollment already exists" });
+            }
             var enrollment = _mapper.Map<Enrollments>(enrollmentDto);
 
             var success = _iEnrollmentService.AddEnrollment(enrollment);
