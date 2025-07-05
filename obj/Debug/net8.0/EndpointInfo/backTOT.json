@@ -1699,6 +1699,122 @@
         }
       }
     },
+    "/api/schedules/user/{userId}": {
+      "get": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/schedules/user/{userId}/course/{courseId}": {
+      "get": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/schedules": {
+      "post": {
+        "tags": [
+          "Schedules"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.AddScheduleDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.AddScheduleDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/backTOT.Dto.AddScheduleDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/sections/{id}": {
       "delete": {
         "tags": [
@@ -2980,6 +3096,31 @@
         },
         "additionalProperties": { }
       },
+      "backTOT.Dto.AddScheduleDTO": {
+        "required": [
+          "dayOfWeek"
+        ],
+        "type": "object",
+        "properties": {
+          "studentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "courses_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dayOfWeek": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "timeLearn": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "backTOT.Dto.AddUserTopicDto": {
         "type": "object",
         "properties": {
@@ -3660,13 +3801,6 @@
             "type": "integer",
             "format": "int32"
           },
-          "schedules": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/backTOT.Entitys.Schedules"
-            },
-            "nullable": true
-          },
           "lesson_notes": {
             "type": "array",
             "items": {
@@ -3788,9 +3922,16 @@
         "type": "string"
       },
       "backTOT.Entitys.Schedules": {
+        "required": [
+          "dayOfWeek"
+        ],
         "type": "object",
         "properties": {
           "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "studentId": {
             "type": "integer",
             "format": "int32"
           },
@@ -3798,19 +3939,32 @@
             "type": "integer",
             "format": "int32"
           },
-          "lessons_id": {
-            "type": "integer",
-            "format": "int32"
+          "dayOfWeek": {
+            "minLength": 1,
+            "type": "string"
           },
-          "class_time": {
+          "timeLearn": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_date": {
             "type": "string",
             "format": "date"
           },
+          "end_date": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "users": {
+            "$ref": "#/components/schemas/backTOT.Entitys.Users"
+          },
           "courses": {
             "$ref": "#/components/schemas/backTOT.Entitys.Courses"
-          },
-          "lessons": {
-            "$ref": "#/components/schemas/backTOT.Entitys.Lessons"
           }
         },
         "additionalProperties": false
@@ -4219,6 +4373,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/backTOT.Entitys.UserTopics"
+            },
+            "nullable": true
+          },
+          "schedules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/backTOT.Entitys.Schedules"
             },
             "nullable": true
           }

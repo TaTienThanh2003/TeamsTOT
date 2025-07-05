@@ -44,5 +44,6 @@ namespace backTOT.Entitys
         public ICollection<UserLesson> UserLessons { get; set; }
         public ICollection<Vocabularys> Vocabularys { get; set; }
         public ICollection<UserTopics> UserTopics { get; set; }
+        public ICollection<Schedules> Schedules { get; set; }
     }
 }

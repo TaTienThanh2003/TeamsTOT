@@ -54,6 +54,8 @@ namespace backTOT.Halper
                 opt.MapFrom(src => src.UserVocabularys.Select(uv => uv.Vocabularys)))
             .ForMember(dest => dest.Users, opt =>
                 opt.MapFrom(src => src.UserTopics.Select(ut => ut.Users)));
+            CreateMap<Schedules, AddScheduleDTO>();
+            CreateMap<AddScheduleDTO, Schedules>();
         }
     }
 }

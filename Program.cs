@@ -33,6 +33,7 @@ builder.Services.AddScoped<IVocabularysService, VocabularysService>();
 builder.Services.AddScoped<IUserTopicsService, UserTopicsService>();
 builder.Services.AddScoped<IUserVocabularysService, UserVocabularysService>();
 builder.Services.AddScoped<IUsersLessonService, UsersLessonService>();
+builder.Services.AddScoped<IScheduleServices, ScheduleService>();
 // Thêm Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

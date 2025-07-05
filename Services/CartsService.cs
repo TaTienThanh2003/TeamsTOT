@@ -47,7 +47,7 @@ namespace backTOT.Services
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
-        public bool CheckExistEnrollment(int userId, int courseId)
+        public bool CheckExistCart(int userId, int courseId)
         {
             return _context.Carts.Any(c => c.Users_id == userId && c.Course_id == courseId);
         }

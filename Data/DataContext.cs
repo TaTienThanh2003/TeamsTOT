@@ -169,9 +169,14 @@ namespace backTOT.Data
                 .OnDelete(DeleteBehavior.Cascade);
             // Quan hệ courses - schedules
             modelBuilder.Entity<Schedules>()
-               .HasOne(sch => sch.courses)
+               .HasOne(sch => sch.Courses)
                .WithMany(c => c.Schedules)
-               .HasForeignKey(sch => sch.Courses_id)
+               .HasForeignKey(sch => sch.Courses_id);
+               // Quan hệ user - schedules
+            modelBuilder.Entity<Schedules>()
+               .HasOne(sch => sch.Users)
+               .WithMany(u => u.Schedules)
+               .HasForeignKey(sch => sch.StudentId)
                .OnDelete(DeleteBehavior.Cascade);
             // Quan hệ sections - lessons
             modelBuilder.Entity<Lessons>()
@@ -197,13 +202,6 @@ namespace backTOT.Data
               .WithMany(u => u.Scores)
               .HasForeignKey(s => s.Student_id)
               .OnDelete(DeleteBehavior.Restrict);
-            // Quan hệ schedules - lessons
-            modelBuilder.Entity<Schedules>()
-              .HasOne(sch => sch.lessons)
-              .WithMany(l => l.Schedules)
-              .HasForeignKey(sch => sch.Lessons_id)
-               .OnDelete(DeleteBehavior.Restrict);
-            base.OnModelCreating(modelBuilder);
             // Quan hệ review - users
             modelBuilder.Entity<Reviews>()
             .HasOne(r => r.users)
