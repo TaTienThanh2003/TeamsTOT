@@ -7,6 +7,8 @@ import { translateViEn, getCourses, getLessons, deleteCourse } from '@/services'
 import i18n from '@/i18n';
 import AddSection from './Model/AddSection.vue';
 import AddLesson from './Model/AddLesson.vue';
+import ToastContainer from '@/components/Toast/ToastContainer.vue';
+import { useToast } from '@/composables/useToast';
 
 const showModal = ref(false)
 const showEditModal = ref(false)
@@ -23,6 +25,8 @@ const selectedCourseId = ref<number | undefined>(undefined);
 const locale = i18n.global.locale.toUpperCase();
 const titleKey = `title${locale}`;
 const desKey = `des${locale}`
+
+const { success, error, warning, info } = useToast()
 
 // await translateViEn("Xin chào");
 const showCourse = async () => {
@@ -104,8 +108,13 @@ const delCourse = async (courseid: number) => {
     try {
         await deleteCourse(courseid)
         showCourse()
-    } catch (error) {
-
+        success('Xóa khóa học thành công!', 'Thành công')
+    } catch (err) {
+        if (err instanceof Error) {
+            error(err.message, 'Lỗi')
+        } else {
+            error('Có lỗi xảy ra', 'Lỗi')
+        }
     }
 }
 const toggleCourse = async (courseId: number) => {
@@ -273,6 +282,7 @@ onMounted(() => {
                 <AddLesson />
             </tbody>
         </table>
+        <ToastContainer />
     </div>
 </template>
 <style scoped>

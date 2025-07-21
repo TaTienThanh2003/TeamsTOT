@@ -13,7 +13,7 @@ const props = defineProps<{
     desEN: string;
     completed: boolean;
     current?: boolean;
-    videoUrl: string;
+    video_url: string;
   }[];
 }>();
 

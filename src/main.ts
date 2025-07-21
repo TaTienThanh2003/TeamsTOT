@@ -16,6 +16,10 @@ import router from './router'
 import i18n from './i18n'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Toast from 'vue-toastification';
+import type { PluginOptions, POSITION } from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
+import ToastContainer from '@/components/Toast/ToastContainer.vue'
 
 AOS.init({
     duration: 1200,
@@ -24,9 +28,26 @@ AOS.init({
     easing: 'ease-in-out',
 });
 
-createApp(App)
-    .use(i18n)
-    .use(router)
-    .use(ProCalendar)
-    .mount('#app')
+const options: PluginOptions = {
+  position: 'top-right' as POSITION,
+  timeout: 3000,
+  closeOnClick: true,
+  pauseOnFocusLoss: true,
+  pauseOnHover: true,
+  draggable: true,
+  draggablePercent: 0.6,
+  showCloseButtonOnHover: false,
+  hideProgressBar: false,
+  closeButton: 'button',
+  icon: true,
+  rtl: false
+};
+
+const app = createApp(App);
+app.use(i18n);
+app.use(router);
+app.use(ProCalendar);
+app.use(Toast, options);
+app.component('ToastContainer', ToastContainer)
+app.mount('#app');
 

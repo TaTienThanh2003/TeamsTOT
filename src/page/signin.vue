@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { register } from "@/services/index";
 import { useRouter } from 'vue-router';
 
-const username = ref("");
+const fullname = ref("");
 const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
@@ -33,7 +33,7 @@ const handleRegister = async () => {
         errorMsg.value = "Mật khẩu không khớp";
         return;
     }
-    const response = await register(username.value,email.value, password.value);
+    const response = await register(fullname.value,email.value, password.value);
     if (response.success) {
         alert("Đăng ký thành công");
         router.push("/login");
@@ -56,9 +56,9 @@ const handleRegister = async () => {
             <form class="mt-4" @submit.prevent="handleRegister">
                 <p class="text-danger text-center" v-if="errorMsg">{{ errorMsg }}</p>
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input v-model="username" type="text" class="form-control w-full" id="username"
-                        placeholder="Username" required />
+                    <label for="fullname" class="form-label">Full Name</label>
+                    <input v-model="fullname" type="text" class="form-control w-full" id="fullname"
+                        placeholder="Fullname" required />
                 </div>
 
                 <div class="mb-3">

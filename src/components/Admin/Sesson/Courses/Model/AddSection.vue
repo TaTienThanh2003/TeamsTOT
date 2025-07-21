@@ -41,14 +41,17 @@
             </div>
         </div>
     </div>
+    <ToastContainer />
 </template>
 
 <script setup lang="ts">
 import { addSection } from '@/services';
 import { ref, watch } from 'vue';
 import { defineProps } from 'vue';
+import { useToast } from '@/composables/useToast';
+import ToastContainer from '@/components/Toast/ToastContainer.vue';
 
-
+const { success, error } = useToast();
 declare const bootstrap: any;
 const props = defineProps<{ courses_id?: number | null; }>();
 const emit = defineEmits(['refresh', 'close'])

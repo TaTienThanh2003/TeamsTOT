@@ -7,6 +7,10 @@ import { getLessons, addCarts} from '@/services';
 import DetailItem from '@/components/Home/Detail/DetailItem.vue';
 import TeacherReview from '@/components/Home/Detail/TeacherReview.vue';
 import i18n from '@/i18n';
+import { useToast } from '@/composables/useToast';
+import ToastContainer from '@/components/Toast/ToastContainer.vue';
+
+const { success, error } = useToast();
 
 const router = useRoute();
 const showModal = ref(false);
@@ -36,8 +40,9 @@ const showLessons = async () => {
 const addtoCarts = async () => {
     try {
         await addCarts(userId, id);
+        success('Đã thêm vào giỏ hàng!');
     } catch (err: any) {
-        console.log("Lỗi thêm vào giỏ hàng" + err)
+        error("Khóa học đã có trong giỏ hàng");
     }
 }
 
@@ -124,6 +129,7 @@ onMounted(() => {
         </div>
         <!-- Modal thanh toán -->
         <PayModel v-if="showModal" :show="showModal" :amount="499000" @close="showModal = false" />
+        <ToastContainer />
     </div>
 </template>
 

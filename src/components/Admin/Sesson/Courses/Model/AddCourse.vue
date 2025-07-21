@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { addCourse } from '@/services';
 import { ref } from 'vue'
-
+import { useToast } from '@/composables/useToast';
+import ToastContainer from '@/components/Toast/ToastContainer.vue';
 defineProps<{
     showModal: boolean
 }>()
+const { success, error } = useToast();
 
 const newCourse = ref({
     titleVI: '',
@@ -23,7 +25,7 @@ const saveCourse = async () => {
     try {
         const { titleVI, titleEN, desVI, desEN, countDay, price, mode, img } = newCourse.value
         await addCourse(titleVI, titleEN, desVI, desEN, countDay, price, mode, img)
-        alert('Thêm thành công')
+        success('Thêm thành công')
         newCourse.value = {
             titleVI: '',
             titleEN: '',
@@ -35,8 +37,8 @@ const saveCourse = async () => {
             img: ''
         }
         emit('refresh')
-    } catch (error) {
-        console.log(error)
+    } catch (exerror) {
+        error('Thêm thất bại')
     }
 }
 </script>
@@ -87,6 +89,7 @@ const saveCourse = async () => {
     </div>
     <button class="btn btn-submit mr-2" @click="saveCourse">Lưu khóa học</button>
     <button class="btn btn-outline-secondary" @click="emit('cancel')">Hủy</button>
+    <ToastContainer />
 </template>
 
 <style scoped>

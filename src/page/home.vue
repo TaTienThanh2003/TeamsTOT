@@ -21,10 +21,8 @@ onMounted(() => {
 
 <template>
     <div>
-        <noscript>
-            <a href="https://www.livechat.com/chat-with/19173749/" rel="nofollow">Chat with us</a>,
-            powered by <a href="https://www.livechat.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a>
-        </noscript>
+        <noscript><a href="https://www.livechat.com/chat-with/19214576/" rel="nofollow">Chat with us</a>, powered by <a
+                href="https://www.livechat.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a></noscript>
 
         <Header :isShow="true" />
 

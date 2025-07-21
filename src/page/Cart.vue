@@ -4,6 +4,10 @@ import PayModel from '@/components/Model/payModel.vue';
 import { getCourseById, deletecarts, getCourserbyUserId, checkPaid } from '@/services';
 import { ref, computed, onMounted, watch } from 'vue';
 import i18n from '@/i18n';
+import { useToast } from '@/composables/useToast';
+import ToastContainer from '@/components/Toast/ToastContainer.vue';
+
+const { success, error } = useToast();
 
 const selectedTab = ref('card');
 const showModal = ref(false);
@@ -49,10 +53,10 @@ let count = computed(() => {
 const remove = async (CourseId: number) => {
     try {
         const res = await deletecarts(CourseId, userId);
-        console.log(res);
+        success('Xóa khỏi giỏ hàng thành công!');
         showCarts()
     } catch (err: any) {
-        console.log("Lỗi xóa khóa học" + err)
+        error("Lỗi xóa khóa học" + err)
     }
 }
 const subtotal = computed(() => {
@@ -115,6 +119,7 @@ onMounted(() => {
         </div>
         <PayModel v-if="showModal" :show="showModal" :amount="subtotal" @close="showModal = false" />
     </div>
+    <ToastContainer />
 </template>
 
 <style scoped>

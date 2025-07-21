@@ -204,3 +204,11 @@ export async function translateViEn(text: string): Promise<string> {
     console.log("Kết quả dịch:", data);
     return data.translatedText;
 }
+export const getTopic = async () => {
+    const res = await axios.get(`${api}/topics`)
+    return res.data;
+}
+export const getVocabulary = async (topicId: number) => {
+    const res = await axios.get(`${api}/vocabularies/${topicId}`)
+    return res.data;
+}

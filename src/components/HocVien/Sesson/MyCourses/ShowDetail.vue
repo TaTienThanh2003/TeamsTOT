@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import NoteList from './DetailItem/NoteList.vue';
 import CommentList from './DetailItem/CommentList.vue';
 import ModelSchedule from './DetailItem/ModelSchedule.vue';
 import DetailItem from '@/components/Home/Detail/DetailItem.vue';
 import i18n from '@/i18n';
+import { useYouTubePlayer } from '@/services/useYouTubePlayer';
+import { useToast } from 'vue-toastification';
 
 const props = defineProps<{
     sections: {
@@ -17,7 +19,7 @@ const props = defineProps<{
             desEN: string;
             completed: boolean;
             current?: boolean;
-            videoUrl: string;
+            video_url: string;
         }[];
     }[];
 }>();
@@ -29,20 +31,23 @@ const openScheduleModal = ref(false)
 const currentLesson = ref<any>({});
 const showSidebar = ref(true)
 const locale = i18n.global.locale.toUpperCase();
+const videoUrl = ref('');
+let ytInstance: YT.Player | null = null;
+const toast = useToast();
 
 const isSectionCompleted = (section: typeof props.sections[number]) =>
     section.lessons.length > 0 && section.lessons.every(lesson => lesson.completed);
 
 const total = computed(() => props.sections.length);
-
 const completed = computed(() =>
     props.sections.filter(isSectionCompleted).length
 );
 const toggleSidebar = () => {
     showSidebar.value = !showSidebar.value
 }
-const changeVideo = (lesson: any) => {
 
+const changeVideo = (lesson: any) => {
+    console.log('Changing to lesson:', lesson);
     props.sections.forEach(section => {
         section.lessons.forEach(l => {
             l.current = false;
@@ -50,31 +55,84 @@ const changeVideo = (lesson: any) => {
     });
     lesson.current = true;
     currentLesson.value = lesson;
+    videoUrl.value = lesson.video_url;
+    
+    // Kiểm tra videoUrl có tồn tại không
+    if (!lesson.video_url) {
+        console.warn('Lesson video_url is empty:', lesson);
+        alert('Bài học này chưa có video.');
+        return;
+    }
+    
+    console.log('Initializing player with videoUrl:', videoUrl.value);
+    
+    // Khởi tạo lại player với video mới
+    if (ytInstance) {
+        ytInstance.destroy();
+        ytInstance = null;
+    }
+    
+    // Khởi tạo player mới
+    useYouTubePlayer(videoUrl.value, 'yt-player', {
+        maxSeekTime: 120, // Cho phép tua tối đa 2 phút
+        enableSeekWarning: true, // Bật cảnh báo tua video
+        onEnded: () => OnNextVideo(),
+        onShowToast: handleShowToast,
+    }).then(player => {
+        ytInstance = player;
+    }).catch(error => {
+        console.error('Lỗi khởi tạo YouTube player:', error);
+        alert('Không thể tải video. Vui lòng kiểm tra lại URL video.');
+    });
 }
 
 const OnPrevVideo = () => {
     let found = false;
-
     for (let i = 0; i < props.sections.length; i++) {
         const section = props.sections[i];
         for (let j = 0; j < section.lessons.length; j++) {
             const l = section.lessons[j];
-
             if (l === currentLesson.value) {
                 l.current = false;
-
-                if (i === 0 && j === 0) return; // Đang ở bài đầu tiên
+                if (i === 0 && j === 0) return;
                 if (j > 0) {
                     const prev = section.lessons[j - 1];
                     prev.current = true;
                     currentLesson.value = prev;
+                    videoUrl.value = prev.video_url;
                 } else {
                     const prevSection = props.sections[i - 1];
                     const prev = prevSection.lessons[prevSection.lessons.length - 1];
                     prev.current = true;
                     currentLesson.value = prev;
+                    videoUrl.value = prev.video_url;
                 }
-
+                
+                // Kiểm tra videoUrl có tồn tại không
+                if (!videoUrl.value) {
+                    console.warn('Previous lesson video_url is empty');
+                    alert('Bài học trước chưa có video.');
+                    return;
+                }
+                
+                // Khởi tạo lại player với video mới
+                if (ytInstance) {
+                    ytInstance.destroy();
+                    ytInstance = null;
+                }
+                
+                useYouTubePlayer(videoUrl.value, 'yt-player', {
+                    maxSeekTime: 120, // Cho phép tua tối đa 2 phút
+                    enableSeekWarning: true, // Bật cảnh báo tua video
+                    onEnded: () => OnNextVideo(),
+                    onShowToast: handleShowToast,
+                }).then(player => {
+                    ytInstance = player;
+                }).catch(error => {
+                    console.error('Lỗi khởi tạo YouTube player:', error);
+                    alert('Không thể tải video. Vui lòng kiểm tra lại URL video.');
+                });
+                
                 found = true;
                 break;
             }
@@ -82,30 +140,55 @@ const OnPrevVideo = () => {
         if (found) break;
     }
 };
+
 const OnNextVideo = () => {
     let found = false;
-
     for (let i = 0; i < props.sections.length; i++) {
         const section = props.sections[i];
         for (let j = 0; j < section.lessons.length; j++) {
             const l = section.lessons[j];
-
             if (l === currentLesson.value) {
                 l.current = false;
-
                 if (j < section.lessons.length - 1) {
                     const next = section.lessons[j + 1];
                     next.current = true;
                     currentLesson.value = next;
+                    videoUrl.value = next.video_url;
                 } else if (i < props.sections.length - 1) {
                     const nextSection = props.sections[i + 1];
                     if (nextSection.lessons.length > 0) {
                         const next = nextSection.lessons[0];
                         next.current = true;
                         currentLesson.value = next;
+                        videoUrl.value = next.video_url;
                     }
                 }
-
+                
+                // Kiểm tra videoUrl có tồn tại không
+                if (!videoUrl.value) {
+                    console.warn('Next lesson video_url is empty');
+                    alert('Bài học tiếp theo chưa có video.');
+                    return;
+                }
+                
+                // Khởi tạo lại player với video mới
+                if (ytInstance) {
+                    ytInstance.destroy();
+                    ytInstance = null;
+                }
+                
+                useYouTubePlayer(videoUrl.value, 'yt-player', {
+                    maxSeekTime: 120, // Cho phép tua tối đa 2 phút
+                    enableSeekWarning: true, // Bật cảnh báo tua video
+                    onEnded: () => OnNextVideo(),
+                    onShowToast: handleShowToast,
+                }).then(player => {
+                    ytInstance = player;
+                }).catch(error => {
+                    console.error('Lỗi khởi tạo YouTube player:', error);
+                    alert('Không thể tải video. Vui lòng kiểm tra lại URL video.');
+                });
+                
                 found = true;
                 break;
             }
@@ -123,10 +206,41 @@ const toggleCloseComment = () => {
 const toggleCloseModel = () => {
     openScheduleModal.value = false;
 }
-onMounted(() => {
+
+const handleShowToast = (message: string, type: 'warning' | 'error' | 'success' = 'warning') => {
+    if (type === 'warning') toast.warning(message);
+    else if (type === 'error') toast.error(message);
+    else if (type === 'success') toast.success(message);
+    else toast.info(message);
+};
+
+onMounted(async () => {
+    console.log('Sections data:', props.sections);
     if (props.sections.length > 0 && props.sections[0].lessons.length > 0) {
         currentLesson.value = props.sections[0].lessons[0];
+        console.log('First lesson:', currentLesson.value);
         currentLesson.value.current = true;
+        videoUrl.value = currentLesson.value.video_url;
+
+        // Kiểm tra videoUrl có tồn tại không
+        if (!currentLesson.value.video_url) {
+            console.warn('First lesson video_url is empty:', currentLesson.value);
+            alert('Bài học đầu tiên chưa có video.');
+            return;
+        }
+
+        console.log('Initializing with videoUrl:', videoUrl.value);
+        try {
+            ytInstance = await useYouTubePlayer(videoUrl.value, 'yt-player', {
+                maxSeekTime: 120, // Cho phép tua tối đa 2 phút
+                enableSeekWarning: true, // Bật cảnh báo tua video
+                onEnded: () => OnNextVideo(),
+                onShowToast: handleShowToast,
+            });
+        } catch (error) {
+            console.error('Lỗi khởi tạo YouTube player:', error);
+            alert('Không thể tải video. Vui lòng kiểm tra lại URL video.');
+        }
     }
 });
 </script>
@@ -142,7 +256,8 @@ onMounted(() => {
                                 style="font-size: 18px;">
                                 <i class="fas fa-chevron-left"></i>
                             </button>
-                            <h2 class="course-title m-0 fs-4">{{ locale === 'vi' ? currentLesson.titleVI : currentLesson.titleEN }}</h2>
+                            <h2 class="course-title m-0 fs-4">{{ locale === 'VI' ? currentLesson.titleVI :
+                                currentLesson.titleEN }}</h2>
                         </div>
                     </div>
                 </div>
@@ -152,7 +267,6 @@ onMounted(() => {
                         style="width: 40px; height: 40px;" @click="showNoteInput = !showNoteInput" title="Ghi chú">
                         <i class="fas fa-pen text-primary"></i>
                     </button>
-
                     <button type="button"
                         :class="['btn', 'btn-primary', 'rounded-circle', 'btn-customer', { 'btn-active': showCommentInput }]"
                         style="width: 40px; height: 40px;" @click="showCommentInput = !showCommentInput"
@@ -161,43 +275,37 @@ onMounted(() => {
                     </button>
                 </div>
             </div>
+
             <div class="course-header mb-3">
                 <div class="video-wrapper">
-                    <iframe class="video-player" :src="currentLesson.video_url" title="Giới thiệu khóa học"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
+                     <div id="yt-player" class="video-player" style="width: 100%; height: 100%;"></div>
+                     <div v-if="!videoUrl" class="video-placeholder">
+                         <i class="fas fa-play-circle fa-3x text-muted"></i>
+                         <p class="text-muted mt-2">Chưa có video</p>
+                     </div>
                 </div>
             </div>
+
             <div class="d-flex justify-content-center gap-2 mb-2">
-                <button class="btn btn-outline-primary p-2" @click="OnPrevVideo">
-                    Bài học trước
-                </button>
-                <button class="btn btn-outline-primary  p-2" @click="OnNextVideo">
-                    Bài học tiếp
-                </button>
+                <button class="btn btn-outline-primary p-2" @click="OnPrevVideo">Bài học trước</button>
+                <button class="btn btn-outline-primary p-2" @click="OnNextVideo">Bài học tiếp</button>
             </div>
 
             <NoteList :lessonid="currentLesson.id" :showNoteInput="showNoteInput" @setClose="toggleCloseNote" />
-            <CommentList :lessonid="currentLesson.id" :showCommentInput="showCommentInput" @setClose="toggleCloseComment" />
+            <CommentList :lessonid="currentLesson.id" :showCommentInput="showCommentInput"
+                @setClose="toggleCloseComment" />
 
             <div class="lesson-details">
-                <p class="lesson-content mb-5 fs-5 fw-bold">{{ locale === 'vi' ? currentLesson.desVI : currentLesson.desEN }}</p>
-
+                <p class="lesson-content mb-5 fs-5 fw-bold">{{ locale === 'VI' ? currentLesson.desVI :
+                    currentLesson.desEN }}</p>
                 <div class="center-info">
-                    <h3 class="fs-6 mb-3">Tham gia cộng đồng học tập để trao đổi, hỏi đáp và cập nhật thông tin mới nhất
-                        từ trung tâm.</h3>
-                    <p>
-                        📘 Nhóm học tập:
-                        <a href="https://www.facebook.com/groups/ten-nhom" target="_blank" rel="noopener noreferrer">
-                            https://www.facebook.com/groups/ten-nhom
-                        </a>
-                    </p>
+                    <h3 class="fs-6 mb-3">Tham gia cộng đồng học tập...</h3>
+                    <p>📘 Nhóm học tập: <a href="https://www.facebook.com/groups/ten-nhom"
+                            target="_blank">https://www.facebook.com/groups/ten-nhom</a></p>
                     <p>📞 Liên hệ: 0909 999 999</p>
                     <p>📧 Email: support@trungtam.vn</p>
                 </div>
             </div>
-
         </div>
 
         <div :class="['col-md-4', showSidebar ? 'transition-show' : 'transition-hide']">
@@ -229,7 +337,7 @@ onMounted(() => {
                             style="height: 4px; border-radius: 2px;"></div>
                     </div>
 
-                    <DetailItem v-for="(section, index) in sections" :key="index" :title="section.title"
+                    <DetailItem v-for="(section, index) in props.sections" :key="index" :title="section.title"
                         :lessons="section.lessons" :isLocked="false" @play="changeVideo" />
                 </div>
             </div>
@@ -238,153 +346,36 @@ onMounted(() => {
     <ModelSchedule :openScheduleModal="openScheduleModal" @setClose="toggleCloseModel" />
 </template>
 <style scoped>
-.icon-show {
-    display: none;
-}
-
-.icon-hide {
-    display: block;
-}
-
-.courset-s {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.lesson-list-scrollable.transition-show {
-    right: 0;
-}
-
-.lesson-list-scrollable.transition-hide {
-    right: -26%;
-    background-color: #fff;
-    height: calc(100% - 65px);
-}
-
-.transition-hide.col-md-8 {
-    width: 100% !important;
-    transition: width 0.3s ease;
-}
-
-.transition-hide.col-md-4 {
-    width: 0% !important;
-    transition: width 0.3s ease;
-}
-
-.btn-customer i {
-    transition: color 0.2s ease;
-}
-
-
-.btn-customer:hover i {
-    color: #fff !important;
-}
-
-.btn-active {
-    background-color: #2237fa;
-}
-
-.btn-active i {
-    color: #fff !important;
-}
-
-.icon-label {
-    color: #6c757d;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-}
-
-.icon-label i {
-    font-size: 16px;
-}
-
-.bg-custom-light {
-    background-color: #e8eff8;
-}
-
-
-.lesson-list-scrollable,
-.note-panel {
-    background-color: #fff;
-    height: calc(100% - 65px);
-    overflow-y: auto;
-    padding: 10px 20px;
-    text-align: left;
-    position: fixed;
-    top: 65px;
-    right: 0;
-    width: 30%;
-    z-index: 1;
-}
-
-.note-panel {
-    z-index: 200;
-    right: -100%;
-}
-
-.note-panel.active {
-    right: 0;
-}
-
-.course-header {
-    display: flex;
-    justify-content: center;
-    background-color: #fff;
-    border-radius: 16px;
-    width: 100%;
-}
-
 .video-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 800px;
-    aspect-ratio: 16 / 9;
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  background-color: black;
 }
 
-.video-wrapper iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
+.video-player {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-
-.course-title {
-    font-size: 22px;
-    font-weight: 600;
-    color: #333;
-}
-
-.lesson-content {
-    flex: 1;
-}
-
-.note-section {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-}
-
-.note-item:hover {
-    background-color: #f9f9f9;
-}
-
-textarea:focus {
-    outline: none;
-}
-
-.lesson-details {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
+.video-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f9fa;
+  color: #6c757d;
 }
 </style>

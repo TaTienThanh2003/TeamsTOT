@@ -51,10 +51,13 @@
             </div>
         </div>
     </div>
-
+    <ToastContainer />
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useToast } from '@/composables/useToast';
+import ToastContainer from '@/components/Toast/ToastContainer.vue';
+const { success, error } = useToast();
 
 const formData = ref({
     titleVI: '',
