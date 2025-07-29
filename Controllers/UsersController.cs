@@ -4,6 +4,7 @@ using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backTOT.Controllers
 {
@@ -12,10 +13,12 @@ namespace backTOT.Controllers
     public class UsersController : Controller
     {
         private IUserServices _userServices;
+        private LeverService _leverService;
         private IMapper _mapper;
-        public UsersController(IUserServices userServices, IMapper mapper)
+        public UsersController(IUserServices userServices,LeverService leverService, IMapper mapper)
         {
             _userServices = userServices;
+            _leverService = leverService;
             _mapper = mapper;
         }
         // getAll
@@ -138,5 +141,45 @@ namespace backTOT.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+        [HttpGet("level/{userId}")]
+        public async Task<IActionResult> GetUserLevel(int userId)
+        {
+            var (score, level) = await _leverService.CalculateUserLevelAsync(userId);
+
+            return Ok(new
+            {
+                UserId = userId,
+                Score = score,
+                Level = level
+            });
+        }
+        [HttpGet("rankings")]
+        public async Task<IActionResult> GetTopUserRankings()
+        {
+            var users =  _userServices.GetUsers(); // ✅ thêm await
+            var rankings = new List<UserRankingDto>();
+
+            foreach (var user in users)
+            {
+                var (totalScore, level) = await _leverService.CalculateUserLevelAsync(user.Id); // ✅ thêm await
+
+                rankings.Add(new UserRankingDto
+                {
+                    UserId = user.Id,
+                    FullName = user.FullName,
+                    Score = totalScore,
+                    Level = level
+                });
+            }
+
+            var top10 = rankings
+                .OrderByDescending(r => r.Score)
+                .ThenBy(r => r.UserId)
+                .Take(10)
+                .ToList();
+
+            return Ok(top10);
+        }
+
     }
 }

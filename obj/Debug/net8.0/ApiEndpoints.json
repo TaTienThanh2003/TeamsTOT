@@ -1303,6 +1303,32 @@
   },
   {
     "ContainingType": "backTOT.Controllers.UsersController",
+    "Method": "GetUserLevel",
+    "RelativePath": "api/users/level/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backTOT.Controllers.UsersController",
+    "Method": "GetTopUserRankings",
+    "RelativePath": "api/users/rankings",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backTOT.Controllers.UsersController",
     "Method": "GetUserLogin",
     "RelativePath": "api/users/signin",
     "HttpMethod": "POST",
