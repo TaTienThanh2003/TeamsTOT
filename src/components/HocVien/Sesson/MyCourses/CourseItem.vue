@@ -1,11 +1,30 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps, defineEmits } from 'vue'
+import { getUserLessons } from '@/services';
+
+// Define interface for lesson data
+interface LessonData {
+  isComplete: boolean;
+  lessonsId: string | number;
+}
 
 defineProps<{
   name: string,
   img: string,
   status: string
 }>()
+
+const emit = defineEmits(['startCourse']);
+
+const startCourse = async () => {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const userId = user.id;
+  // Gọi API lấy lesson complete
+  const res = await getUserLessons(userId);
+  const completedLessonIds = (res.data || []).filter((l: LessonData) => l.isComplete).map((l: LessonData) => l.lessonsId);
+  // Emit event để component cha xử lý
+  emit('startCourse', { completedLessonIds });
+};
 </script>
 
 <template>
@@ -24,12 +43,15 @@ defineProps<{
         <span class="text-muted ms-2">(131)</span>
         <i class="far fa-calendar-alt ms-auto"></i>
       </div>
-      <a v-if="status === 'Đang học'" href="#" class="btn btn-light border mt-3">
+      <!-- Nếu đang học -->
+      <a v-if="status === 'Đang học'" href="#" class="btn btn-light border mt-3" @click.prevent="startCourse">
         Bắt đầu
       </a>
-      <a v-else class="btn btn-outline-secondary mt-3 disabled">
+
+      <!-- Nếu đã kết thúc -->
+      <button v-else class="btn btn-outline-secondary mt-3" disabled>
         Hết hạn
-      </a>
+      </button>
     </div>
   </div>
 </template>

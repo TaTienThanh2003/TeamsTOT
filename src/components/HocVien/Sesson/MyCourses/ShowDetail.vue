@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import NoteList from './DetailItem/NoteList.vue';
 import CommentList from './DetailItem/CommentList.vue';
 import ModelSchedule from './DetailItem/ModelSchedule.vue';
@@ -7,6 +7,7 @@ import DetailItem from '@/components/Home/Detail/DetailItem.vue';
 import i18n from '@/i18n';
 import { useYouTubePlayer } from '@/services/useYouTubePlayer';
 import { useToast } from 'vue-toastification';
+import { addUserLesson, getUserLessons } from '@/services';
 
 const props = defineProps<{
     sections: {
@@ -22,6 +23,7 @@ const props = defineProps<{
             video_url: string;
         }[];
     }[];
+    courseId?: number; // Thêm courseId prop
 }>();
 
 const emit = defineEmits(['back']);
@@ -35,6 +37,16 @@ const videoUrl = ref('');
 let ytInstance: YT.Player | null = null;
 const toast = useToast();
 
+// Thêm biến để theo dõi số lần tua video
+const seekCount = ref(0);
+const maxSeeks = 2; // Số lần tua tối đa cho phép
+
+// Thêm biến để quản lý popup
+const showSeekWarningModal = ref(false);
+
+// Thêm biến để quản lý popup hoàn thành bài học
+const showCompletionModal = ref(false);
+
 const isSectionCompleted = (section: typeof props.sections[number]) =>
     section.lessons.length > 0 && section.lessons.every(lesson => lesson.completed);
 
@@ -46,6 +58,106 @@ const toggleSidebar = () => {
     showSidebar.value = !showSidebar.value
 }
 
+// Hàm refresh trạng thái lesson
+const refreshLessonStatus = async () => {
+    try {
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const userId = user.id;
+        
+        const res = await getUserLessons(userId);
+        console.log('Refresh API Response:', res);
+        
+        // Kiểm tra cấu trúc response và xử lý đúng
+        let lessonsData = [];
+        if (res.data && Array.isArray(res.data)) {
+            lessonsData = res.data;
+        } else if (res.data && res.data.data && Array.isArray(res.data.data)) {
+            lessonsData = res.data.data;
+        } else if (Array.isArray(res)) {
+            lessonsData = res;
+        }
+        
+        const completedLessonIds = lessonsData
+            .filter((l: any) => l.isComplete)
+            .map((l: any) => l.lessonsId || l.lessonId || l.id);
+            
+        console.log('Refresh completed lesson IDs:', completedLessonIds);
+        
+        // Cập nhật trạng thái lesson
+        props.sections.forEach(section => {
+            section.lessons.forEach(lesson => {
+                const isCompleted = completedLessonIds.includes(lesson.id);
+                lesson.completed = isCompleted;
+                console.log(`Refresh: Lesson ${lesson.id} (${lesson.titleVI || lesson.titleEN}): ${isCompleted ? 'COMPLETED' : 'NOT COMPLETED'}`);
+            });
+        });
+        
+        // Cập nhật localStorage
+        localStorage.setItem('completedLessonIds', JSON.stringify(completedLessonIds));
+        
+        return true;
+    } catch (error) {
+        console.error('Lỗi refresh lesson status:', error);
+        return false;
+    }
+};
+
+// Hàm thêm lesson vào userLesson
+const addLessonToUser = async (lessonId: number) => {
+    try {
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const userId = user.id;
+        
+        await addUserLesson(userId, lessonId);
+        
+        // Refresh trạng thái lesson sau khi thêm thành công
+        await refreshLessonStatus();
+        
+        return true;
+    } catch (error) {
+        console.error('Lỗi thêm lesson vào userLesson:', error);
+        return false;
+    }
+};
+
+// Hàm xử lý khi tua video quá nhiều lần
+const handleExcessiveSeeking = () => {
+    seekCount.value++;
+    if (seekCount.value > maxSeeks) {
+        // Dừng video
+        if (ytInstance) {
+            ytInstance.pauseVideo();
+        }
+        // Hiển thị popup
+        showSeekWarningModal.value = true;
+    }
+};
+
+// Hàm xử lý khi user bấm OK trong popup
+const handleSeekWarningConfirm = () => {
+    showSeekWarningModal.value = false;
+    // Reset seek count
+    seekCount.value = 0;
+    // Load lại video từ đầu
+    if (ytInstance) {
+        ytInstance.seekTo(0, true);
+        ytInstance.playVideo();
+    }
+    toast.success('Video đã được load lại từ đầu.');
+};
+
+// Hàm xử lý khi user chọn tiếp tục bài học tiếp theo
+const handleContinueToNextLesson = () => {
+    showCompletionModal.value = false;
+    OnNextVideo();
+};
+
+// Hàm xử lý khi user chọn ở lại bài học hiện tại
+const handleStayInCurrentLesson = () => {
+    showCompletionModal.value = false;
+    // Không làm gì, user ở lại bài học hiện tại
+};
+
 const changeVideo = (lesson: any) => {
     console.log('Changing to lesson:', lesson);
     props.sections.forEach(section => {
@@ -56,6 +168,9 @@ const changeVideo = (lesson: any) => {
     lesson.current = true;
     currentLesson.value = lesson;
     videoUrl.value = lesson.video_url;
+    
+    // Reset seek count khi chuyển bài học mới
+    seekCount.value = 0;
     
     // Kiểm tra videoUrl có tồn tại không
     if (!lesson.video_url) {
@@ -76,8 +191,9 @@ const changeVideo = (lesson: any) => {
     useYouTubePlayer(videoUrl.value, 'yt-player', {
         maxSeekTime: 120, // Cho phép tua tối đa 2 phút
         enableSeekWarning: true, // Bật cảnh báo tua video
-        onEnded: () => OnNextVideo(),
+        onEnded: handleVideoEnded,
         onShowToast: handleShowToast,
+        onSeek: handleExcessiveSeeking, // Thêm callback xử lý tua video
     }).then(player => {
         ytInstance = player;
     }).catch(error => {
@@ -108,6 +224,9 @@ const OnPrevVideo = () => {
                     videoUrl.value = prev.video_url;
                 }
                 
+                // Reset seek count khi chuyển bài học
+                seekCount.value = 0;
+                
                 // Kiểm tra videoUrl có tồn tại không
                 if (!videoUrl.value) {
                     console.warn('Previous lesson video_url is empty');
@@ -124,8 +243,9 @@ const OnPrevVideo = () => {
                 useYouTubePlayer(videoUrl.value, 'yt-player', {
                     maxSeekTime: 120, // Cho phép tua tối đa 2 phút
                     enableSeekWarning: true, // Bật cảnh báo tua video
-                    onEnded: () => OnNextVideo(),
+                    onEnded: handleVideoEnded,
                     onShowToast: handleShowToast,
+                    onSeek: handleExcessiveSeeking, // Thêm callback xử lý tua video
                 }).then(player => {
                     ytInstance = player;
                 }).catch(error => {
@@ -164,6 +284,9 @@ const OnNextVideo = () => {
                     }
                 }
                 
+                // Reset seek count khi chuyển bài học
+                seekCount.value = 0;
+                
                 // Kiểm tra videoUrl có tồn tại không
                 if (!videoUrl.value) {
                     console.warn('Next lesson video_url is empty');
@@ -180,8 +303,9 @@ const OnNextVideo = () => {
                 useYouTubePlayer(videoUrl.value, 'yt-player', {
                     maxSeekTime: 120, // Cho phép tua tối đa 2 phút
                     enableSeekWarning: true, // Bật cảnh báo tua video
-                    onEnded: () => OnNextVideo(),
+                    onEnded: handleVideoEnded,
                     onShowToast: handleShowToast,
+                    onSeek: handleExcessiveSeeking, // Thêm callback xử lý tua video
                 }).then(player => {
                     ytInstance = player;
                 }).catch(error => {
@@ -195,6 +319,36 @@ const OnNextVideo = () => {
         }
         if (found) break;
     }
+};
+
+// Hàm xử lý khi video kết thúc
+const handleVideoEnded = async () => {
+    // Dừng video
+    if (ytInstance) {
+        ytInstance.pauseVideo();
+    }
+    
+    // Call API thêm lesson vào userLesson
+    if (currentLesson.value && currentLesson.value.id) {
+        const success = await addLessonToUser(currentLesson.value.id);
+        if (success) {
+            // Hiển thị popup hoàn thành bài học
+            showCompletionModal.value = true;
+        } else {
+            toast.error('Có lỗi xảy ra khi cập nhật trạng thái bài học.');
+        }
+    }
+};
+
+// Hàm xử lý khi schedule được tạo thành công
+const handleScheduleCreated = (createdSchedules: any[]) => {
+    console.log('Schedules created:', createdSchedules);
+    
+    // Có thể emit event để parent component biết và refresh calendar
+    // Hoặc sử dụng global event bus để thông báo cho calendar component
+    window.dispatchEvent(new CustomEvent('schedules-updated', { 
+        detail: { schedules: createdSchedules } 
+    }));
 };
 
 const toggleCloseNote = () => {
@@ -214,18 +368,91 @@ const handleShowToast = (message: string, type: 'warning' | 'error' | 'success' 
     else toast.info(message);
 };
 
+const isLoading = ref(true);
+
 onMounted(async () => {
     console.log('Sections data:', props.sections);
+    
+    // Luôn gọi API để lấy dữ liệu mới nhất về lesson đã hoàn thành
+    let completedLessonIds: number[] = [];
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const userId = user.id;
+    
+    try {
+        const res = await getUserLessons(userId);
+        console.log('API Response:', res);
+        
+        // Kiểm tra cấu trúc response và xử lý đúng
+        let lessonsData = [];
+        if (res.data && Array.isArray(res.data)) {
+            lessonsData = res.data;
+        } else if (res.data && res.data.data && Array.isArray(res.data.data)) {
+            lessonsData = res.data.data;
+        } else if (Array.isArray(res)) {
+            lessonsData = res;
+        }
+        
+        console.log('Lessons data:', lessonsData);
+        
+        completedLessonIds = lessonsData
+            .filter((l: any) => l.isComplete)
+            .map((l: any) => l.lessonsId || l.lessonId || l.id);
+            
+        console.log('Completed lesson IDs from API:', completedLessonIds);
+    } catch (e) {
+        console.error('Không lấy được danh sách lesson đã hoàn thành:', e);
+        // Fallback: Sử dụng dữ liệu từ localStorage nếu API thất bại
+        const storedCompletedLessonIds = localStorage.getItem('completedLessonIds');
+        if (storedCompletedLessonIds) {
+            completedLessonIds = JSON.parse(storedCompletedLessonIds);
+        }
+    }
+    
+    console.log('Final completed lesson IDs:', completedLessonIds);
+    
+    // Đánh dấu completed cho các lesson này
+    props.sections.forEach(section => {
+        section.lessons.forEach(lesson => {
+            const isCompleted = completedLessonIds.map(Number).includes(Number(lesson.id));
+            lesson.completed = isCompleted;
+            console.log(`Lesson ${lesson.id} (${lesson.titleVI || lesson.titleEN}): ${isCompleted ? 'COMPLETED' : 'NOT COMPLETED'}`);
+        });
+    });
+    
+    // Cập nhật localStorage với dữ liệu mới nhất
+    localStorage.setItem('completedLessonIds', JSON.stringify(completedLessonIds));
+    
+    isLoading.value = false; // Đã xong, cho phép render UI
+
     if (props.sections.length > 0 && props.sections[0].lessons.length > 0) {
-        currentLesson.value = props.sections[0].lessons[0];
-        console.log('First lesson:', currentLesson.value);
+        // Tìm lesson đầu tiên chưa hoàn thành
+        let firstIncompleteLesson = null;
+        
+        for (const section of props.sections) {
+            for (const lesson of section.lessons) {
+                if (!lesson.completed) {
+                    firstIncompleteLesson = lesson;
+                    break;
+                }
+            }
+            if (firstIncompleteLesson) break;
+        }
+        
+        // Nếu tất cả lesson đã hoàn thành, lấy lesson cuối cùng
+        if (!firstIncompleteLesson) {
+            const lastSection = props.sections[props.sections.length - 1];
+            firstIncompleteLesson = lastSection.lessons[lastSection.lessons.length - 1];
+        }
+        
+        currentLesson.value = firstIncompleteLesson;
+        console.log('Selected lesson:', currentLesson.value);
         currentLesson.value.current = true;
         videoUrl.value = currentLesson.value.video_url;
 
         // Kiểm tra videoUrl có tồn tại không
         if (!currentLesson.value.video_url) {
-            console.warn('First lesson video_url is empty:', currentLesson.value);
-            alert('Bài học đầu tiên chưa có video.');
+            console.warn('Selected lesson video_url is empty:', currentLesson.value);
+            alert('Bài học này chưa có video.');
             return;
         }
 
@@ -234,8 +461,9 @@ onMounted(async () => {
             ytInstance = await useYouTubePlayer(videoUrl.value, 'yt-player', {
                 maxSeekTime: 120, // Cho phép tua tối đa 2 phút
                 enableSeekWarning: true, // Bật cảnh báo tua video
-                onEnded: () => OnNextVideo(),
+                onEnded: handleVideoEnded, // Thay đổi callback để xử lý khi video kết thúc
                 onShowToast: handleShowToast,
+                onSeek: handleExcessiveSeeking, // Thêm callback xử lý tua video
             });
         } catch (error) {
             console.error('Lỗi khởi tạo YouTube player:', error);
@@ -243,107 +471,166 @@ onMounted(async () => {
         }
     }
 });
+
+onUnmounted(() => {
+    // Xóa completedLessonIds khỏi localStorage khi component bị hủy
+    localStorage.removeItem('completedLessonIds');
+});
 </script>
 
 <template>
-    <div class="course-detail row">
-        <div :class="['col-md-8', showSidebar ? 'transition-show' : 'transition-hide']">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="course-info">
-                    <div class="courset-s">
-                        <div class="d-flex align-items-center gap-2">
-                            <button class="btn p-0 border-0 bg-transparent" @click="emit('back')"
-                                style="font-size: 18px;">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <h2 class="course-title m-0 fs-4">{{ locale === 'VI' ? currentLesson.titleVI :
-                                currentLesson.titleEN }}</h2>
+    <div v-if="!isLoading">
+        <div class="course-detail row">
+            <div :class="['col-md-8', showSidebar ? 'transition-show' : 'transition-hide']">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="course-info">
+                        <div class="courset-s">
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="btn p-0 border-0 bg-transparent" @click="emit('back')"
+                                    style="font-size: 18px;">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <h2 class="course-title m-0 fs-4">{{ locale === 'VI' ? currentLesson.titleVI :
+                                    currentLesson.titleEN }}</h2>
+                            </div>
                         </div>
                     </div>
+                    <div class="d-flex gap-2 align-items-center">
+                        <button type="button"
+                            :class="['btn', 'btn-primary', 'rounded-circle', 'btn-customer', { 'btn-active': showNoteInput }]"
+                            style="width: 40px; height: 40px;" @click="showNoteInput = !showNoteInput" title="Ghi chú">
+                            <i class="fas fa-pen text-primary"></i>
+                        </button>
+                        <button type="button"
+                            :class="['btn', 'btn-primary', 'rounded-circle', 'btn-customer', { 'btn-active': showCommentInput }]"
+                            style="width: 40px; height: 40px;" @click="showCommentInput = !showCommentInput"
+                            title="Bình luận">
+                            <i class="fas fa-comment text-primary"></i>
+                        </button>
+                        <button type="button"
+                            class="btn btn-outline-primary rounded-circle"
+                            style="width: 40px; height: 40px;" @click="refreshLessonStatus" title="Refresh trạng thái">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="d-flex gap-2 align-items-center">
-                    <button type="button"
-                        :class="['btn', 'btn-primary', 'rounded-circle', 'btn-customer', { 'btn-active': showNoteInput }]"
-                        style="width: 40px; height: 40px;" @click="showNoteInput = !showNoteInput" title="Ghi chú">
-                        <i class="fas fa-pen text-primary"></i>
+
+                <div class="course-header mb-3">
+                    <div class="video-wrapper">
+                         <div id="yt-player" class="video-player" style="width: 100%; height: 100%;"></div>
+                         <div v-if="!videoUrl" class="video-placeholder">
+                             <i class="fas fa-play-circle fa-3x text-muted"></i>
+                             <p class="text-muted mt-2">Chưa có video</p>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center gap-2 mb-2">
+                    <button class="btn btn-outline-primary p-2" @click="OnPrevVideo">Bài học trước</button>
+                    <button class="btn btn-outline-primary p-2" @click="OnNextVideo">Bài học tiếp</button>
+                </div>
+
+                <NoteList :lessonid="currentLesson.id" :showNoteInput="showNoteInput" @setClose="toggleCloseNote" />
+                <CommentList :lessonid="currentLesson.id" :showCommentInput="showCommentInput"
+                    @setClose="toggleCloseComment" />
+
+                <div class="lesson-details">
+                    <p class="lesson-content mb-5 fs-5 fw-bold">{{ locale === 'VI' ? currentLesson.desVI :
+                        currentLesson.desEN }}</p>
+                    <div class="center-info">
+                        <h3 class="fs-6 mb-3">Tham gia cộng đồng học tập...</h3>
+                        <p>📘 Nhóm học tập: <a href="https://www.facebook.com/groups/ten-nhom"
+                                target="_blank">https://www.facebook.com/groups/ten-nhom</a></p>
+                        <p>📞 Liên hệ: 0909 999 999</p>
+                        <p>📧 Email: support@trungtam.vn</p>
+                    </div>
+                </div>
+            </div>
+
+            <div :class="['col-md-4', showSidebar ? 'transition-show' : 'transition-hide']">
+                <div :class="['lesson-list-scrollable pt-3', showSidebar ? 'transition-show' : 'transition-hide']">
+                    <div class="d-flex justify-between">
+                        <button @click="toggleSidebar" :class="[showSidebar ? 'icon-show' : 'icon-hide']">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                    <div v-show="showSidebar">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h1 class="fs-4 py-3">Khóa học TOIEC</h1>
+                            <div class="icon-label" @click="toggleSidebar">
+                                <i class="fas fa-bars"></i>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <small class="text-muted">{{ completed }}/{{ total }} Hoàn thành</small>
+                            <div class="d-flex align-items-center gap-1" style="cursor: pointer;"
+                                @click="openScheduleModal = true">
+                                <i class="fas fa-trophy text-warning"></i>
+                                <small class="text-muted">Đặt lịch học</small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-1 mb-3">
+                            <div v-for="(section, index) in props.sections" :key="index"
+                                :class="['flex-fill', isSectionCompleted(section) ? 'bg-primary' : 'bg-secondary-subtle']"
+                                style="height: 4px; border-radius: 2px;"></div>
+                        </div>
+
+                        <DetailItem v-for="(section, index) in props.sections" :key="index" :title="section.title"
+                            :lessons="section.lessons" :isLocked="false" @play="changeVideo" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ModelSchedule :openScheduleModal="openScheduleModal" @setClose="toggleCloseModel" :courseId="props.courseId" @scheduleCreated="handleScheduleCreated" />
+        
+        <!-- Popup cảnh báo tua video -->
+        <div v-if="showSeekWarningModal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                        Cảnh báo tua video
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn đã tua video quá nhiều lần. Để đảm bảo chất lượng học tập, vui lòng xem lại video từ đầu.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" @click="handleSeekWarningConfirm">
+                        <i class="fas fa-redo me-2"></i>
+                        Xem lại từ đầu
                     </button>
-                    <button type="button"
-                        :class="['btn', 'btn-primary', 'rounded-circle', 'btn-customer', { 'btn-active': showCommentInput }]"
-                        style="width: 40px; height: 40px;" @click="showCommentInput = !showCommentInput"
-                        title="Bình luận">
-                        <i class="fas fa-comment text-primary"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="course-header mb-3">
-                <div class="video-wrapper">
-                     <div id="yt-player" class="video-player" style="width: 100%; height: 100%;"></div>
-                     <div v-if="!videoUrl" class="video-placeholder">
-                         <i class="fas fa-play-circle fa-3x text-muted"></i>
-                         <p class="text-muted mt-2">Chưa có video</p>
-                     </div>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-center gap-2 mb-2">
-                <button class="btn btn-outline-primary p-2" @click="OnPrevVideo">Bài học trước</button>
-                <button class="btn btn-outline-primary p-2" @click="OnNextVideo">Bài học tiếp</button>
-            </div>
-
-            <NoteList :lessonid="currentLesson.id" :showNoteInput="showNoteInput" @setClose="toggleCloseNote" />
-            <CommentList :lessonid="currentLesson.id" :showCommentInput="showCommentInput"
-                @setClose="toggleCloseComment" />
-
-            <div class="lesson-details">
-                <p class="lesson-content mb-5 fs-5 fw-bold">{{ locale === 'VI' ? currentLesson.desVI :
-                    currentLesson.desEN }}</p>
-                <div class="center-info">
-                    <h3 class="fs-6 mb-3">Tham gia cộng đồng học tập...</h3>
-                    <p>📘 Nhóm học tập: <a href="https://www.facebook.com/groups/ten-nhom"
-                            target="_blank">https://www.facebook.com/groups/ten-nhom</a></p>
-                    <p>📞 Liên hệ: 0909 999 999</p>
-                    <p>📧 Email: support@trungtam.vn</p>
                 </div>
             </div>
         </div>
 
-        <div :class="['col-md-4', showSidebar ? 'transition-show' : 'transition-hide']">
-            <div :class="['lesson-list-scrollable pt-3', showSidebar ? 'transition-show' : 'transition-hide']">
-                <div class="d-flex justify-between">
-                    <button @click="toggleSidebar" :class="[showSidebar ? 'icon-show' : 'icon-hide']">
-                        <i class="fas fa-bars"></i>
-                    </button>
+        <!-- Popup hoàn thành bài học -->
+        <div v-if="showCompletionModal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Hoàn thành bài học
+                    </h5>
                 </div>
-                <div v-show="showSidebar">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h1 class="fs-4 py-3">Khóa học TOIEC</h1>
-                        <div class="icon-label" @click="toggleSidebar">
-                            <i class="fas fa-bars"></i>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <small class="text-muted">{{ completed }}/{{ total }} Hoàn thành</small>
-                        <div class="d-flex align-items-center gap-1" style="cursor: pointer;"
-                            @click="openScheduleModal = true">
-                            <i class="fas fa-trophy text-warning"></i>
-                            <small class="text-muted">Đặt lịch học</small>
-                        </div>
-                    </div>
-
-                    <div class="d-flex gap-1 mb-3">
-                        <div v-for="(section, index) in props.sections" :key="index"
-                            :class="['flex-fill', isSectionCompleted(section) ? 'bg-primary' : 'bg-secondary-subtle']"
-                            style="height: 4px; border-radius: 2px;"></div>
-                    </div>
-
-                    <DetailItem v-for="(section, index) in props.sections" :key="index" :title="section.title"
-                        :lessons="section.lessons" :isLocked="false" @play="changeVideo" />
+                <div class="modal-body">
+                    <p>Bạn đã hoàn thành bài học này. Bạn muốn tiếp tục bài học tiếp theo hay ở lại bài học hiện tại?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @click="handleStayInCurrentLesson">
+                        Ở lại bài học hiện tại
+                    </button>
+                    <button class="btn btn-primary" @click="handleContinueToNextLesson">
+                        Tiếp tục bài học tiếp theo
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-    <ModelSchedule :openScheduleModal="openScheduleModal" @setClose="toggleCloseModel" />
+    <div v-else>
+        Đang tải dữ liệu...
+    </div>
 </template>
 <style scoped>
 .video-wrapper {
@@ -377,5 +664,92 @@ onMounted(async () => {
   align-items: center;
   background-color: #f8f9fa;
   color: #6c757d;
+}
+
+.lesson-card.completed {
+  background: #4caf50 !important;
+  color: #fff !important;
+  pointer-events: none;
+  opacity: 1;
+}
+.icon-check {
+  margin-right: 8px;
+  color: #fff;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(2px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 8px;
+    padding: 0;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+}
+
+.modal-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+}
+
+.modal-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+/* Chỉ áp dụng style cho button trong modal */
+.modal-footer .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.modal-footer .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.modal-footer .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.modal-footer .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.modal-footer .btn-secondary:hover {
+    background-color: #545b62;
+    border-color: #545b62;
 }
 </style>

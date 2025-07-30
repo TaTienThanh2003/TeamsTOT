@@ -22,11 +22,16 @@ const onHiddenDetail: () => void = () => {
     emit('setFalse', false)
 }
 
-const openTaskDetail = async (courseid: number) => {
+const openTaskDetail = async (courseid: number, completedLessonIds?: any) => {
     onHiddenDetail();
     selectedTaskId.value = courseid;
     showDetail.value = true;
     await showLessons(courseid);
+    
+    // Lưu completedLessonIds vào localStorage hoặc state để ShowDetail có thể sử dụng
+    if (completedLessonIds) {
+        localStorage.setItem('completedLessonIds', JSON.stringify(completedLessonIds));
+    }
 };
 
 const backToList = () => {
@@ -83,9 +88,9 @@ onMounted(() => {
         <div v-if="!showDetail" class="d-flex">
             <div v-for="(course, index) in enrollments" :key="index">
                 <CourseItem :img="course.img" :name="course.name" :status="course.status"
-                    @click="() => openTaskDetail(course.id)" />
+                    @startCourse="(data) => openTaskDetail(course.id, data.completedLessonIds)" />
             </div>
         </div>
-        <ShowDetail v-if="showDetail" :sections="sections" @back="backToList" />
+        <ShowDetail v-if="showDetail" :sections="sections" :courseId="selectedTaskId || undefined" @back="backToList" />
     </div>
 </template>

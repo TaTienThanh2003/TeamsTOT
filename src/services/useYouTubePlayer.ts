@@ -5,6 +5,7 @@ import { ref, onMounted, watch, type Ref } from 'vue';
 interface YouTubeOptions {
   onSeekBlocked?: () => void;
   onEnded?: () => void;
+  onSeek?: () => void; // Thêm callback khi tua video
   maxSeekTime?: number; // Thời gian tối đa cho phép tua (giây)
   onShowToast?: (message: string, type: 'warning' | 'error' | 'success') => void;
   enableSeekWarning?: boolean; // Bật/tắt cảnh báo tua video
@@ -139,6 +140,9 @@ export function useYouTubePlayer(
                     // Nếu thời gian thay đổi quá lớn (tua video)
                     if (timeDiff > maxSeekTime) {
                       console.log(`Seek detected: ${timeDiff}s > ${maxSeekTime}s`);
+                      
+                      // Gọi callback onSeek nếu có
+                      options.onSeek?.();
                       
                       // Chỉ hiển thị thông báo cảnh báo nếu bật tính năng này
                       if (enableSeekWarning) {

@@ -2,7 +2,7 @@ export function useLiveChat(): void {
   const win = window as any;
 
   win.__lc = win.__lc || {};
-  win.__lc.license = 19173749;
+  win.__lc.license = 19251732;
   win.__lc.integration_name = 'manual_onboarding';
   win.__lc.product_name = 'livechat';
 

@@ -212,3 +212,154 @@ export const getVocabulary = async (topicId: number) => {
     const res = await axios.get(`${api}/vocabularies/${topicId}`)
     return res.data;
 }
+//Points
+export const getPoints = async (userId: number) => {
+    const res = await axios.get(`${api}/users/level/${userId}`)
+    return res.data;
+}
+
+//Ranks
+export const getRank = async () => {
+    const res = await axios.get(`${api}/users/rankings`)
+    return res.data;
+}
+
+export const updateLessonStatus = async (lessonId: number, lessonData: any) => {
+    const res = await axios.put(`${api}/lessons/${lessonId}`, {
+        section_id: lessonData.section_id || 0,
+        titleVI: lessonData.titleVI || "",
+        titleEN: lessonData.titleEN || "",
+        desVI: lessonData.desVI || "",
+        desEN: lessonData.desEN || "",
+        video_url: lessonData.video_url || "",
+        completed: true, // Luôn set thành true khi gọi API này
+        position: lessonData.position || 0
+    });
+    return res.data;
+}
+
+export const addUserLesson = async (student_id: number, lessonsId: number) => {
+    const res = await axios.post(`${api}/userlesson/addUserLesson`, {
+        student_id,
+        lessonsId
+    });
+    return res.data;
+}
+
+// UserLesson APIs
+export const getUserLessons = async (userId: number) => {
+    const res = await axios.get(`${api}/userlesson/${userId}`);
+    return res.data;
+}
+
+export const getUserLessonsByUserId = async (userId: number) => {
+    const res = await axios.get(`${api}/userlesson/${userId}`);
+    return res.data;
+}
+
+// Vocabulary APIs
+export const createVocabulary = async (data: any) => {
+    const res = await axios.post(`${api}/vocabularies/addVocabulary`, data);
+    return res.data;
+}
+
+export const updateVocabulary = async (id: number, data: any) => {
+    const res = await axios.put(`${api}/vocabularies/${id}`, data);
+    return res.data;
+}
+
+export const deleteVocabulary = async (id: number) => {
+    const res = await axios.delete(`${api}/vocabularies/${id}`);
+    return res.data;
+}
+
+// Task APIs
+export const getTasks = async (userId: number) => {
+    const res = await axios.get(`${api}/tasks/${userId}`);
+    return res.data;
+}
+
+export const createTask = async (data: any) => {
+    const res = await axios.post(`${api}/tasks/addTask`, data);
+    return res.data;
+}
+
+export const updateTask = async (id: number, data: any) => {
+    const res = await axios.put(`${api}/tasks/${id}`, data);
+    return res.data;
+}
+
+export const deleteTask = async (id: number) => {
+    const res = await axios.delete(`${api}/tasks/${id}`);
+    return res.data;
+}
+
+// Schedule APIs
+export const getSchedules = async (userId: number) => {
+    const res = await axios.get(`${api}/schedules/user/${userId}`);
+    return res.data;
+}
+
+export const getSchedulesByCourse = async (userId: number, courseId: number) => {
+    const res = await axios.get(`${api}/schedules/user/${userId}/course/${courseId}`);
+    return res.data;
+}
+
+export const createSchedule = async (data: {
+    studentId: number;
+    courses_id: number;
+    dayOfWeek: string;
+    timeLearn: string;
+}) => {
+    const res = await axios.post(`${api}/schedules`, data);
+    return res.data;
+}
+
+export const deleteSchedule = async (userId: number, courseId: number) => {
+    const res = await axios.delete(`${api}/schedules/user/${userId}/course/${courseId}`);
+    return res.data;
+}
+
+// Teacher APIs
+export const getTeachers = async () => {
+    const res = await axios.get(`${api}/users/getTeacher`);
+    return res.data;
+}
+
+export const getTeacherById = async (id: number) => {
+    const res = await axios.get(`${api}/users/${id}`);
+    return res.data;
+}
+
+// Payment APIs
+export const createPayment = async (data: any) => {
+    const res = await axios.post(`${api}/payments/createPayment`, data);
+    return res.data;
+}
+
+export const getPaymentHistory = async (userId: number) => {
+    const res = await axios.get(`${api}/payments/${userId}`);
+    return res.data;
+}
+
+// Notification APIs
+export const getNotifications = async (userId: number) => {
+    const res = await axios.get(`${api}/notifications/${userId}`);
+    return res.data;
+}
+
+export const markNotificationAsRead = async (id: number) => {
+    const res = await axios.put(`${api}/notifications/${id}/read`);
+    return res.data;
+}
+
+// Progress APIs
+export const getUserProgress = async (userId: number, courseId: number) => {
+    const res = await axios.get(`${api}/progress/${userId}/${courseId}`);
+    return res.data;
+}
+
+export const updateUserProgress = async (userId: number, courseId: number, data: any) => {
+    const res = await axios.put(`${api}/progress/${userId}/${courseId}`, data);
+    return res.data;
+}

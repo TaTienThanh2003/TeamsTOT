@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import "@lbgm/pro-calendar-vue/style";
+import { getSchedules } from '@/services';
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
 
 const cfg = ref<any>({
     searchPlaceholder: "Nhập vào đây",
@@ -17,7 +21,6 @@ interface Appointment {
     updatedAt?: string;
 }
 
-const selectedDays = ['Monday', 'Wednesday', 'Friday'];
 const dayIndex: Record<string, number> = {
     'Sunday': 0,
     'Monday': 1,
@@ -28,43 +31,111 @@ const dayIndex: Record<string, number> = {
     'Saturday': 6,
 };
 
-const startDate = new Date('2025-04-07'); // ngày bắt đầu
-const weeks = 4;
+const evts = ref<Appointment[]>([]);
 
-function generateSchedule(start: Date, selectedDays: string[], weeks: number) {
-    const events: Appointment[] = [];
-    let id = 1;
-
-    for (let week = 0; week < weeks; week++) {
-        selectedDays.forEach(day => {
-            const targetDay = dayIndex[day];
-            const currentWeekStart = new Date(start);
-            currentWeekStart.setDate(start.getDate() + week * 7);
-
-            const diff = (targetDay - currentWeekStart.getDay() + 7) % 7;
-            const eventDate = new Date(currentWeekStart);
-            eventDate.setDate(currentWeekStart.getDate() + diff);
-            eventDate.setHours(9, 0, 0); // học lúc 9h
-
-            events.push({
-                id: id++ + '',
-                date: eventDate.toISOString(),
-                name: `Học TOEIC - ${day}`,
-                keywords: 'toeic, học'
+// Load schedules from API
+const loadSchedules = async () => {
+    try {
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const userId = user.id;
+        
+        const response = await getSchedules(userId);
+        
+        // Convert API data to calendar events
+        const apiEvents: Appointment[] = [];
+        
+        // Kiểm tra cấu trúc response và xử lý đúng
+        let schedulesData = [];
+        if (response.data && Array.isArray(response.data)) {
+            schedulesData = response.data;
+        } else if (response && Array.isArray(response)) {
+            schedulesData = response;
+        } else if (response && response.data && response.data.data && Array.isArray(response.data.data)) {
+            schedulesData = response.data.data;
+        }
+        
+        if (schedulesData.length === 0) {
+            evts.value = [];
+            return;
+        }
+        
+        schedulesData.forEach((schedule: any, index: number) => {
+            const days = schedule.dayOfWeek.split(',').map((d: string) => d.trim());
+            const start = new Date(schedule.start_date);
+            const end = new Date(schedule.end_date);
+            days.forEach((day: string) => {
+                const targetDay = dayIndex[day];
+                for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                    if (d.getDay() === targetDay) {
+                        const eventDate = new Date(d);
+                        const [hours, minutes] = schedule.timeLearn.split(':');
+                        eventDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+                        apiEvents.push({
+                            id: `${schedule.id}-${eventDate.toISOString().slice(0,10)}-${day}`,
+                            date: eventDate.toISOString(),
+                            name: `Học ${schedule.courses?.titleVI || 'TOEIC'} - ${day}`,
+                            keywords: 'toeic, học'
+                        });
+                    }
+                }
             });
         });
+        
+        // Cập nhật events
+        evts.value = apiEvents;
+        
+    } catch (error) {
+        console.error('Lỗi load schedules:', error);
+        toast.error('Không thể tải lịch học');
     }
+};
 
-    return events;
-}
+// Hàm để refresh calendar từ bên ngoài
+const refreshCalendar = () => {
+    loadSchedules();
+};
 
-const evts = ref(generateSchedule(startDate, selectedDays, weeks));
+// Event listener để lắng nghe khi có schedule mới được tạo
+const handleSchedulesUpdated = () => {
+    loadSchedules();
+};
+
+// Expose function để component cha có thể gọi
+defineExpose({
+    refreshCalendar
+});
+
+onMounted(() => {
+    loadSchedules();
+    // Lắng nghe event schedules-updated
+    window.addEventListener('schedules-updated', handleSchedulesUpdated);
+});
+
+onUnmounted(() => {
+    // Cleanup event listener
+    window.removeEventListener('schedules-updated', handleSchedulesUpdated);
+});
 </script>
 
 <template>
     <div class="tab-pane fade" id="schedule">
-        <pro-calendar :events="evts" :config="cfg" @calendarClosed="void 0" />
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Lịch học</h4>
+            <button class="btn btn-outline-primary" @click="loadSchedules" title="Refresh lịch học">
+                <i class="fas fa-sync-alt me-2"></i>
+                Làm mới
+            </button>
+        </div>
+        
+        <div v-if="evts.length === 0" class="text-center py-4">
+            <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+            <p class="text-muted">Chưa có lịch học nào</p>
+        </div>
+        
+        <pro-calendar v-else :events="evts" :config="cfg" @calendarClosed="void 0" />
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* Không cần modal styles nữa vì không có chức năng thêm */
+</style>
