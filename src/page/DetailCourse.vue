@@ -3,7 +3,7 @@ import Header from '@/components/Home/Header.vue';
 import PayModel from '@/components/Model/payModel.vue';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { getLessons, addCarts} from '@/services';
+import { getLessons, addCarts, getCourseById, checkPaid } from '@/services';
 import DetailItem from '@/components/Home/Detail/DetailItem.vue';
 import TeacherReview from '@/components/Home/Detail/TeacherReview.vue';
 import i18n from '@/i18n';
@@ -15,17 +15,26 @@ const { success, error } = useToast();
 const router = useRoute();
 const showModal = ref(false);
 const isLogin = ref(false);
+const course = ref<any>(null);
 const sections = ref<any>([]);
 
 const id = parseInt(router.params.id as string);
 const user = JSON.parse(localStorage.getItem("user") || "{}");
 const userId = user.id;
-
+const detailcourse = async () => {
+    try {
+        const res = await getCourseById(id);
+        console.log("Course data:", res);
+        course.value = res;
+    } catch (err: any) {
+        console.log("Lỗi api khóa học" + err)
+    }
+};
 const showLessons = async () => {
     try {
         const res = await getLessons(id);
         const resdata = res.data;
-   
+
         const locale = i18n.global.locale.toUpperCase();
         const nameKey = `title${locale}`;
         sections.value = resdata.map((section: any) => ({
@@ -45,9 +54,9 @@ const addtoCarts = async () => {
         error("Khóa học đã có trong giỏ hàng");
     }
 }
-
 onMounted(() => {
     showLessons();
+    detailcourse();
 });
 </script>
 
@@ -99,9 +108,8 @@ onMounted(() => {
                             allowfullscreen></iframe>
                     </div>
 
-                    <h3 class="text-danger fw-bold fs-5 mb-3">
-                        1,600,000đ
-                        <span class="text-muted fs-6 ms-2 text-decoration-line-through">2,500,000đ</span>
+                    <h3 class="text-danger fw-bold fs-5 mb-3" v-if="course">
+                        {{ course.price?.toLocaleString('vi-VN') }}đ
                     </h3>
 
                     <button v-if="!isLogin" class="btn btn-primary btn-lg w-100 mb-2" @click="addtoCarts">
@@ -128,7 +136,13 @@ onMounted(() => {
             </div>
         </div>
         <!-- Modal thanh toán -->
-        <PayModel v-if="showModal" :show="showModal" :amount="499000" @close="showModal = false" />
+        <PayModel 
+            v-if="showModal" 
+            :show="showModal" 
+            :amount="course.price" 
+            :courseIds="[course.id]"
+            @close="showModal = false" 
+        />
         <ToastContainer />
     </div>
 </template>

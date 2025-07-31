@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Header from '@/components/Home/Header.vue';
 import PayModel from '@/components/Model/payModel.vue';
-import { getCourseById, deletecarts, getCourserbyUserId, checkPaid } from '@/services';
+import { getCourserbyUserId, deletecarts } from '@/services';
 import { ref, computed, onMounted, watch } from 'vue';
 import i18n from '@/i18n';
 import { useToast } from '@/composables/useToast';
@@ -11,15 +11,14 @@ const { success, error } = useToast();
 
 const selectedTab = ref('card');
 const showModal = ref(false);
-const Carts = ref<any>([]);
+const Carts = ref<any[]>([]);
 const user = JSON.parse(localStorage.getItem("user") || "{}");
 const userId = user.id;
-// Dữ liệu khóa học không có số lượng
+
 const showCarts = async () => {
     try {
         const res = await getCourserbyUserId(userId);
         const resdata = res.data;
-        console.log(resdata);
         const locale = i18n.global.locale.toUpperCase();
         const nameKey = `title${locale}`;
         const desKey = `des${locale}`;
@@ -28,54 +27,41 @@ const showCarts = async () => {
             id: Cart.id,
             name: Cart[nameKey],
             description: Cart[desKey],
-            image: Cart.image || 'https://storage.googleapis.com/a1aa/image/yvPg3N_DvR7Qpi4FXfhUbwPadENaDLYvzVGnrJoYJr8.jpg',
-            price: Cart.price,
+            img: Cart.img || 'https://via.placeholder.com/80',
+            price: Number(Cart.price.toString().replace(/[^\d]/g, ''))
         }));
     } catch (err: any) {
-        console.log("Lỗi api khóa học" + err)
+        console.error("Lỗi api khóa học:", err);
     }
-}
+};
 
-// const addtoEnrollments = async () =>{
-//     try {
-//         const course_id = Carts.value.map(Cart => Cart.id)
-//         const res = await addtoEnrollments(userId, course_id);
-//         console.log(res);
-//         showCarts()
-//     } catch (err: any) {
-//         console.log("Lỗi thêm enrollments" + err)
-//     }
-// }
+const count = computed(() => Carts.value.length);
 
-let count = computed(() => {
-    return Carts.value.length;
+const subtotal = computed(() => {
+    return Carts.value.reduce((sum, item) => sum + item.price, 0);
 });
+
 const remove = async (CourseId: number) => {
     try {
-        const res = await deletecarts(CourseId, userId);
+        await deletecarts(CourseId, userId);
         success('Xóa khỏi giỏ hàng thành công!');
-        showCarts()
+        showCarts();
     } catch (err: any) {
-        error("Lỗi xóa khóa học" + err)
+        error("Lỗi xóa khóa học: " + err);
     }
-}
-const subtotal = computed(() => {
-    return Carts.value.reduce((sum: number, item: any) => {
-        const numberPrice = Number(item.price.toString().replace(/[^\d]/g, ''));
-        return sum + numberPrice;
-    }, 0);
-});
-const showbank = async () => {
-    const res = await checkPaid();
-    console.log(res)
-}
+};
+
+const handlePaymentSuccess = () => {
+    console.log('✅ Thanh toán thành công từ Cart!');
+    showCarts(); // Refresh cart data
+};
+
 watch(() => i18n.global.locale, () => {
     showCarts();
 });
 
 onMounted(() => {
     showCarts();
-    showbank();
 });
 </script>
 
@@ -117,7 +103,14 @@ onMounted(() => {
                 </div>
             </div>
         </div>
-        <PayModel v-if="showModal" :show="showModal" :amount="subtotal" @close="showModal = false" />
+        <PayModel 
+            v-if="showModal" 
+            :show="showModal" 
+            :amount="subtotal" 
+            :courseIds="Carts.map(cart => cart.id)"
+            @close="showModal = false" 
+            @success="handlePaymentSuccess"
+        />
     </div>
     <ToastContainer />
 </template>

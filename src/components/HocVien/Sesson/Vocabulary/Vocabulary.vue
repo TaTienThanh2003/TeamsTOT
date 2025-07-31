@@ -1,16 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import VocabularyItem from './VocabularyItem.vue';
 import CreateVocabulary from './CreateVocabulary.vue';
 import FlashcardLearn from './FlashcardLearn.vue';
-import { getTopic } from '@/services';
-import { useToast } from 'vue-toastification';
 
 const currentTab = ref('mine');
 const selectedWord = ref<any>(null);
 const showFlashcardLearn = ref(false);
-const topics = ref<any>([]);
-const toast = useToast();
 
 // Dữ liệu mẫu
 const flashcardLists = [
@@ -18,8 +14,8 @@ const flashcardLists = [
         title: "900 từ TOEFL (có ảnh)",
         wordCount: 899,
         learners: 5400,
-        author: "study4",
-        avatar: "https://via.placeholder.com/32x32.png?text=S4",
+        author: "TOT",
+        avatar: "https://res.cloudinary.com/ddwh3bayf/image/upload/v1753930949/logo_mzm9gk.png",
         wordData: {
             word: "abandon",
             type: "verb",
@@ -33,8 +29,8 @@ const flashcardLists = [
         title: "900 từ TOEFL (có ảnh)",
         wordCount: 899,
         learners: 5400,
-        author: "study4",
-        avatar: "https://via.placeholder.com/32x32.png?text=S4",
+        author: "TOT",
+        avatar: "https://res.cloudinary.com/ddwh3bayf/image/upload/v1753930949/logo_mzm9gk.png",
         wordData: {
             word: "abandon",
             type: "verb",
@@ -46,20 +42,7 @@ const flashcardLists = [
     },
 
 ];
-const showTopics = async () => {
-    try {
-        const res = await getTopic();
-        const resdata = res.data;
-        topics.value = resdata.map((topic : any) => {
-            id: topic.id;
-            name: topic.name;
-            wordCount : topic.wordCount;
-            imageUrl : topic.imageUrl;
-        })
-    } catch (error) {
-        console.log(error)
-    }
-}
+
 const handleSelectWord = (list: any) => {
     selectedWord.value = list.wordData;
 };
@@ -70,9 +53,6 @@ const goBackToList = () => {
 function handleListCreated() {
     console.log('Đã tạo list mới!');
 }
-onMounted(() => {
-    showTopics();
-})
 </script>
 
 <template>
@@ -113,18 +93,18 @@ onMounted(() => {
                                 <div class="mt-2 text-primary fw-semibold">Tạo list từ</div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-4 col-lg-3" v-for="(topic, i) in topics" :key="i"
-                            @click="handleSelectWord(topic)" style="cursor: pointer;">
+                        <div class="col-sm-6 col-md-4 col-lg-3" v-for="(list, i) in flashcardLists" :key="i"
+                            @click="handleSelectWord(list)" style="cursor: pointer;">
                             <div class="card h-100 shadow-sm">
                                 <div class="card-body">
-                                    <h6 class="card-title fw-bold">{{ topic.title }}</h6>
-                                    <p class="card-text small text-muted">📄 {{ topic.wordCount }} từ | 👤 {{
-                                        topic.learners
+                                    <h6 class="card-title fw-bold">{{ list.title }}</h6>
+                                    <p class="card-text small text-muted">📄 {{ list.wordCount }} từ | 👤 {{
+                                        list.learners
                                         }}</p>
                                 </div>
                                 <div class="card-footer bg-white border-top-0 d-flex align-items-center gap-2">
-                                    <img :src="topic.avatar" alt="avatar" class="user-avatar" />
-                                    <small class="text-muted">{{ topic.author }}</small>
+                                    <img :src="list.avatar" alt="avatar" class="user-avatar" />
+                                    <small class="text-muted">{{ list.author }}</small>
                                 </div>
                             </div>
                         </div>

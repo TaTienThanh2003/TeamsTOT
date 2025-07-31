@@ -7,7 +7,8 @@ import DetailItem from '@/components/Home/Detail/DetailItem.vue';
 import i18n from '@/i18n';
 import { useYouTubePlayer } from '@/services/useYouTubePlayer';
 import { useToast } from 'vue-toastification';
-import { addUserLesson, getUserLessons } from '@/services';
+import { addUserLesson } from '@/services';
+import { useLessonStatus } from '@/composables/useLessonStatus';
 
 const props = defineProps<{
     sections: {
@@ -37,6 +38,9 @@ const videoUrl = ref('');
 let ytInstance: YT.Player | null = null;
 const toast = useToast();
 
+// Sử dụng composable để quản lý trạng thái lesson
+const { isLoading, completedLessonIds, refreshLessonStatus, updateSectionsStatus, findFirstIncompleteLesson } = useLessonStatus();
+
 // Thêm biến để theo dõi số lần tua video
 const seekCount = ref(0);
 const maxSeeks = 2; // Số lần tua tối đa cho phép
@@ -47,8 +51,54 @@ const showSeekWarningModal = ref(false);
 // Thêm biến để quản lý popup hoàn thành bài học
 const showCompletionModal = ref(false);
 
+// Thêm biến để theo dõi thời gian video
+const currentVideoTime = ref('00:00:00');
+const videoTimeInterval = ref<number | null>(null);
+
 const isSectionCompleted = (section: typeof props.sections[number]) =>
     section.lessons.length > 0 && section.lessons.every(lesson => lesson.completed);
+
+// Hàm format thời gian từ giây sang HH:MM:SS
+const formatTime = (seconds: number): string => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+};
+
+// Hàm cập nhật thời gian video
+const updateVideoTime = () => {
+    const player = (window as any).ytPlayer;
+    if (player && typeof player.getCurrentTime === 'function') {
+        try {
+            const currentTime = player.getCurrentTime();
+            const formattedTime = formatTime(Math.floor(currentTime));
+            currentVideoTime.value = formattedTime;
+            
+            // Expose thời gian ra window để component khác có thể truy cập
+            (window as any).currentVideoTime = formattedTime;
+        } catch (err) {
+            console.error('Lỗi cập nhật thời gian video:', err);
+        }
+    }
+};
+
+// Hàm bắt đầu theo dõi thời gian video
+const startVideoTimeTracking = () => {
+    if (videoTimeInterval.value) {
+        clearInterval(videoTimeInterval.value);
+    }
+    // Cập nhật thời gian mỗi giây để đảm bảo chính xác
+    videoTimeInterval.value = setInterval(updateVideoTime, 1000);
+};
+
+// Hàm dừng theo dõi thời gian video
+const stopVideoTimeTracking = () => {
+    if (videoTimeInterval.value) {
+        clearInterval(videoTimeInterval.value);
+        videoTimeInterval.value = null;
+    }
+};
 
 const total = computed(() => props.sections.length);
 const completed = computed(() =>
@@ -57,50 +107,6 @@ const completed = computed(() =>
 const toggleSidebar = () => {
     showSidebar.value = !showSidebar.value
 }
-
-// Hàm refresh trạng thái lesson
-const refreshLessonStatus = async () => {
-    try {
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
-        const userId = user.id;
-        
-        const res = await getUserLessons(userId);
-        console.log('Refresh API Response:', res);
-        
-        // Kiểm tra cấu trúc response và xử lý đúng
-        let lessonsData = [];
-        if (res.data && Array.isArray(res.data)) {
-            lessonsData = res.data;
-        } else if (res.data && res.data.data && Array.isArray(res.data.data)) {
-            lessonsData = res.data.data;
-        } else if (Array.isArray(res)) {
-            lessonsData = res;
-        }
-        
-        const completedLessonIds = lessonsData
-            .filter((l: any) => l.isComplete)
-            .map((l: any) => l.lessonsId || l.lessonId || l.id);
-            
-        console.log('Refresh completed lesson IDs:', completedLessonIds);
-        
-        // Cập nhật trạng thái lesson
-        props.sections.forEach(section => {
-            section.lessons.forEach(lesson => {
-                const isCompleted = completedLessonIds.includes(lesson.id);
-                lesson.completed = isCompleted;
-                console.log(`Refresh: Lesson ${lesson.id} (${lesson.titleVI || lesson.titleEN}): ${isCompleted ? 'COMPLETED' : 'NOT COMPLETED'}`);
-            });
-        });
-        
-        // Cập nhật localStorage
-        localStorage.setItem('completedLessonIds', JSON.stringify(completedLessonIds));
-        
-        return true;
-    } catch (error) {
-        console.error('Lỗi refresh lesson status:', error);
-        return false;
-    }
-};
 
 // Hàm thêm lesson vào userLesson
 const addLessonToUser = async (lessonId: number) => {
@@ -112,6 +118,7 @@ const addLessonToUser = async (lessonId: number) => {
         
         // Refresh trạng thái lesson sau khi thêm thành công
         await refreshLessonStatus();
+        updateSectionsStatus(props.sections);
         
         return true;
     } catch (error) {
@@ -159,7 +166,6 @@ const handleStayInCurrentLesson = () => {
 };
 
 const changeVideo = (lesson: any) => {
-    console.log('Changing to lesson:', lesson);
     props.sections.forEach(section => {
         section.lessons.forEach(l => {
             l.current = false;
@@ -179,8 +185,6 @@ const changeVideo = (lesson: any) => {
         return;
     }
     
-    console.log('Initializing player with videoUrl:', videoUrl.value);
-    
     // Khởi tạo lại player với video mới
     if (ytInstance) {
         ytInstance.destroy();
@@ -196,6 +200,8 @@ const changeVideo = (lesson: any) => {
         onSeek: handleExcessiveSeeking, // Thêm callback xử lý tua video
     }).then(player => {
         ytInstance = player;
+        // Bắt đầu lại theo dõi thời gian video
+        startVideoTimeTracking();
     }).catch(error => {
         console.error('Lỗi khởi tạo YouTube player:', error);
         alert('Không thể tải video. Vui lòng kiểm tra lại URL video.');
@@ -248,6 +254,8 @@ const OnPrevVideo = () => {
                     onSeek: handleExcessiveSeeking, // Thêm callback xử lý tua video
                 }).then(player => {
                     ytInstance = player;
+                    // Bắt đầu lại theo dõi thời gian video
+                    startVideoTimeTracking();
                 }).catch(error => {
                     console.error('Lỗi khởi tạo YouTube player:', error);
                     alert('Không thể tải video. Vui lòng kiểm tra lại URL video.');
@@ -308,6 +316,8 @@ const OnNextVideo = () => {
                     onSeek: handleExcessiveSeeking, // Thêm callback xử lý tua video
                 }).then(player => {
                     ytInstance = player;
+                    // Bắt đầu lại theo dõi thời gian video
+                    startVideoTimeTracking();
                 }).catch(error => {
                     console.error('Lỗi khởi tạo YouTube player:', error);
                     alert('Không thể tải video. Vui lòng kiểm tra lại URL video.');
@@ -342,8 +352,6 @@ const handleVideoEnded = async () => {
 
 // Hàm xử lý khi schedule được tạo thành công
 const handleScheduleCreated = (createdSchedules: any[]) => {
-    console.log('Schedules created:', createdSchedules);
-    
     // Có thể emit event để parent component biết và refresh calendar
     // Hoặc sử dụng global event bus để thông báo cho calendar component
     window.dispatchEvent(new CustomEvent('schedules-updated', { 
@@ -368,84 +376,18 @@ const handleShowToast = (message: string, type: 'warning' | 'error' | 'success' 
     else toast.info(message);
 };
 
-const isLoading = ref(true);
-
 onMounted(async () => {
-    console.log('Sections data:', props.sections);
+    // Đợi composable load xong
+    await refreshLessonStatus();
     
-    // Luôn gọi API để lấy dữ liệu mới nhất về lesson đã hoàn thành
-    let completedLessonIds: number[] = [];
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const userId = user.id;
-    
-    try {
-        const res = await getUserLessons(userId);
-        console.log('API Response:', res);
-        
-        // Kiểm tra cấu trúc response và xử lý đúng
-        let lessonsData = [];
-        if (res.data && Array.isArray(res.data)) {
-            lessonsData = res.data;
-        } else if (res.data && res.data.data && Array.isArray(res.data.data)) {
-            lessonsData = res.data.data;
-        } else if (Array.isArray(res)) {
-            lessonsData = res;
-        }
-        
-        console.log('Lessons data:', lessonsData);
-        
-        completedLessonIds = lessonsData
-            .filter((l: any) => l.isComplete)
-            .map((l: any) => l.lessonsId || l.lessonId || l.id);
-            
-        console.log('Completed lesson IDs from API:', completedLessonIds);
-    } catch (e) {
-        console.error('Không lấy được danh sách lesson đã hoàn thành:', e);
-        // Fallback: Sử dụng dữ liệu từ localStorage nếu API thất bại
-        const storedCompletedLessonIds = localStorage.getItem('completedLessonIds');
-        if (storedCompletedLessonIds) {
-            completedLessonIds = JSON.parse(storedCompletedLessonIds);
-        }
-    }
-    
-    console.log('Final completed lesson IDs:', completedLessonIds);
-    
-    // Đánh dấu completed cho các lesson này
-    props.sections.forEach(section => {
-        section.lessons.forEach(lesson => {
-            const isCompleted = completedLessonIds.map(Number).includes(Number(lesson.id));
-            lesson.completed = isCompleted;
-            console.log(`Lesson ${lesson.id} (${lesson.titleVI || lesson.titleEN}): ${isCompleted ? 'COMPLETED' : 'NOT COMPLETED'}`);
-        });
-    });
-    
-    // Cập nhật localStorage với dữ liệu mới nhất
-    localStorage.setItem('completedLessonIds', JSON.stringify(completedLessonIds));
-    
-    isLoading.value = false; // Đã xong, cho phép render UI
+    // Cập nhật trạng thái cho sections
+    updateSectionsStatus(props.sections);
 
     if (props.sections.length > 0 && props.sections[0].lessons.length > 0) {
         // Tìm lesson đầu tiên chưa hoàn thành
-        let firstIncompleteLesson = null;
-        
-        for (const section of props.sections) {
-            for (const lesson of section.lessons) {
-                if (!lesson.completed) {
-                    firstIncompleteLesson = lesson;
-                    break;
-                }
-            }
-            if (firstIncompleteLesson) break;
-        }
-        
-        // Nếu tất cả lesson đã hoàn thành, lấy lesson cuối cùng
-        if (!firstIncompleteLesson) {
-            const lastSection = props.sections[props.sections.length - 1];
-            firstIncompleteLesson = lastSection.lessons[lastSection.lessons.length - 1];
-        }
+        const firstIncompleteLesson = findFirstIncompleteLesson(props.sections);
         
         currentLesson.value = firstIncompleteLesson;
-        console.log('Selected lesson:', currentLesson.value);
         currentLesson.value.current = true;
         videoUrl.value = currentLesson.value.video_url;
 
@@ -456,7 +398,6 @@ onMounted(async () => {
             return;
         }
 
-        console.log('Initializing with videoUrl:', videoUrl.value);
         try {
             ytInstance = await useYouTubePlayer(videoUrl.value, 'yt-player', {
                 maxSeekTime: 120, // Cho phép tua tối đa 2 phút
@@ -465,6 +406,9 @@ onMounted(async () => {
                 onShowToast: handleShowToast,
                 onSeek: handleExcessiveSeeking, // Thêm callback xử lý tua video
             });
+            
+            // Bắt đầu theo dõi thời gian video sau khi player được khởi tạo
+            startVideoTimeTracking();
         } catch (error) {
             console.error('Lỗi khởi tạo YouTube player:', error);
             alert('Không thể tải video. Vui lòng kiểm tra lại URL video.');
@@ -473,6 +417,8 @@ onMounted(async () => {
 });
 
 onUnmounted(() => {
+    // Dừng theo dõi thời gian video
+    stopVideoTimeTracking();
     // Xóa completedLessonIds khỏi localStorage khi component bị hủy
     localStorage.removeItem('completedLessonIds');
 });
@@ -530,7 +476,12 @@ onUnmounted(() => {
                     <button class="btn btn-outline-primary p-2" @click="OnNextVideo">Bài học tiếp</button>
                 </div>
 
-                <NoteList :lessonid="currentLesson.id" :showNoteInput="showNoteInput" @setClose="toggleCloseNote" />
+                <NoteList 
+                    :lessonid="currentLesson.id" 
+                    :showNoteInput="showNoteInput" 
+                    :currentVideoTime="currentVideoTime"
+                    @setClose="toggleCloseNote" 
+                />
                 <CommentList :lessonid="currentLesson.id" :showCommentInput="showCommentInput"
                     @setClose="toggleCloseComment" />
 
@@ -629,7 +580,14 @@ onUnmounted(() => {
         </div>
     </div>
     <div v-else>
-        Đang tải dữ liệu...
+        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3">Đang tải dữ liệu...</p>
+            </div>
+        </div>
     </div>
 </template>
 <style scoped>

@@ -121,6 +121,8 @@ export function useYouTubePlayer(
           events: {
             onReady: (event) => {
               console.log('YouTube player ready with video ID:', videoId);
+              // Expose player ra window để có thể truy cập từ component khác
+              (window as any).ytPlayer = event.target;
               event.target.playVideo();
               resolve(player.value!);
             },

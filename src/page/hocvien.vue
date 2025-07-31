@@ -9,6 +9,10 @@ import User from '@/components/HocVien/Sesson/User.vue';
 import Vocabulary from '@/components/HocVien/Sesson/Vocabulary/Vocabulary.vue';
 import Sidebar from '@/components/HocVien/Sidebar.vue';
 import { ref } from 'vue';
+import { useLessonStatus } from '@/composables/useLessonStatus';
+
+// Sử dụng composable để gọi API ngay khi vào trang hocvien
+const { refreshLessonStatus } = useLessonStatus();
 
 const showDetail = ref(true);
 

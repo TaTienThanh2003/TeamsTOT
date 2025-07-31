@@ -130,17 +130,32 @@ export const deletecarts = async (coursesid: number, userid: number) => {
     return res.data
 }
 
+// Xóa nhiều khóa học khỏi cart
+export const deleteMultipleCarts = async (courseIds: number[], userId: number) => {
+    const promises = courseIds.map(courseId => deletecarts(courseId, userId));
+    return Promise.all(promises);
+}
+
 export const getEnrollments = async (student_id: number) => {
     const res = await axios.get(`${api}/enrollments/getEnrollmentByUserId/${student_id}`)
     return res.data;
 }
 
-export const addEnrollments = async (student_id: number, course_id: number) => {
-    const res = await axios.post(`${api}/enrollments/addEnrollment`, {
-        student_id,
-        course_id,
-    })
-    return res.data
+export const addEnrollments = async (student_id: number, courses_id: number) => {
+    try {
+        const res = await axios.post(`${api}/enrollments/addEnrollment`, {
+            student_id,
+            courses_id,
+        });
+        return res.data;
+    } catch (error: any) {
+        if (error.response?.status === 409) {
+            console.log('⚠️ User đã đăng ký khóa học này rồi');
+            // Trả về success để không block luồng
+            return { success: true, message: 'Đã đăng ký trước đó' };
+        }
+        throw error;
+    }
 }
 
 export const getReview = async (courseid: number) => {
@@ -174,19 +189,42 @@ export async function addNote(lesson_id: number, user_id: number,text: string,vi
     })
     return res.data;
 }
-export async function checkPaid(): Promise<any> {
+
+export async function deleteNote(id: number) {
+    const res = await axios.delete(`${api}/lessonNotes/delete/${id}`);
+    return res.data;
+}
+export async function checkPaid(amount: number, content: string): Promise<boolean> {
     try {
-        const response = await axios.get(api_bank_url, {
-            headers: {
-                'Authorization': `Apikey ${api_bank}`,
-                'Content-Type': 'application/json',
-            },
-        });
-        return response.data;
+        const res = await fetch("https://script.google.com/macros/s/AKfycbyWBmLcRs10yWLJDCBzlTx9SVAnHxMn0pnNudd6_6cdfjFZJdI90lMlzKh9XCqQUDxQXQ/exec");
+        const resdata = await res.json();
+        const transactions = resdata.data;
+
+        const expectedContent = content.toLowerCase().trim();
+
+        for (const tran of transactions) {
+            const amountPaidRaw = tran["Giá trị"];
+            const descRaw = tran["Mô tả"] || "";
+
+            const amountPaid = parseInt(String(amountPaidRaw).replace(/[^0-9]/g, '')) || 0;
+            const desc = descRaw.toLowerCase().trim();
+
+            console.log(`🧾 Kiểm tra giao dịch: amount=${amountPaid}, desc=${descRaw}`);
+
+            if (amountPaid >= amount && desc.includes(expectedContent)) {
+                console.log("✅ Đã tìm thấy giao dịch phù hợp!");
+                return true;
+            }
+        }
+
+        console.log("❌ Không tìm thấy giao dịch phù hợp.");
+        return false;
     } catch (error) {
-        console.error('Có lỗi xảy ra:', error);
+        console.error("Lỗi kiểm tra thanh toán:", error);
+        return false;
     }
 }
+
 export async function translateViEn(text: string): Promise<string> {
     const res = await fetch("https://libretranslate.de/translate", {
         method: "POST",
@@ -224,19 +262,6 @@ export const getRank = async () => {
     return res.data;
 }
 
-export const updateLessonStatus = async (lessonId: number, lessonData: any) => {
-    const res = await axios.put(`${api}/lessons/${lessonId}`, {
-        section_id: lessonData.section_id || 0,
-        titleVI: lessonData.titleVI || "",
-        titleEN: lessonData.titleEN || "",
-        desVI: lessonData.desVI || "",
-        desEN: lessonData.desEN || "",
-        video_url: lessonData.video_url || "",
-        completed: true, // Luôn set thành true khi gọi API này
-        position: lessonData.position || 0
-    });
-    return res.data;
-}
 
 export const addUserLesson = async (student_id: number, lessonsId: number) => {
     const res = await axios.post(`${api}/userlesson/addUserLesson`, {
