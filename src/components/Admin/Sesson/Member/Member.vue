@@ -55,7 +55,7 @@ const setActiveRole = (role: string) => {
 </script>
 
 <template>
-  <div class="tab-pane fade active" id="my-members">
+  <div>
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h4 class="fs-4 text-center fw-bold ">QUẢN LÝ THÀNH VIÊN</h4>
       <button class="btn btn-outline-primary">+ Thêm người dùng</button>

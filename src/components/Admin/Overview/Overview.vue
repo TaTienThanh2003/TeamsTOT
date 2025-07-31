@@ -5,7 +5,7 @@ import StudentBarChart from './StudentBarChart.vue';
 </script>
 
 <template>
-    <div class="tab-pane fade show active" id="overview">
+    <div>
         <div class="container py-4">
             <h2 class="mb-4 fw-bold text-center fs-4">TỔNG QUAN TRUNG TÂM</h2>
             <div class="row g-4">

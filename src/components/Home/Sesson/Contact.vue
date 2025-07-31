@@ -1,4 +1,12 @@
 <script setup lang="ts">
+import { useToast } from '@/composables/useToast'
+
+const { success } = useToast()
+
+const handleSubmit = (event: Event) => {
+  event.preventDefault()
+  success('Gửi phản hồi thành công!')
+}
 </script>
 
 <template>
@@ -23,7 +31,7 @@
 
             <!-- Cột phải: Form đánh giá -->
             <div class="col-md-6">
-                <form>
+                <form @submit="handleSubmit">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" id="email"
@@ -34,9 +42,40 @@
                         <input type="text" id="comments"
                             class="form-control border-0 border-bottom border-dark rounded-0 shadow-none" required>
                     </div>
-                    <button class="btn back-blue text-white rounded-pill px-4 py-2">Gửi</button>
+                    <button type="submit" class="btn back-blue text-white rounded-pill px-4 py-2">Gửi</button>
                 </form>
             </div>
         </div>
     </section>
 </template>
+
+<style scoped>
+.btn.back-blue {
+    background-color: #6C63FF !important;
+    border-color: #6C63FF !important;
+    color: white !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn.back-blue:hover {
+    background-color: #5a52d5 !important;
+    border-color: #5a52d5 !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(108, 99, 255, 0.3);
+}
+
+.btn.back-blue:focus {
+    background-color: #6C63FF !important;
+    border-color: #6C63FF !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.25);
+}
+
+.btn.back-blue:active {
+    background-color: #5a52d5 !important;
+    border-color: #5a52d5 !important;
+    color: white !important;
+}
+</style>

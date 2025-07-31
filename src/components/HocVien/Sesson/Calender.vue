@@ -9,6 +9,13 @@ const toast = useToast();
 const cfg = ref<any>({
     searchPlaceholder: "Nhập vào đây",
     closeText: "Hiển thị",
+    showEvents: true,
+    eventDisplay: 'block',
+    eventHeight: 30,
+    eventSpacing: 2,
+    defaultView: 'week',
+    startDate: new Date(),
+    endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 ngày tới
 });
 
 interface Appointment {
@@ -61,22 +68,36 @@ const loadSchedules = async () => {
         
         schedulesData.forEach((schedule: any, index: number) => {
             const days = schedule.dayOfWeek.split(',').map((d: string) => d.trim());
+            
             const start = new Date(schedule.start_date);
             const end = new Date(schedule.end_date);
+            
             days.forEach((day: string) => {
                 const targetDay = dayIndex[day];
-                for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-                    if (d.getDay() === targetDay) {
-                        const eventDate = new Date(d);
-                        const [hours, minutes] = schedule.timeLearn.split(':');
-                        eventDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
-                        apiEvents.push({
-                            id: `${schedule.id}-${eventDate.toISOString().slice(0,10)}-${day}`,
-                            date: eventDate.toISOString(),
-                            name: `Học ${schedule.courses?.titleVI || 'TOEIC'} - ${day}`,
-                            keywords: 'toeic, học'
-                        });
-                    }
+                
+                if (targetDay === undefined) {
+                    return;
+                }
+                
+                // Tìm ngày đầu tiên trong tuần của start date
+                const firstWeekStart = new Date(start);
+                const daysToAdd = (targetDay - firstWeekStart.getDay() + 7) % 7;
+                firstWeekStart.setDate(firstWeekStart.getDate() + daysToAdd);
+                
+                // Tạo events cho tất cả các tuần
+                for (let currentDate = new Date(firstWeekStart); currentDate <= end; currentDate.setDate(currentDate.getDate() + 7)) {
+                    const eventDate = new Date(currentDate);
+                    const [hours, minutes] = schedule.timeLearn.split(':');
+                    eventDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+                    
+                    const event = {
+                        id: `${schedule.id}-${eventDate.toISOString().slice(0,10)}-${day}`,
+                        date: eventDate.toISOString().slice(0, 19) + 'Z',
+                        name: `Học ${schedule.courses?.titleVI || 'TOEIC'} - ${day}`,
+                        keywords: 'toeic, học'
+                    };
+                    
+                    apiEvents.push(event);
                 }
             });
         });
@@ -132,7 +153,7 @@ onUnmounted(() => {
             <p class="text-muted">Chưa có lịch học nào</p>
         </div>
         
-        <pro-calendar v-else :events="evts" :config="cfg" @calendarClosed="void 0" />
+        <pro-calendar v-if="evts.length > 0" :events="evts" :config="cfg" @calendarClosed="void 0" />
     </div>
 </template>
 

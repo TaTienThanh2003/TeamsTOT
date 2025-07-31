@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+const emit = defineEmits(['tab-change'])
 
-const activeTab = ref('overview')
+const props = defineProps<{
+    activeTab?: string
+}>()
+
+const activeTab = ref(props.activeTab || 'overview')
 
 const setActiveTab = (tabName: string) => {
     activeTab.value = tabName
+    emit('tab-change', tabName)
 }
 
 const getIconStyle = (tabName: string) => {
@@ -39,16 +45,10 @@ const getIconStyle = (tabName: string) => {
                 <span class="nav-text">Thành viên</span>
             </a>
 
-            <a class="nav-link text-muted white" data-bs-toggle="pill" href="#schedule"
-                :class="{ active: activeTab === 'schedule' }" @click="setActiveTab('schedule')">
-                <span class="material-symbols-outlined icon" :style="getIconStyle('schedule')">event</span>
-                <span class="nav-text">{{ $t('hv.schedule') }}</span>
-            </a>
-
             <a class="nav-link text-muted white" data-bs-toggle="pill" href="#vocabulary"
-                :class="{ active: activeTab === 'tasks' }" @click="setActiveTab('tasks')">
-                <span class="material-symbols-outlined icon" :style="getIconStyle('tasks')">assignment</span>
-                <span class="nav-text">Bài tập</span>
+                :class="{ active: activeTab === 'vocabulary' }" @click="setActiveTab('vocabulary')">
+                <span class="material-symbols-outlined icon" :style="getIconStyle('vocabulary')">translate</span>
+                <span class="nav-text">Từ vựng</span>
             </a>
 
             <div class="px-3">

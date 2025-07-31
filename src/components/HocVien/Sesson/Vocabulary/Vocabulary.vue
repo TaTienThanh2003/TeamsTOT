@@ -76,7 +76,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="tab-pane fade show active" id="vocabulary">
+    <div class="tab-pane fade" id="vocabulary">
         <div class="container py-2">
             <div v-if="!(selectedWord || showFlashcardLearn)">
                 <ul class="nav mb-5 gap-4 ">

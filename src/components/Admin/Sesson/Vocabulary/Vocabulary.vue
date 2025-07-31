@@ -54,7 +54,7 @@ function handleListCreated() {
 </script>
 
 <template>
-    <div class="tab-pane fade show active" id="vocabulary">
+    <div>
         <div class="container py-2">
             <div v-if="!selectedWord">
                 <div v-show="!selectedWord">

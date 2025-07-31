@@ -33,12 +33,12 @@ const getIconStyle = (tabName: string) => {
                 <span class="nav-text" v-if="showDetail">{{ $t('hv.mycourse') }}</span>
             </a>
 
-            <a class="nav-link text-muted white" data-bs-toggle="pill" href="#my-teachers"
+            <!-- <a class="nav-link text-muted white" data-bs-toggle="pill" href="#my-teachers"
                 :class="{ active: activeTab === 'my-teachers' }" @click="setActiveTab('my-teachers')">
                 <span class="material-symbols-outlined icon"
                     :style="getIconStyle('my-teachers')">supervisor_account</span>
                 <span class="nav-text" v-if="showDetail">{{ $t('hv.myteacher') }}</span>
-            </a>
+            </a> -->
 
             <a class="nav-link text-muted white" data-bs-toggle="pill" href="#vocabulary"
                 :class="{ active: activeTab === 'vocabulary' }" @click="setActiveTab('vocabulary')">

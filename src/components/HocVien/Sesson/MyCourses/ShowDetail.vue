@@ -752,4 +752,103 @@ onUnmounted(() => {
     background-color: #545b62;
     border-color: #545b62;
 }
+.icon-show {
+    display: none;
+}
+
+.icon-hide {
+    display: block;
+}
+
+.courset-s {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lesson-list-scrollable.transition-show {
+    right: 0;
+}
+
+.lesson-list-scrollable.transition-hide {
+    right: -26%;
+    background-color: #fff;
+    height: calc(100% - 65px);
+}
+
+.transition-hide.col-md-8 {
+    width: 100% !important;
+    transition: width 0.3s ease;
+}
+
+.transition-hide.col-md-4 {
+    width: 0% !important;
+    transition: width 0.3s ease;
+}
+
+.btn-customer i {
+    transition: color 0.2s ease;
+}
+
+
+.btn-customer:hover i {
+    color: #fff !important;
+}
+
+.btn-active {
+    background-color: #2237fa;
+}
+
+.btn-active i {
+    color: #fff !important;
+}
+
+.icon-label {
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.icon-label i {
+    font-size: 16px;
+}
+
+.bg-custom-light {
+    background-color: #e8eff8;
+}
+
+
+.lesson-list-scrollable,
+.note-panel {
+    background-color: #fff;
+    height: calc(100% - 65px);
+    overflow-y: auto;
+    padding: 10px 20px;
+    text-align: left;
+    position: fixed;
+    top: 65px;
+    right: 0;
+    width: 30%;
+    z-index: 1;
+}
+
+.note-panel {
+    z-index: 200;
+    right: -100%;
+}
+
+.note-panel.active {
+    right: 0;
+}
+
+.course-header {
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 16px;
+    width: 100%;
+}
+
 </style>

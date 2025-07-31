@@ -60,7 +60,9 @@ const handleLogin = async () => {
                         </span>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+                <button type="submit" class="btn btn-primary w-100">
+                    Đăng nhập
+                </button>
             </form>
             <p class="text-center text-muted mt-3">
                 No account?
@@ -69,3 +71,34 @@ const handleLogin = async () => {
         </div>
     </div>
 </template>
+
+<style scoped>
+.btn-primary {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: white !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7 !important;
+    border-color: #0a58ca !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
+.btn-primary:focus {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.btn-primary:active {
+    background-color: #0a58ca !important;
+    border-color: #0a58ca !important;
+    color: white !important;
+}
+</style>

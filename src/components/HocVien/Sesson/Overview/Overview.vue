@@ -66,7 +66,6 @@ function getLevel(score: number): string | number {
 
 // Thêm hàm tính điểm còn lại để lên cấp
 function getPointsToNextLevel(score: number): number {
-  if (score >= 200) return 0; // Đã đạt cấp cao nhất
   
   const currentLevel = Math.floor(score / 20) + 1;
   const pointsForNextLevel = currentLevel * 20;
@@ -95,7 +94,7 @@ const showpoints = async () => {
     const lessons = res.data || [];
     // Đếm số lesson hoàn thành
     const completedCount = lessons.filter((l: any) => l.isComplete).length;
-    score.value = completedCount * 10;
+    score.value = completedCount * 5;
     points.value = [
       {
         score: score.value,

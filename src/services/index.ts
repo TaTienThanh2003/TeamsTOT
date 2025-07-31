@@ -331,35 +331,3 @@ export const getTeacherById = async (id: number) => {
     return res.data;
 }
 
-// Payment APIs
-export const createPayment = async (data: any) => {
-    const res = await axios.post(`${api}/payments/createPayment`, data);
-    return res.data;
-}
-
-export const getPaymentHistory = async (userId: number) => {
-    const res = await axios.get(`${api}/payments/${userId}`);
-    return res.data;
-}
-
-// Notification APIs
-export const getNotifications = async (userId: number) => {
-    const res = await axios.get(`${api}/notifications/${userId}`);
-    return res.data;
-}
-
-export const markNotificationAsRead = async (id: number) => {
-    const res = await axios.put(`${api}/notifications/${id}/read`);
-    return res.data;
-}
-
-// Progress APIs
-export const getUserProgress = async (userId: number, courseId: number) => {
-    const res = await axios.get(`${api}/progress/${userId}/${courseId}`);
-    return res.data;
-}
-
-export const updateUserProgress = async (userId: number, courseId: number, data: any) => {
-    const res = await axios.put(`${api}/progress/${userId}/${courseId}`, data);
-    return res.data;
-}

@@ -8,19 +8,23 @@ import Overview from '@/components/Admin/Overview/Overview.vue';
 import Vocabulary from '@/components/Admin/Sesson/Vocabulary/Vocabulary.vue';
 
 const showDetail = ref(true);
+const activeTab = ref('overview');
 
+const setActiveTab = (tabName: string) => {
+    activeTab.value = tabName;
+};
 </script>
 
 <template>
     <Header />
     <div class="content d-flex">
-        <Sidebar />
+        <Sidebar :active-tab="activeTab" @tab-change="setActiveTab" />
         <div :class="['main-content flex-grow-1 py-5', showDetail ? 'expanded' : 'collapsed']">
             <div class="tab-content px-5">
-                <Overview />
-                <Courses />
-                <Member />
-                <Vocabulary />
+                <Overview v-if="activeTab === 'overview'" />
+                <Courses v-if="activeTab === 'my-courses'" />
+                <Member v-if="activeTab === 'my-members'" />
+                <Vocabulary v-if="activeTab === 'vocabulary'" />
             </div>
         </div>
     </div>

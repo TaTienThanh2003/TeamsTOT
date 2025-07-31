@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import GiftEnrollModel from '@/components/Model/GiftEnrollModel.vue'
 </script>
 
 <template>
@@ -18,7 +19,8 @@
                         <li>{{ $t('hv.page7.features.basic[3]') }}</li>
                     </ul>
                     <div class="divider"></div>
-                    <button class="btn btn-custom">{{ $t('hv.page7.start') }}</button>
+                    <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#giftConsultModal-basic">{{ $t('hv.page7.start') }}</button>
+                    <GiftEnrollModel id="basic" :name="$t('hv.page7.plan.basic')" />
                     <p class="mt-2 text-muted">{{ $t('hv.page7.getStarted') }}</p>
                 </div>
             </div>
@@ -36,7 +38,8 @@
                         <li>{{ $t('hv.page7.features.standard[4]') }}</li>
                     </ul>
                     <div class="divider"></div>
-                    <button class="btn btn-custom">{{ $t('hv.page7.start') }}</button>
+                    <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#giftConsultModal-standard">{{ $t('hv.page7.start') }}</button>
+                    <GiftEnrollModel id="standard" :name="$t('hv.page7.plan.standard')" />
                     <p class="mt-2 text-muted">{{ $t('hv.page7.getStarted') }}</p>
                 </div>
             </div>
@@ -54,7 +57,8 @@
                         <li>{{ $t('hv.page7.features.premium[4]') }}</li>
                     </ul>
                     <div class="divider"></div>
-                    <button class="btn btn-custom">{{ $t('hv.page7.start') }}</button>
+                    <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#giftConsultModal-premium">{{ $t('hv.page7.start') }}</button>
+                    <GiftEnrollModel id="premium" :name="$t('hv.page7.plan.premium')" />
                     <p class="mt-2 text-muted">{{ $t('hv.page7.getStarted') }}</p>
                 </div>
             </div>

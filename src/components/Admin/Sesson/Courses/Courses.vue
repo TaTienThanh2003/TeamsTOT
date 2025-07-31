@@ -151,7 +151,7 @@ onMounted(() => {
 })
 </script>
 <template>
-    <div class="tab-pane fade active" id="my-courses">
+    <div>
         <h4 class="fs-4 text-center fw-bold ">QUẢN LÝ KHÓA HỌC</h4>
         <div class="mt-2">
             <button v-if="!showModal" @click="showModal = true, showSection = false, showLesson = false"

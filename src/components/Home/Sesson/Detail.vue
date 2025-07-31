@@ -1,5 +1,16 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 const user = localStorage.getItem("user");
+
+const handleClick = () => {
+  if (user) {
+    router.push('/hocvien')
+  } else {
+    router.push('/signin')
+  }
+}
 </script>
 
 <template>
@@ -19,16 +30,12 @@ const user = localStorage.getItem("user");
                     <p class="my-3">
                         {{ $t('home.page5.points.0.description') }}
                     </p>
-                    <button class="btn back-blue text-white">
+                    <button class="btn back-blue text-white" @click="handleClick">
                         <template v-if="user">
-                            <router-link to="/hocvien">
-                                {{ $t('home.page5.btn') }}
-                            </router-link>
+                            {{ $t('home.page5.btn') }}
                         </template>
                         <template v-else>
-                            <router-link to="/signin">
-                                {{ $t('home.page1.register') }}
-                            </router-link>
+                            {{ $t('home.page1.register') }}
                         </template>
                     </button>
                 </div>
@@ -44,16 +51,12 @@ const user = localStorage.getItem("user");
                     <p class="my-3">
                         {{ $t('home.page5.points.1.description') }}
                     </p>
-                    <button class="btn back-blue text-white">
+                    <button class="btn back-blue text-white" @click="handleClick">
                         <template v-if="user">
-                            <router-link to="/hocvien">
-                                {{ $t('home.page5.btn') }}
-                            </router-link>
+                            {{ $t('home.page5.btn') }}
                         </template>
                         <template v-else>
-                            <router-link to="/signin">
-                                {{ $t('home.page1.register') }}
-                            </router-link>
+                            {{ $t('home.page1.register') }}
                         </template>
                     </button>
                 </div>
@@ -69,16 +72,12 @@ const user = localStorage.getItem("user");
                     <p class="my-3">
                         {{ $t('home.page5.points.2.description') }}
                     </p>
-                    <button class="btn back-blue text-white">
+                    <button class="btn back-blue text-white" @click="handleClick">
                         <template v-if="user">
-                            <router-link to="/hocvien">
-                                {{ $t('home.page5.btn') }}
-                            </router-link>
+                            {{ $t('home.page5.btn') }}
                         </template>
                         <template v-else>
-                            <router-link to="/signin">
-                                {{ $t('home.page1.register') }}
-                            </router-link>
+                            {{ $t('home.page1.register') }}
                         </template>
                     </button>
                 </div>
@@ -92,5 +91,34 @@ const user = localStorage.getItem("user");
     width: 400px;
     height: 300px;
     object-fit: cover;
+}
+
+.btn.back-blue {
+    background-color: #6C63FF !important;
+    border-color: #6C63FF !important;
+    color: white !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn.back-blue:hover {
+    background-color: #5a52d5 !important;
+    border-color: #5a52d5 !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(108, 99, 255, 0.3);
+}
+
+.btn.back-blue:focus {
+    background-color: #6C63FF !important;
+    border-color: #6C63FF !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.25);
+}
+
+.btn.back-blue:active {
+    background-color: #5a52d5 !important;
+    border-color: #5a52d5 !important;
+    color: white !important;
 }
 </style>

@@ -2,6 +2,25 @@
 defineProps<{
     name: string
 }>()
+
+import { useToast } from '@/composables/useToast'
+
+const { success } = useToast()
+
+const handleSubmit = () => {
+  console.log('Form submitted!')
+  success('Đăng ký tư vấn thành công!')
+  
+  // Close the modal using data-bs-dismiss
+  const modal = document.getElementById('consultModal')
+  if (modal) {
+    // Trigger the close button programmatically
+    const closeButton = modal.querySelector('[data-bs-dismiss="modal"]') as HTMLElement
+    if (closeButton) {
+      closeButton.click()
+    }
+  }
+}
 </script>
 
 <template>
@@ -15,7 +34,7 @@ defineProps<{
                         <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-4">
-                        <form @submit.prevent="">
+                        <form @submit.prevent="handleSubmit">
                             <div class="mb-3">
                                 <input type="text" class="form-control w-100" placeholder="Ta Kim Oanh" required>
                                 <div class="invalid-feedback">Bạn phải điền trường thông tin này!</div>
@@ -29,7 +48,7 @@ defineProps<{
                             <div class="mb-3">
                                 <input type="text" class="form-control w-100" :placeholder="name" disabled>
                             </div>
-                            <button class="btn back-blue w-100 text-white">Đăng ký</button>
+                            <button type="submit" class="btn back-blue w-100 text-white">Đăng ký</button>
                         </form>
                     </div>
                 </div>
@@ -37,3 +56,34 @@ defineProps<{
         </div>
     </teleport>
 </template>
+
+<style scoped>
+.btn.back-blue {
+    background-color: #6C63FF !important;
+    border-color: #6C63FF !important;
+    color: white !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn.back-blue:hover {
+    background-color: #5a52d5 !important;
+    border-color: #5a52d5 !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(108, 99, 255, 0.3);
+}
+
+.btn.back-blue:focus {
+    background-color: #6C63FF !important;
+    border-color: #6C63FF !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.25);
+}
+
+.btn.back-blue:active {
+    background-color: #5a52d5 !important;
+    border-color: #5a52d5 !important;
+    color: white !important;
+}
+</style>
