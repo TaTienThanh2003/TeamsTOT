@@ -675,6 +675,22 @@
   },
   {
     "ContainingType": "backTOT.Controllers.LessonNotesController",
+    "Method": "DeleteLessonNote",
+    "RelativePath": "api/lessonNotes/delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backTOT.Controllers.LessonNotesController",
     "Method": "GetLesson_NotesByUserLesson",
     "RelativePath": "api/lessonNotes/lessonNoteByUser",
     "HttpMethod": "GET",

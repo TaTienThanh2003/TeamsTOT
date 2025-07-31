@@ -1354,6 +1354,29 @@
         }
       }
     },
+    "/api/lessonNotes/delete/{id}": {
+      "delete": {
+        "tags": [
+          "LessonNotes"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/lessons/{courseId}": {
       "get": {
         "tags": [

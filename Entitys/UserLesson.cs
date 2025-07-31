@@ -11,6 +11,6 @@ namespace backTOT.Entitys
         public int LessonsId { get; set; }
         [ForeignKey(nameof(LessonsId))]
         public virtual Lessons Lessons { get; set; }
-        public bool IsComplete { get; set; } 
+        public bool IsComplete { get; set; } = true;
     }
 }

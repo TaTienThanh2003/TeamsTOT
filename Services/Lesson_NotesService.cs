@@ -35,6 +35,16 @@ namespace backTOT.Services
                 .Where(gn => gn.User_id == userId && gn.Lesson_id == lessonId)
                 .ToList();
         }
+        public bool deleteLessonNotes(int lessonnoteId)
+        {
+            var note = _context.Lesson_notes.FirstOrDefault(x => x.Id == lessonnoteId);
+            if (note == null)
+            {
+                return false;
+            }
+            _context.Lesson_notes.Remove(note);
+            return Save();
+        }
 
         public bool Save()
         {

@@ -43,7 +43,6 @@ namespace backTOT.Controllers
                 return BadRequest(new { status = 400, message = "Invalid UserLesson data" });
             }
             var userLesson = _mapper.Map<UserLesson>(userLessondto);
-            userLesson.IsComplete = false;
             var result = _usersLessonService.AddUserLesson(userLesson);
             if (result == null)
             {

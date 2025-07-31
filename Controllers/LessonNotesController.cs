@@ -66,5 +66,16 @@ namespace backTOT.Controllers
             }
             return Created("", new { status = 201, message = "Add Successfully", lessonNote = lessonNoteDto });
         }
+        [HttpDelete("delete/{id}")]
+        public IActionResult DeleteLessonNote(int id)
+        {
+            var result = _lesson_notes.deleteLessonNotes(id);
+            if (!result)
+            {
+                return NotFound(new { status = 404, message = "Lesson note not found" });
+            }
+            return Ok(new { status = 200, message = "Deleted successfully" });
+        }
+
     }
 }
