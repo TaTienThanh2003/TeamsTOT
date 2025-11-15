@@ -1,0 +1,12 @@
+﻿namespace backTOT.Entities
+{
+    public class Role
+    {
+        public Guid RoleId { get; set; }
+        public string RoleName { get; set; } = null!;
+        public string? Description { get; set; }
+        //Quan hệ
+        public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+        public ICollection<RolePermission> RolePermissions { get; set; } = new List<RolePermission>();
+    }
+}

@@ -12,7 +12,7 @@ namespace backTOT.Services
             _context = context;
         }
 
-        public ICollection<Vocabularys> getVocabularyByTopic(int topicId)
+        public ICollection<Vocabularys> getVocabularyByTopic(Guid topicId)
         {
             return _context.Vocabularys.Where(v =>v.Topics_id == topicId).ToList();
         }

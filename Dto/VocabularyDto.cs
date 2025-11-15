@@ -4,8 +4,8 @@ namespace backTOT.Dto
 {
     public class VocabularyDto
     {
-        public int Id { get; set; }
-        public int Topics_id { get; set; }
+        public Guid Id { get; set; }
+        public Guid Topics_id { get; set; }
         [MaxLength(100)]
         public string Word { get; set; }
         [MaxLength(50)]

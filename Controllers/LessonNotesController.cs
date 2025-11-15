@@ -3,10 +3,12 @@ using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/lessonNotes")]
     [ApiController]
     public class LessonNotesController : Controller
@@ -23,7 +25,7 @@ namespace backTOT.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Lesson_notesDto>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetLesson_NotesByUser(int userId)
+        public IActionResult GetLesson_NotesByUser(Guid userId)
         {
             var lesson_Notes = _lesson_notes.GetLesson_NotesByUser(userId);
             var lessonNoteDto = _mapper.Map<List<Lesson_notesDto>>(lesson_Notes);
@@ -38,15 +40,14 @@ namespace backTOT.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Lesson_notesDto>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetLesson_NotesByUserLesson(int userId, int lessonId)
+        public IActionResult GetLesson_NotesByUserLesson(Guid userId, Guid lessonId)
         {
             var lesson_Notes = _lesson_notes.GetLesson_NotesByUserLesson(userId,lessonId);
-            var lessonNoteDto = _mapper.Map<List<Lesson_notesDto>>(lesson_Notes);
-            if (lessonNoteDto == null)
+            if (lesson_Notes == null)
             {
                 return NotFound(new { status = 404, message = "lessonNote empty" });
             }
-            return Ok(new { status = 200, message = "Success", data = lessonNoteDto });
+            return Ok(new { status = 200, message = "Success", data = lesson_Notes });
         }
         [HttpPost("addLessonNote")]
         [ProducesResponseType(201)]
@@ -67,7 +68,7 @@ namespace backTOT.Controllers
             return Created("", new { status = 201, message = "Add Successfully", lessonNote = lessonNoteDto });
         }
         [HttpDelete("delete/{id}")]
-        public IActionResult DeleteLessonNote(int id)
+        public IActionResult DeleteLessonNote(Guid id)
         {
             var result = _lesson_notes.deleteLessonNotes(id);
             if (!result)

@@ -2,8 +2,8 @@
 {
     public class CommentDto
     {
-        public int Lesson_id { get; set; }
-        public int User_id { get; set; }
+        public Guid Lesson_id { get; set; }
+        public Guid User_id { get; set; }
         public string Text { get; set; }
         public int? Parent_id { get; set; }
     }

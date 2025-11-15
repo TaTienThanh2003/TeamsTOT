@@ -3,10 +3,12 @@ using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/sections")]
     [ApiController]
     public class SectionsController : Controller
@@ -21,7 +23,7 @@ namespace backTOT.Controllers
         }
         // deleteSection
         [HttpDelete("{id}")]
-        public IActionResult DeleteSection(int id)
+        public IActionResult DeleteSection(Guid id)
         {
             var ischeck = _sectionsService.ischeckId(id);
             if (!ischeck) return NotFound("Id section không tồn tại");
@@ -30,7 +32,7 @@ namespace backTOT.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateSection(int id, [FromBody] SectionsDto sectionsDto)
+        public IActionResult UpdateSection(Guid id, [FromBody] SectionsDto sectionsDto)
         {
             var section = _sectionsService.GetSectionById(id);
             if (section == null)

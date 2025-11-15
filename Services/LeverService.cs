@@ -10,7 +10,7 @@ namespace backTOT.Services
         {
             _context = context;
         }
-        public async Task<(int totalScore, string level)> CalculateUserLevelAsync(int userId)
+        public async Task<(int totalScore, string level)> CalculateUserLevelAsync(Guid userId)
         {
             // Đếm số bài học hoàn thành
             int completedLessons = await _context.UserLessons

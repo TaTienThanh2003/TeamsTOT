@@ -3,10 +3,12 @@ using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/topics")]
     [ApiController]
     public class TopicsController : Controller
@@ -19,6 +21,8 @@ namespace backTOT.Controllers
             _mapper = mapper;
         }
         // getAll
+        [AllowAnonymous]
+        [Authorize(Policy = "AllowAnonymousView")]
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Topics>))]
         [ProducesResponseType(404)]

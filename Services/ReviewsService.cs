@@ -17,7 +17,7 @@ namespace backTOT.Services
             _context.Reviews.Add(review);
             return Save();
         }
-        public ICollection<Reviews> GetReviewsByCourse(int courseId)
+        public ICollection<Reviews> GetReviewsByCourse(Guid courseId)
         {
             return _context.Reviews
                 .AsNoTracking()
@@ -26,12 +26,12 @@ namespace backTOT.Services
                 .ToList();
         }
 
-        public bool HasUserEnrolledInCourse(int userId, int courseId)
+        public bool HasUserEnrolledInCourse(Guid userId, Guid courseId)
         {
             return _context.Enrollments.Any(e => e.Student_id == userId && e.Courses_id == courseId);
         }
 
-        public bool RemoveReview(int reviewId)
+        public bool RemoveReview(Guid reviewId)
         {
             var review = _context.Reviews.FirstOrDefault(r => r.Id == reviewId);
             if (review != null)

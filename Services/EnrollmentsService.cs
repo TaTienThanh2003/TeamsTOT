@@ -28,14 +28,14 @@ namespace backTOT.Services
             return _context.SaveChanges() > 0;
         }
 
-        public ICollection<Enrollments> GetEnrollmentByUserId(int userId)
+        public ICollection<Enrollments> GetEnrollmentByUserId(Guid userId)
         {
            return  _context.Enrollments
                 .Include(e => e.courses)
                 .Where(e => e.Student_id == userId)
                 .ToList();
         }
-        public bool CheckExistEnrollment(int userId, int courseId)
+        public bool CheckExistEnrollment(Guid userId, Guid courseId)
         {
             return _context.Enrollments.Any(e => e.Student_id == userId && e.Courses_id == courseId);
         }

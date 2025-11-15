@@ -2,7 +2,7 @@
 {
     public class EnrollmentDto
     {
-        public int Student_id { get; set; }
-        public int Courses_id { get; set; }
+        public Guid Student_id { get; set; }
+        public Guid Courses_id { get; set; }
     }
 }

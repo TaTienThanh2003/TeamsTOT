@@ -17,11 +17,11 @@ namespace backTOT.Services
             _context.UserLessons.Add(userLesson);
             return Save();
         }
-        public ICollection<UserLesson> GetUserLesson(int studentId)
+        public ICollection<UserLesson> GetUserLesson(Guid studentId)
         {
            return  _context.UserLessons.Where(ul => ul.Student_id == studentId).ToList();
         }
-        public bool UpdateIsComplete(int studentId, int lessonId, bool isComplete)
+        public bool UpdateIsComplete(Guid studentId, Guid lessonId, bool isComplete)
         {
             var userLesson = _context.UserLessons
                 .FirstOrDefault(ul => ul.Student_id == studentId && ul.LessonsId == lessonId);

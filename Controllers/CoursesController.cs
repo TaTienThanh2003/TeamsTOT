@@ -3,10 +3,12 @@ using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/courses")]
     [ApiController]
     public class CoursesController : Controller
@@ -19,6 +21,8 @@ namespace backTOT.Controllers
             _mapper = mapper;
         }
         // getAll
+        [AllowAnonymous]
+        [Authorize(Policy = "AllowAnonymousView")]
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Courses>))]
         [ProducesResponseType(404)]
@@ -34,7 +38,7 @@ namespace backTOT.Controllers
         [HttpGet("byCatalog")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Courses>))]
         [ProducesResponseType(404)]
-        public IActionResult GetCoursesByCatalogId( [FromQuery] int catalogId, [FromQuery] int num)
+        public IActionResult GetCoursesByCatalogId( [FromQuery] Guid catalogId, [FromQuery] int num)
         {
             var courses = _coursesService.GetCoursesByCatalogId(catalogId, num);
             if (courses == null || !courses.Any())
@@ -47,7 +51,7 @@ namespace backTOT.Controllers
         [HttpGet("byCatalogOff")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Courses>))]
         [ProducesResponseType(404)]
-        public IActionResult GetCoursesOfflineByCatalogId([FromQuery] int catalogId)
+        public IActionResult GetCoursesOfflineByCatalogId([FromQuery] Guid catalogId)
         {
             var courses = _coursesService.GetCoursesOfflineByCatalogId(catalogId);
             if (courses == null || !courses.Any())
@@ -85,7 +89,7 @@ namespace backTOT.Controllers
         }
         // getCourseById
         [HttpGet("{id}")]
-        public IActionResult UpdateCourse(int id)
+        public IActionResult UpdateCourse(Guid id)
         {
             var course  = _coursesService.GetCoursesById(id);
             if (course == null)
@@ -94,8 +98,9 @@ namespace backTOT.Controllers
             return Ok(course);
         }
         // deleteCourse
+        [Authorize(Policy = "course.delete")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteCourse(int id)
+        public IActionResult DeleteCourse(Guid id)
         {
             var ischeck = _coursesService.ischeckId(id);
             if (ischeck) return NotFound("Id không tồn tại");
@@ -103,7 +108,7 @@ namespace backTOT.Controllers
             return Ok(new { status = 200, message = "delete Success" });
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateCourse(int id, [FromBody] CoursesActionDto courseDto)
+        public IActionResult UpdateCourse(Guid id, [FromBody] CoursesActionDto courseDto)
         {
             var course = _coursesService.GetCoursesById(id);
             if (course == null)

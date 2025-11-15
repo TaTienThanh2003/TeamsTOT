@@ -2,10 +2,12 @@
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/vocabularies")]
     [ApiController]
     public class VocabularysController : Controller
@@ -22,7 +24,7 @@ namespace backTOT.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Vocabularys>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult getVocabularyByTopic(int topicId)
+        public IActionResult getVocabularyByTopic(Guid topicId)
         {
             var vocabylaries = _vocabularysService.getVocabularyByTopic(topicId);
             if (vocabylaries == null)

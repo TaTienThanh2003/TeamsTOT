@@ -1,4 +1,5 @@
-﻿using backTOT.Entitys;
+﻿using backTOT.Entities;
+using backTOT.Entitys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -30,17 +31,25 @@ namespace backTOT.Data
         public DbSet<UserTopics> UserTopics { get; set; }
         public DbSet<UserVocabularys> UserVocabularys { get; set; }
         public DbSet<UserLesson> UserLessons { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<UserPermission> UserPermissions { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // primary and convert
+            modelBuilder.Entity<Role>()
+               .HasIndex(r => r.RoleName)
+               .IsUnique();
 
-            modelBuilder.Entity<Users>(entity =>
-            {
-                entity.HasKey(u => u.Id);
-                entity.Property(u => u.Role)
-                      .HasConversion(new EnumToStringConverter<Entitys.Role>())
-                      .HasDefaultValue(Entitys.Role.USER);
-            });
+            modelBuilder.Entity<Users>()
+              .HasIndex(r => r.FullName)
+              .IsUnique();
+            modelBuilder.Entity<UserRole>().HasKey(x => new { x.UserId, x.RoleId });
+            modelBuilder.Entity<RolePermission>().HasKey(x => new { x.RoleId, x.PermissionId });
+            modelBuilder.Entity<UserPermission>().HasKey(x => new { x.UserId, x.PermissionId });
             modelBuilder.Entity<User_plans>(entity =>
             {
                 entity.HasKey(up => up.Id);

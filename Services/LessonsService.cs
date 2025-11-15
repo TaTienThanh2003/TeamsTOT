@@ -13,11 +13,11 @@ namespace backTOT.Services
         {
             _context = context;
         }
-        public Lessons GetLessonsById(int lessonId)
+        public Lessons GetLessonsById(Guid lessonId)
         {
             return _context.Lessons.FirstOrDefault(l => l.Id == lessonId);
         }
-        public bool ischeckId(int lessonId)
+        public bool ischeckId(Guid lessonId)
         {
             _context.Lessons.FirstOrDefault(l => l.Id == lessonId);
             return Save();
@@ -33,14 +33,14 @@ namespace backTOT.Services
             return Save();
         }
 
-        public bool deleteLesson(int lessonId)
+        public bool deleteLesson(Guid lessonId)
         {
             var lesson = _context.Lessons.FirstOrDefault(l => l.Id == lessonId);
             _context.Lessons.Remove(lesson);
             return Save();
         }
 
-        public ICollection<Sections> getLessonByCourses(int courseId)
+        public ICollection<Sections> getLessonByCourses(Guid courseId)
         {
             return _context.Sections
                           .Where(s => s.Courses_id == courseId)

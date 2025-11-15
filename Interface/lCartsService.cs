@@ -6,11 +6,11 @@ namespace backTOT.Interface
 {
     public interface ICartsService
     {
-        ICollection<Courses> GetCartByUser(int userId);
+        ICollection<Courses> GetCartByUser(Guid userId);
         bool AddCourseOnCart(Carts cart);
-        bool isCheckCoursesCart(int courseId);
-        bool DeleteCourseOnCart(int courseId, int userID);
-        bool CheckExistCart(int users_id, int course_id);
+        bool isCheckCoursesCart(Guid courseId);
+        bool DeleteCourseOnCart(Guid courseId, Guid userID);
+        bool CheckExistCart(Guid users_id, Guid course_id);
         bool Save();
     }
 }

@@ -21,7 +21,6 @@ namespace backTOT.Services
                     .ThenInclude(uv => uv.Vocabularys)
                 .OrderBy(t => t.Id)
                 .ToList();
-
             // Gán thủ công danh sách Users cho từng Topic
             foreach (var topic in topics)
             {
@@ -35,3 +34,4 @@ namespace backTOT.Services
 
     }
 }
+     

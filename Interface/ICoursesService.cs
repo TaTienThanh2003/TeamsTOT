@@ -7,14 +7,14 @@ namespace backTOT.Interface
         ICollection<Courses> GetCourses();
         ICollection<Courses> GetCoursesByOnline();
         ICollection<Courses> GetCoursesByOffline();
-        ICollection<Courses> GetCoursesByCatalogId(int catalogId, int num);
-        ICollection<Courses> GetCoursesOfflineByCatalogId(int catalogId);
-        Courses GetCoursesById(int courseId);
+        ICollection<Courses> GetCoursesByCatalogId(Guid catalogId, int num);
+        ICollection<Courses> GetCoursesOfflineByCatalogId(Guid catalogId);
+        Courses GetCoursesById(Guid courseId);
         ICollection<Courses> GetCoursesByName(String name);
         bool addCourse(Courses courses);
-        bool deleteCourse(int courseId);
+        bool deleteCourse(Guid courseId);
         bool updateCourse(Courses courses);
-        bool ischeckId(int courseId);
+        bool ischeckId(Guid courseId);
         bool ischeckName(String name);
         bool Save();
 

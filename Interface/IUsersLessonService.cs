@@ -4,9 +4,9 @@ namespace backTOT.Interface
 {
     public interface IUsersLessonService
     {
-        ICollection<UserLesson> GetUserLesson(int studentId);
+        ICollection<UserLesson> GetUserLesson(Guid studentId);
         bool AddUserLesson(UserLesson userLesson);
-        bool UpdateIsComplete(int studentId, int lessonId, bool isComplete);
+        bool UpdateIsComplete(Guid studentId, Guid lessonId, bool isComplete);
 
         bool Save();
     }

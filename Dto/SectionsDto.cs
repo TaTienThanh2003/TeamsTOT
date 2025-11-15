@@ -6,7 +6,7 @@
         public string TitleEN { get; set; }
         public string? DesVI { get; set; }
         public string? DesEN { get; set; }
-        public int Courses_id { get; set; }
+        public Guid Courses_id { get; set; }
         public int Position { get; set; }
     }
 }

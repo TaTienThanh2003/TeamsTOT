@@ -15,7 +15,7 @@ namespace backTOT.Services
             _context = context;
         }
 
-        public ICollection<Schedules> GetSchedulesWithUser(int user_id)
+        public ICollection<Schedules> GetSchedulesWithUser(Guid user_id)
         {
             return _context.Schedules
                 .Include(s => s.Courses)
@@ -23,7 +23,7 @@ namespace backTOT.Services
                 .ToList();
         }
 
-        public Schedules GetSchedulesByUserCourse(int user_id, int course_id)
+        public Schedules GetSchedulesByUserCourse(Guid user_id, Guid course_id)
         {
             return _context.Schedules
                 .Include(s => s.Courses)
@@ -36,13 +36,13 @@ namespace backTOT.Services
             return Save();
         }
 
-        public bool isCheckScheduleExits(int user_id, int course_id)
+        public bool isCheckScheduleExits(Guid user_id, Guid course_id)
         {
             return _context.Schedules
                 .Any(s => s.StudentId == user_id && s.Courses_id == course_id);
         }
 
-        public bool RemoveSchedules(int user_id, int course_id)
+        public bool RemoveSchedules(Guid user_id, Guid course_id)
         {
             var schedule = _context.Schedules
                 .FirstOrDefault(s => s.StudentId == user_id && s.Courses_id == course_id);

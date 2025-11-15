@@ -3,10 +3,12 @@ using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/comments")]
     [ApiController]
     public class CommentsController : Controller
@@ -22,7 +24,7 @@ namespace backTOT.Controllers
         [HttpGet("{lessonId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<CommentDto>))]
         [ProducesResponseType(404)]
-        public IActionResult GetCommentsByLessonId(int lessonId)
+        public IActionResult GetCommentsByLessonId(Guid lessonId)
         {
             var comments = _iCommentsService.GetCommentsByLessonId(lessonId);
             var commetsDto = _mapper.Map<List<CommentsDto>>(comments);

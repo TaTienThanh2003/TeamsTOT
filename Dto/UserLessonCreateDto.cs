@@ -2,7 +2,7 @@
 {
     public class UserLessonCreateDto
     {
-        public int Student_id { get; set; }
-        public int LessonsId { get; set; }
+        public Guid Student_id { get; set; }
+        public Guid LessonsId { get; set; }
     }
 }

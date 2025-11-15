@@ -3,10 +3,12 @@ using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/enrollments")]
     [ApiController]
     public class EnrollmentsController : Controller
@@ -20,7 +22,7 @@ namespace backTOT.Controllers
         }
         // getEnrollmentByUserId
         [HttpGet("getEnrollmentByUserId/{studentId}")]
-        public IActionResult getEnrollmentByUserId(int studentId)
+        public IActionResult getEnrollmentByUserId(Guid studentId)
         {
             var enrollment = _iEnrollmentService.GetEnrollmentByUserId(studentId);
             // Kiểm tra nếu không có khóa học cho user

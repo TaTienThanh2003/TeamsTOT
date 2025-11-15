@@ -3,7 +3,7 @@
 
         public class CommentsDto
         {
-            public int Id { get; set; }
+            public Guid Id { get; set; }
             public string Text { get; set; }
             public int Likes { get; set; }
             public int DisLikes { get; set; }

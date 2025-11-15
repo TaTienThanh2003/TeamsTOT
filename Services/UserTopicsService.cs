@@ -23,11 +23,11 @@ namespace backTOT.Services
             return _context.UserTopics.OrderBy(ut => ut.TopicsId).ToList();
         }
 
-        public ICollection<UserTopics> GetUserTopicsByStudentId(int studentId)
+        public ICollection<UserTopics> GetUserTopicsByStudentId(Guid studentId)
         {
             return _context.UserTopics.Where(ut => ut.UsersId == studentId).ToList();
         }
-        public bool UpdateIsComplete(int studentId, int topicId, bool isComplete)
+        public bool UpdateIsComplete(Guid studentId, Guid topicId, bool isComplete)
         {
             var userTopic = _context.UserTopics
                 .FirstOrDefault(ut => ut.UsersId == studentId && ut.TopicsId == topicId);

@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using backTOT.Dto;
 using backTOT.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/")]
     [ApiController]
     public class CourseTeachersController:Controller
@@ -17,7 +19,7 @@ namespace backTOT.Controllers
             _mapper = mapper;
         }
         [HttpGet("GetTeacherByCourseId/{courseId}")]
-        public IActionResult GetTeacherByCourseId(int courseId)
+        public IActionResult GetTeacherByCourseId(Guid courseId)
         {
             var teachers = _iCourseTeachersService.GetTeacherByCourseId(courseId);
             if (teachers == null)

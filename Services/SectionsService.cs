@@ -17,19 +17,19 @@ namespace backTOT.Services
             return Save();
         }
 
-        public bool deleteSection(int sectionId)
+        public bool deleteSection(Guid sectionId)
         {
             var section = _context.Sections.FirstOrDefault(s => s.Id == sectionId);
             _context.Sections.Remove(section);
             return Save();
         }
 
-        public Sections GetSectionById(int id)
+        public Sections GetSectionById(Guid id)
         {
             return _context.Sections.FirstOrDefault(s => s.Id == id);
         }
 
-        public bool ischeckId(int sectionId)
+        public bool ischeckId(Guid sectionId)
         {
             _context.Sections.FirstOrDefault(s => s.Id == sectionId);
             return true;

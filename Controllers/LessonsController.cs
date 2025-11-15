@@ -4,10 +4,12 @@ using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/lessons")]
     [ApiController]
     public class LessonsController : Controller
@@ -25,7 +27,7 @@ namespace backTOT.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Lessons>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult getLessonByCourses(int courseId)
+        public IActionResult getLessonByCourses(Guid courseId)
         {
             var lessons = _lessonsServices.getLessonByCourses(courseId);
             if (lessons == null)
@@ -36,7 +38,7 @@ namespace backTOT.Controllers
         }
         // deleteLession
         [HttpDelete("{id}")]
-        public IActionResult DeleteLesson(int id)
+        public IActionResult DeleteLesson(Guid id)
         {
             var ischeck = _lessonsServices.ischeckId(id);
             if (!ischeck) return NotFound("Id không tồn tại");
@@ -44,7 +46,7 @@ namespace backTOT.Controllers
             return Ok(new { status = 200, message = "delete Success" });
         }
         [HttpPut("api/lessons/{id}")]
-        public IActionResult UpdateLesson(int id, [FromBody] LessonsDto lessonDto)
+        public IActionResult UpdateLesson(Guid id, [FromBody] LessonsDto lessonDto)
         {
             var lesson = _lessonsServices.GetLessonsById(id);
             if (lesson == null)

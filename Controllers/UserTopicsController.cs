@@ -3,11 +3,13 @@ using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/usertopics")]
     [ApiController]
     public class UserTopicsController : Controller
@@ -37,7 +39,7 @@ namespace backTOT.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<UserTopics>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetUserTopicsByStudentId(int studentId)
+        public IActionResult GetUserTopicsByStudentId(Guid studentId)
         {
             var userTopics = _userTopicsService.GetUserTopicsByStudentId(studentId);
             if (userTopics == null)

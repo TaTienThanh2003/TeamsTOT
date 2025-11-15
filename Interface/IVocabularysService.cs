@@ -4,6 +4,6 @@ namespace backTOT.Interface
 {
     public interface IVocabularysService
     {
-        ICollection<Vocabularys> getVocabularyByTopic(int topicId);
+        ICollection<Vocabularys> getVocabularyByTopic(Guid topicId);
     }
 }

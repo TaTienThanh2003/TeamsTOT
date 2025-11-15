@@ -19,7 +19,7 @@ namespace backTOT.Services
             return Save();
         }
 
-        public ICollection<UserVocabularys> GetUserVocabularys(int studentId, int topicId)
+        public ICollection<UserVocabularys> GetUserVocabularys(Guid studentId, Guid topicId)
         {
             return _context.UserVocabularys
                 .Where(x => x.Student_id == studentId && x.TopicId == topicId && x.IsActive)

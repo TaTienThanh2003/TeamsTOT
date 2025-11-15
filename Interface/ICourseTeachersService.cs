@@ -4,6 +4,6 @@ namespace backTOT.Interface
 {
     public interface ICourseTeachersService
     {
-        ICollection<Users> GetTeacherByCourseId(int coureId);
+        ICollection<Users> GetTeacherByCourseId(Guid coureId);
     }
 }

@@ -4,7 +4,7 @@ namespace backTOT.Interface
 {
     public interface ICommentsService
     {
-        ICollection<Comments> GetCommentsByLessonId(int lessonId);
+        ICollection<Comments> GetCommentsByLessonId(Guid lessonId);
         bool AddComments(Comments comments);
         bool Save();
     }

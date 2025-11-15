@@ -7,7 +7,7 @@ namespace backTOT.Dto
 {
     public class CoursesDto
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string TitleVI { get; set; }
         public string TitleEN { get; set; }
         public string? DesVI { get; set; }

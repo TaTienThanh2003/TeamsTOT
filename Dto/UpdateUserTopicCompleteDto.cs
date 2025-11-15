@@ -2,8 +2,8 @@
 {
     public class UpdateUserTopicCompleteDto
     {
-        public int UserId { get; set; }
-        public int TopicId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid TopicId { get; set; }
         public bool IsComplete { get; set; }
     }
 }

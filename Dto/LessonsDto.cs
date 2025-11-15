@@ -2,7 +2,7 @@
 {
     public class LessonsDto
     {
-        public int Section_id { get; set; }
+        public Guid Section_id { get; set; }
         public string TitleVI { get; set; }
         public string TitleEN { get; set; }
         public string DesVI { get; set; }

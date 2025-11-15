@@ -3,10 +3,12 @@ using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/carts")]
     [ApiController]
     public class CartsController : Controller
@@ -23,7 +25,7 @@ namespace backTOT.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Courses>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetCartByUser(int userId)
+        public IActionResult GetCartByUser(Guid userId)
         {
             var cart = _cartsService.GetCartByUser(userId);
             if (cart == null)
@@ -37,7 +39,7 @@ namespace backTOT.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Carts>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult DeleteCartByCourse(int courseId, int userId)
+        public IActionResult DeleteCartByCourse(Guid courseId, Guid userId)
         {
             if(courseId == null && userId == null) {
                 return BadRequest(new { status = 400, message = "Invalid course or user" });

@@ -3,25 +3,31 @@ using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
+using backTOT.Services.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/users")]
     [ApiController]
     public class UsersController : Controller
     {
         private IUserServices _userServices;
+        private AuthService _authServices;
         private LeverService _leverService;
         private IMapper _mapper;
-        public UsersController(IUserServices userServices,LeverService leverService, IMapper mapper)
+        public UsersController(IUserServices userServices,LeverService leverService, IMapper mapper, AuthService authServices)
         {
             _userServices = userServices;
             _leverService = leverService;
+            _authServices = authServices;
             _mapper = mapper;
         }
         // getAll
+        
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Users>))]
         [ProducesResponseType(404)]
@@ -35,24 +41,24 @@ namespace backTOT.Controllers
             return Ok(new { status = 200, message = "Success", data = user });
         }
         // getAllTeacher
-        [HttpGet("getTeacher")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Users>))]
-        [ProducesResponseType(404)]
-        public IActionResult GetAllTeacher()
-        {
-            var teacher = _userServices.GetTeacher();
-            if (teacher == null)
-            {
-                return NotFound(new { status = 404, message = "No teacher found" });
-            }
-            return Ok(new { status = 200, message = "Success", data = teacher });
-        }
+        //[HttpGet("getTeacher")]
+        //[ProducesResponseType(200, Type = typeof(IEnumerable<Users>))]
+        //[ProducesResponseType(404)]
+        //public IActionResult GetAllTeacher()
+        //{
+        //    var teacher = _userServices.GetTeacher();
+        //    if (teacher == null)
+        //    {
+        //        return NotFound(new { status = 404, message = "No teacher found" });
+        //    }
+        //    return Ok(new { status = 200, message = "Success", data = teacher });
+        //}
         // getId
         [HttpGet("{userId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Users>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetUserById(int userId)
+        public IActionResult GetUserById(Guid userId)
         {
             var user = _userServices.GetUserId(userId);
             if (user == null)
@@ -63,7 +69,7 @@ namespace backTOT.Controllers
         }
         // deleteCourse
         [HttpDelete("{id}")]
-        public IActionResult DeleteUser(int id)
+        public IActionResult DeleteUser(Guid id)
         {
             var ischeck = _userServices.ischeckId(id);
             if (ischeck) return NotFound("Id không tồn tại");
@@ -71,7 +77,7 @@ namespace backTOT.Controllers
             return Ok(new { status = 200, message = "delete Success" });
         }
         [HttpPut("updateUser/{userid}")]
-        public IActionResult UpdateCourse(int userid, [FromBody] UserDto userDto)
+        public IActionResult UpdateCourse(Guid userid, [FromBody] UserDto userDto)
         {
             var user = _userServices.GetUserId(userid);
             if (user == null)
@@ -81,68 +87,26 @@ namespace backTOT.Controllers
             var ischeck = _userServices.updateUser(users);
             return Ok(new { status = 200, message = "Success", data = userDto });
         }
-        [HttpPost("signup")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(409)]
-        public IActionResult GetUserSignUp([FromBody] UserDto userDto)
-        {
-            if (userDto == null)
-            {
-                return BadRequest(new { status = 400, message = "Invalid user data" });
-            }
-            if (_userServices.isCheckEmail(userDto.Email))
-            {
-                return Conflict(new { status = 409, message = "Email already exists" });
-            }
-            var userAdd = _mapper.Map<Users>(userDto);
-            var result = _userServices.UsersSignIn(userAdd);
-            if (result == null)
-            {
-                return StatusCode(500, new { status = 500, message = "An error occurred while creating user" });
-            }
-            return Created("", new { status = 201, message = "Add Successfully", userAdd = result });
-        }
-        [HttpPost("signin")]
-        [ProducesResponseType(200, Type = typeof(Users))]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        public IActionResult GetUserLogin([FromBody] LoginRequest request)
-        {
-            var user = _userServices.findUserByEmail(request.Email);
-            if (user == null)
-            {
-                return NotFound(new { status = 404, message = "Email not found" });
-            }
-            // So sánh mật khẩu tại đây thông qua UsersLogin
-            var isLoginValid = _userServices.UsersLogin(request.Email, request.Password);
-            if (!isLoginValid)
-            {
-                return BadRequest(new { status = 400, message = "Invalid password" });
-            }
-
-            var userConvert = _mapper.Map<UserLoginDto>(user);
-            return Ok(new { status = 200, message = "Login successful", data = userConvert });
-        }
         [HttpPost("ChangePassword")]
-        public IActionResult ChangePassword([FromBody] ChangePasswordDto dto)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
         {
             try
             {
-                var result = _userServices.ChangePassword(dto.UserId, dto.OldPassword, dto.NewPassword);
+                var result = await _authServices.ChangePasswordAsync(dto.UserId, dto.OldPassword, dto.NewPassword);
 
                 if (!result)
                     return BadRequest("User not found or Incorrect old password");
 
-                return Ok("Password changed successfully");
+                return Ok("Password changed successfully and confirmation email sent");
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         [HttpGet("level/{userId}")]
-        public async Task<IActionResult> GetUserLevel(int userId)
+        public async Task<IActionResult> GetUserLevel(Guid userId)
         {
             var (score, level) = await _leverService.CalculateUserLevelAsync(userId);
 

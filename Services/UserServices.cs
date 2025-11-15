@@ -1,17 +1,28 @@
-﻿using backTOT.Data;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using backTOT.Data;
+using backTOT.Entities;
 using backTOT.Entitys;
 using backTOT.Interface;
 using BCrypt.Net;
+using Microsoft.IdentityModel.Tokens;
 
 namespace backTOT.Services
 {
     public class UserServices : IUserServices
     {
         private DataContext _context;
-        public UserServices(DataContext context){
+        private readonly IConfiguration _config;
+        public UserServices(DataContext context, IConfiguration config)
+        {
             _context = context;
+            _config = config;
         }
-        public bool ischeckId(int userId)
+        
+
+        public bool ischeckId(Guid userId)
         {
             _context.Users.FirstOrDefault(u => u.Id == userId);
             return Save();
@@ -33,7 +44,7 @@ namespace backTOT.Services
             return isbool != null;
         }
 
-        public Users GetUserId(int id)
+        public Users GetUserId(Guid id)
         {
             return _context.Users.FirstOrDefault(p => p.Id == id);
         }
@@ -44,32 +55,13 @@ namespace backTOT.Services
             return saved > 0 ? true : false;
         }
 
-        public bool UsersLogin(string email, string password)
-        {
-            var user =  _context.Users.FirstOrDefault(p => p.Email == email );
-            if (user == null) return false;
-            // So sánh mật khẩu plaintext với password hash trong DB
-            return BCrypt.Net.BCrypt.Verify(password, user.Password);
-        }
-
-        public bool UsersSignIn(Users users)
-        {
-            users.Password = BCrypt.Net.BCrypt.HashPassword(users.Password);
-            _context.Users.Add(users);
-            return Save();
-        }
-
-        public ICollection<Users> GetTeacher()
-        {
-            return _context.Users.Where(t => t.Role == Role.TEACHER).ToList();
-        }
 
         public Users findUserByEmail(string email)
         {
             return _context.Users.FirstOrDefault(p => p.Email == email);
         }
 
-        public bool deleteUser(int userId)
+        public bool deleteUser(Guid userId)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             _context.Users.Remove(user);
@@ -97,35 +89,6 @@ namespace backTOT.Services
             }
 
             return result; 
-        }
-
-
-        public bool UpdateUserRole(int userId, Role newRole)
-        {
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            if (user == null)
-            {
-                return false;
-            }
-
-            user.Role = newRole;
-            return Save();
-        }
-
-
-        public bool ChangePassword(int userId, string oldPassword, string newPassword)
-        {
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            if (user == null) return false;
-
-            // Kiểm tra mật khẩu cũ có đúng không
-            if (!BCrypt.Net.BCrypt.Verify(oldPassword, user.Password)) return false;
-
-            // Hash và cập nhật mật khẩu mới
-            user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
-            _context.Users.Update(user);
-
-            return Save();
         }
 
 

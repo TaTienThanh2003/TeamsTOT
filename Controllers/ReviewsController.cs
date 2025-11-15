@@ -3,10 +3,12 @@ using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/reviews")]
     [ApiController]
     public class ReviewsController : Controller
@@ -23,7 +25,7 @@ namespace backTOT.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Reviews>))]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetReviewsByCourse(int courseId)
+        public IActionResult GetReviewsByCourse(Guid courseId)
         {
             var review = _reviewsService.GetReviewsByCourse(courseId); 
             if (review == null)

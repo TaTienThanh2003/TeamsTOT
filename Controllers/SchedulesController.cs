@@ -3,11 +3,13 @@ using backTOT.Data;
 using backTOT.Dto;
 using backTOT.Entitys;
 using backTOT.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/schedules")]
     [ApiController]
     public class SchedulesController : Controller
@@ -23,7 +25,7 @@ namespace backTOT.Controllers
             _mapper = mapper;
         }
         [HttpGet("user/{userId}")]
-        public IActionResult GetByUser(int userId)
+        public IActionResult GetByUser(Guid userId)
         {
             var schedules = _scheduleService.GetSchedulesWithUser(userId);
 
@@ -45,7 +47,7 @@ namespace backTOT.Controllers
         }
 
         [HttpGet("user/{userId}/course/{courseId}")]
-        public IActionResult GetByUserCourse(int userId, int courseId)
+        public IActionResult GetByUserCourse(Guid userId, Guid courseId)
         {
             var schedule = _scheduleService.GetSchedulesByUserCourse(userId, courseId);
 
@@ -121,7 +123,7 @@ namespace backTOT.Controllers
         }
 
         [HttpDelete("user/{userId}/course/{courseId}")]
-        public IActionResult Delete(int userId, int courseId)
+        public IActionResult Delete(Guid userId, Guid courseId)
         {
             var removed = _scheduleService.RemoveSchedules(userId, courseId);
 

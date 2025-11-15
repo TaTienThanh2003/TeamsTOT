@@ -12,7 +12,7 @@ namespace backTOT.Services
         {
             _context = context;
         }
-        public ICollection<Users> GetTeacherByCourseId(int coureId)
+        public ICollection<Users> GetTeacherByCourseId(Guid coureId)
         {
             return _context.CourseTeachers
                 .AsNoTracking()

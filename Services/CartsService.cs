@@ -17,12 +17,12 @@ namespace backTOT.Services
             _context.Carts.Add(cart);
             return Save();
         }
-        public bool isCheckCoursesCart(int courseId)
+        public bool isCheckCoursesCart(Guid courseId)
         {
             var isbool = _context.Carts.FirstOrDefault(c => c.Course_id == courseId);
             return isbool != null;
         }
-        public bool DeleteCourseOnCart(int courseId, int userID)
+        public bool DeleteCourseOnCart(Guid courseId, Guid userID)
         {
             var cart = _context.Carts.FirstOrDefault(c => c.Course_id == courseId && c.Users_id == userID);
             if (cart != null)
@@ -31,7 +31,7 @@ namespace backTOT.Services
             }
             return Save();
         }
-        public ICollection<Courses> GetCartByUser(int userId)
+        public ICollection<Courses> GetCartByUser(Guid userId)
         {
             var result = (from cart in _context.Carts
                           join course in _context.Courses
@@ -47,7 +47,7 @@ namespace backTOT.Services
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
-        public bool CheckExistCart(int userId, int courseId)
+        public bool CheckExistCart(Guid userId, Guid courseId)
         {
             return _context.Carts.Any(c => c.Users_id == userId && c.Course_id == courseId);
         }

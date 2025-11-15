@@ -19,7 +19,7 @@ namespace backTOT.Services
             return Save();
         }
 
-        public bool deleteCourse(int courseId)
+        public bool deleteCourse(Guid courseId)
         {
            var course =  _context.Courses.FirstOrDefault(c => c.Id == courseId);
             _context.Courses.Remove(course);
@@ -31,7 +31,7 @@ namespace backTOT.Services
             return _context.Courses.OrderBy(c => c.Id).ToList();
         }
 
-        public ICollection<Courses> GetCoursesByCatalogId(int catalogId, int num)
+        public ICollection<Courses> GetCoursesByCatalogId(Guid catalogId, int num)
         {
             return _context.Courses
                 .Where(c => c.CatalogId == catalogId && c.Num == num && c.Mode == Mode.ONLINE)
@@ -39,7 +39,7 @@ namespace backTOT.Services
         }
 
 
-        public Courses GetCoursesById(int courseId)
+        public Courses GetCoursesById(Guid courseId)
         {
             return _context.Courses.FirstOrDefault(c => c.Id == courseId);
         }
@@ -66,14 +66,14 @@ namespace backTOT.Services
             return _context.Courses.Where(c => c.Mode == Mode.ONLINE).ToList();
         }
 
-        public ICollection<Courses> GetCoursesOfflineByCatalogId(int catalogId)
+        public ICollection<Courses> GetCoursesOfflineByCatalogId(Guid catalogId)
         {
             return _context.Courses
                  .Where(c => c.CatalogId == catalogId && c.Mode == Mode.OFFLINE)
                  .ToList();
         }
 
-        public bool ischeckId(int courseId)
+        public bool ischeckId(Guid courseId)
         {
             _context.Courses.FirstOrDefault(c => c.Id == courseId);
             return Save();

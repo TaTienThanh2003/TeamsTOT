@@ -1,0 +1,54 @@
+﻿using System.Net.Mail;
+using System.Net;
+
+namespace backTOT.Services
+{
+    public class EmailService
+    {
+        private readonly string _smtpHost;
+        private readonly int _smtpPort;
+        private readonly string _smtpUser;
+        private readonly string _smtpPass;
+        private readonly string _fromEmail;
+
+        public EmailService(IConfiguration config)
+        {
+            // Lấy config từ appsettings.json
+            _smtpHost = config["Email:SmtpHost"]!;
+            _smtpPort = int.Parse(config["Email:SmtpPort"]!);
+            _smtpUser = config["Email:SmtpUser"]!;
+            _smtpPass = config["Email:SmtpPass"]!;
+            _fromEmail = config["Email:FromEmail"]!;
+        }
+
+        public async Task SendEmailAsync(string to, string subject, string body)
+        {
+            try
+            {
+                using var client = new SmtpClient(_smtpHost, _smtpPort)
+                {
+                    Credentials = new NetworkCredential(_smtpUser, _smtpPass),
+                    EnableSsl = true
+                };
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress(_fromEmail),
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = true
+                };
+                mailMessage.To.Add(to);
+
+                await client.SendMailAsync(mailMessage);
+                Console.WriteLine($"✅ Mail sent to {to}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("❌ SMTP Error: " + ex.Message);
+                throw;
+            }
+        }
+
+    }
+}

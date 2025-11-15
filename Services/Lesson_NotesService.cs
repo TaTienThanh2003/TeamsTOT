@@ -22,20 +22,20 @@ namespace backTOT.Services
             return _context.Lesson_notes.OrderBy(gn => gn.Id).ToList();
         }
 
-        public ICollection<Lesson_notes> GetLesson_NotesByUser(int userId)
+        public ICollection<Lesson_notes> GetLesson_NotesByUser(Guid userId)
         {
             return _context.Lesson_notes
                 .Where(gn => gn.User_id == userId)
                 .ToList();
         }
 
-        public ICollection<Lesson_notes> GetLesson_NotesByUserLesson(int userId, int lessonId)
+        public ICollection<Lesson_notes> GetLesson_NotesByUserLesson(Guid userId, Guid lessonId)
         {
             return _context.Lesson_notes
                 .Where(gn => gn.User_id == userId && gn.Lesson_id == lessonId)
                 .ToList();
         }
-        public bool deleteLessonNotes(int lessonnoteId)
+        public bool deleteLessonNotes(Guid lessonnoteId)
         {
             var note = _context.Lesson_notes.FirstOrDefault(x => x.Id == lessonnoteId);
             if (note == null)

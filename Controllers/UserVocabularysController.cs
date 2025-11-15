@@ -2,10 +2,12 @@
 using backTOT.Entitys;
 using backTOT.Interface;
 using backTOT.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backTOT.Controllers
 {
+    [Authorize]
     [Route("api/uservocabularys")]
     [ApiController]
     public class UserVocabularysController : Controller
@@ -18,7 +20,7 @@ namespace backTOT.Controllers
             _mapper = mapper;
         }
         [HttpGet("getUserVocabularys")]
-        public IActionResult GetUserVocabularys([FromQuery] int studentId, [FromQuery] int topicId)
+        public IActionResult GetUserVocabularys([FromQuery] Guid studentId, [FromQuery] Guid topicId)
         {
             var data = _userVocabularysService.GetUserVocabularys(studentId, topicId);
             return Ok(new { status = 200, message = "Success", data });

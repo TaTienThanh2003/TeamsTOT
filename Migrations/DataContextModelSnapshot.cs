@@ -24,11 +24,11 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("TopicsUsers", b =>
                 {
-                    b.Property<int>("TopicsId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("TopicsId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("TopicsId", "UsersId");
 
@@ -37,19 +37,135 @@ namespace backTOT.Migrations
                     b.ToTable("TopicsUsers");
                 });
 
+            modelBuilder.Entity("backTOT.Entities.AuditLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Endpoint")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HttpMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AuditLogs");
+                });
+
+            modelBuilder.Entity("backTOT.Entities.Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions");
+                });
+
+            modelBuilder.Entity("backTOT.Entities.Role", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoleId");
+
+                    b.HasIndex("RoleName")
+                        .IsUnique();
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("backTOT.Entities.RolePermission", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsGranted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("RolePermissions");
+                });
+
+            modelBuilder.Entity("backTOT.Entities.UserPermission", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsGranted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("UserId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("UserPermissions");
+                });
+
+            modelBuilder.Entity("backTOT.Entities.UserRole", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoles");
+                });
+
             modelBuilder.Entity("backTOT.Entitys.Carts", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("Course_id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Course_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Users_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Users_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -62,11 +178,9 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Catalogs", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DesEN")
                         .HasColumnType("nvarchar(max)");
@@ -86,34 +200,32 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Comments", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("DisLikes")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.Property<int>("Lesson_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Lesson_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Likes")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.Property<int?>("Parent_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("Parent_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("User_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("User_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -128,11 +240,9 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.CourseOff", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
@@ -148,8 +258,8 @@ namespace backTOT.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("course_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("course_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -161,17 +271,15 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.CourseTeachers", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -184,14 +292,12 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Courses", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CatalogId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CatalogId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CountDay")
                         .HasColumnType("int");
@@ -234,14 +340,12 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Enrollments", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Courses_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Courses_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateOnly?>("End_date")
                         .HasColumnType("date");
@@ -249,8 +353,8 @@ namespace backTOT.Migrations
                     b.Property<DateOnly>("Start_date")
                         .HasColumnType("date");
 
-                    b.Property<int>("Student_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Student_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateOnly>("created_ad")
                         .HasColumnType("date");
@@ -266,21 +370,19 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Lesson_notes", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Lesson_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Lesson_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("User_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("User_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<TimeSpan>("Video_time")
                         .HasColumnType("time");
@@ -299,11 +401,9 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Lessons", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool?>("Completed")
                         .ValueGeneratedOnAdd()
@@ -321,8 +421,8 @@ namespace backTOT.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.Property<int>("Section_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Section_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TitleEN")
                         .IsRequired()
@@ -344,11 +444,9 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Plans", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DesEN")
                         .HasColumnType("nvarchar(max)");
@@ -381,24 +479,22 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Reviews", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("Star")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -411,14 +507,12 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Schedules", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Courses_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Courses_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -433,8 +527,8 @@ namespace backTOT.Migrations
                     b.Property<DateOnly>("Start_date")
                         .HasColumnType("date");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TimeLearn")
                         .IsRequired()
@@ -451,14 +545,12 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Scores", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Courses_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Courses_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateOnly>("Date_taken")
                         .HasColumnType("date");
@@ -466,8 +558,8 @@ namespace backTOT.Migrations
                     b.Property<decimal?>("Score")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("Student_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Student_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Test_name")
                         .HasMaxLength(255)
@@ -484,14 +576,12 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Sections", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Courses_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Courses_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DesEN")
                         .HasColumnType("nvarchar(max)");
@@ -519,11 +609,9 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Topics", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Des")
                         .HasColumnType("nvarchar(max)");
@@ -537,8 +625,8 @@ namespace backTOT.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("UsersCreated_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UsersCreated_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("WordCount")
                         .HasColumnType("int");
@@ -552,22 +640,20 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.UserLesson", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsComplete")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<int>("LessonsId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("LessonsId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Student_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Student_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -580,22 +666,20 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.UserTopics", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsComplete")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<int>("TopicsId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("TopicsId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -608,22 +692,22 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.UserVocabularys", b =>
                 {
-                    b.Property<int>("Student_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Student_id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("VocabularyId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("VocabularyId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<int?>("TopicId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("TopicId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Student_id", "VocabularyId");
 
@@ -636,17 +720,15 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.User_plans", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateOnly?>("End_date")
                         .HasColumnType("date");
 
-                    b.Property<int>("Plan_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Plan_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateOnly>("Start_date")
                         .HasColumnType("date");
@@ -657,8 +739,8 @@ namespace backTOT.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("ACTIVE");
 
-                    b.Property<int>("User_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("User_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateOnly>("created_ad")
                         .HasColumnType("date");
@@ -674,11 +756,9 @@ namespace backTOT.Migrations
 
             modelBuilder.Entity("backTOT.Entitys.Users", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Des")
                         .HasColumnType("nvarchar(max)");
@@ -695,6 +775,9 @@ namespace backTOT.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -703,27 +786,29 @@ namespace backTOT.Migrations
                         .HasMaxLength(12)
                         .HasColumnType("nvarchar(12)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("USER");
+                    b.Property<string>("VerificationToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("VerificationTokenExpiry")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateOnly>("created_ad")
                         .HasColumnType("date");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FullName")
+                        .IsUnique()
+                        .HasFilter("[FullName] IS NOT NULL");
+
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("backTOT.Entitys.Vocabularys", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AudioUrl")
                         .IsRequired()
@@ -756,11 +841,11 @@ namespace backTOT.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Topics_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Topics_id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("UsersId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UsersId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Word")
                         .IsRequired()
@@ -794,6 +879,63 @@ namespace backTOT.Migrations
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("backTOT.Entities.RolePermission", b =>
+                {
+                    b.HasOne("backTOT.Entities.Permission", "Permission")
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backTOT.Entities.Role", "Role")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("backTOT.Entities.UserPermission", b =>
+                {
+                    b.HasOne("backTOT.Entities.Permission", "Permission")
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backTOT.Entitys.Users", "User")
+                        .WithMany("UserPermissions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backTOT.Entities.UserRole", b =>
+                {
+                    b.HasOne("backTOT.Entities.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backTOT.Entitys.Users", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backTOT.Entitys.Carts", b =>
@@ -1105,6 +1247,13 @@ namespace backTOT.Migrations
                     b.Navigation("topics");
                 });
 
+            modelBuilder.Entity("backTOT.Entities.Role", b =>
+                {
+                    b.Navigation("RolePermissions");
+
+                    b.Navigation("UserRoles");
+                });
+
             modelBuilder.Entity("backTOT.Entitys.Catalogs", b =>
                 {
                     b.Navigation("Courses");
@@ -1184,6 +1333,10 @@ namespace backTOT.Migrations
                     b.Navigation("TopicsCreated");
 
                     b.Navigation("UserLessons");
+
+                    b.Navigation("UserPermissions");
+
+                    b.Navigation("UserRoles");
 
                     b.Navigation("UserTopics");
 

@@ -5,8 +5,8 @@ namespace backTOT.Interface
     public interface IReviewsService
     {
         bool AddReview(Reviews review);
-        bool HasUserEnrolledInCourse(int userId, int courseId);
-        ICollection<Reviews> GetReviewsByCourse(int courseId);
-        bool RemoveReview(int reviewId);
+        bool HasUserEnrolledInCourse(Guid userId, Guid courseId);
+        ICollection<Reviews> GetReviewsByCourse(Guid courseId);
+        bool RemoveReview(Guid reviewId);
     }
 }

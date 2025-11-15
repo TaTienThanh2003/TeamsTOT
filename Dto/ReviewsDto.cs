@@ -4,8 +4,8 @@ namespace backTOT.Dto
 {
     public class ReviewsDto
     {
-        public int UserId { get; set; }
-        public int CourseId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid CourseId { get; set; }
 
         public string Content { get; set; }
 

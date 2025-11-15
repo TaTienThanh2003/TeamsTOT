@@ -19,7 +19,7 @@ namespace backTOT.Services
             return Save();
         }
 
-        public ICollection<Comments> GetCommentsByLessonId(int lessonId)
+        public ICollection<Comments> GetCommentsByLessonId(Guid lessonId)
         {
             return _context.Comments
                 .Where(cm => cm.Lesson_id == lessonId)
