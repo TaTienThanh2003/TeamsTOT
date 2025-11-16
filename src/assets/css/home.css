@@ -1,0 +1,78 @@
+.section-customer{
+    padding: 8rem 4rem 6.8rem;
+}
+.back-blue{
+    background-color: #6C63FF;
+}
+.font-blue{
+  color: #6C63FF;
+}
+.shine-text {
+  background: linear-gradient(90deg, #b3b2b2, #0f0f0f, #000000);
+  background-size: 200%;
+  background-clip: text;
+  color: transparent;
+  animation: shine 4s linear infinite;
+}
+
+@keyframes shine {
+  from {
+    background-position: 200% center;
+  }
+  to {
+    background-position: -200% center;
+  }
+}
+
+.section-title {
+    position: relative;
+    font-size: 2.5rem;
+    margin-bottom: 6rem;
+    width: 100%;
+    text-align: center;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background-color: #ffc107;
+}
+.circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    padding: 20px;
+    margin: 0 20px 0;
+} 
+html {
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+    width: 12px; 
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #007bff; 
+    border-radius: 10px;
+    border: 2px solid #f1f1f1; 
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #0056b3; 
+  }
+  
